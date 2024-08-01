@@ -95,7 +95,7 @@ public class VRController : MonoBehaviour
             for(int i = 0; i < maxIterations; i++){
                 RaycastHit hit;
                 Debug.DrawRay(currentPos, currentDir * maxDistance, Color.red);
-                if(Physics.Raycast(currentPos, currentDir, out hit, maxDistance)){
+                if(Physics.Raycast(currentPos, currentDir, out hit, maxDistance, 1 << 6)){
                     points.Add(hit.point);
                     teleportEndPosition = hit.point;
                     //is the hit point a valid teleport target? (flat surface)
@@ -105,6 +105,7 @@ public class VRController : MonoBehaviour
                     float angle = Vector3.Angle(Vector3.up, normal);
                     validTeleportTarget = angle < 5;
                     teleportTarget.position = hit.point;
+                    foundMap = true;
                     break;
                 }
                 else{
