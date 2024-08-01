@@ -8,12 +8,17 @@ public class VRController : MonoBehaviour
     [SerializeField] Transform cam, LHand, RHand;
     [SerializeField] Transform LHip, RHip, LChest, RChest, LSholder, RSholder, LBack, RBack;
     [SerializeField] float speed = 8.0f, jumpForce = 18.0f;
+    Transform teleportAimObject;
+    Vector3 teleportEndPosition;
+    bool teleporting = false;
+    LineRenderer line;
     Rigidbody rb;
     VRHudManager hud;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        line = GetComponent<LineRenderer>();
         hud = FindObjectOfType<VRHudManager>();
     }
     public void Move(Vector2 input){
@@ -27,6 +32,19 @@ public class VRController : MonoBehaviour
         Vector3 move = moveDirection * speed;
         move.y = rb.velocity.y;
         rb.velocity = move;
+    }
+    public void InitiateTeleport(Transform pointer){
+        line.enabled = true;
+        teleportAimObject = pointer;
+        teleporting = true;
+    }
+    public void Teleport(bool cancel = false){
+        if(cancel){ line.enabled = false; teleporting = false; }
+        else if(teleporting){
+            transform.position = teleportEndPosition;
+            line.enabled = false;
+            teleporting = false;
+        }
     }
     public void Jump(){
         //are we grounded?
@@ -49,6 +67,32 @@ public class VRController : MonoBehaviour
     void Update()
     {
         UpdatePositions();
+        DrawTeleportTrace();        
+    }
+    void DrawTeleportTrace(){
+        if(teleporting){
+            Vector3 startPos = teleportAimObject.position;
+            Vector3 startDir = teleportAimObject.forward;
+            int maxIterations = 100;
+            float maxDistance = 0.1f;
+            List<Vector3> points = new List<Vector3>();
+            //raycast with gravity
+            Vector3 currentPos = startPos;
+            Vector3 currentDir = startDir;
+            for(int i = 0; i < maxIterations; i++){
+                RaycastHit hit;
+                Debug.DrawRay(currentPos, currentDir * maxDistance, Color.red);
+                if(Physics.Raycast(currentPos, currentDir, out hit, maxDistance)){
+                    points.Add(hit.point);
+                    break;
+                }
+                else{
+                    points.Add(currentPos + currentDir * maxDistance);
+                    currentPos = points[points.Count - 1];
+                    currentDir += Vector3.down * 0.03f;
+                }
+            }
+        }
     }
     void UpdatePositions()
     {
