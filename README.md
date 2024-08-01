@@ -1,3 +1,7 @@
+# Resources
+[https://learngitbranching.js.org/]
+Head First Git Raju Gandhi
+
 # Commands
 
 ## Commit 
