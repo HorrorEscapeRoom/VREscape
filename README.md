@@ -1,6 +1,6 @@
 # Resources
-[https://learngitbranching.js.org/]
-Head First Git Raju Gandhi
+- Learn Git Branching ([https://learngitbranching.js.org/])
+- Head First Git Raju Gandhi
 
 # Commands
 
