@@ -7,7 +7,8 @@ public class HandItemTracker : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] Hand hand;
     List<Collider> touchingObj = new List<Collider>(), touchingContactPoints = new List<Collider>();
-    bool holdingItem = false;
+    bool holdingItem = false, teleporting = false;
+    float snapCooldown = 0f;
     Transform heldItem;
     IInput input;
     Vector3 lastPos;
@@ -37,15 +38,30 @@ public class HandItemTracker : MonoBehaviour
             controller.Move(stick);
 
             if(input.LController.SecondayButton.triggered){ controller.LogOffsetFromHead(transform.position); }
-            
         }
         else{
             if(input.RController.Grip.ReadValue<float>() > 0.5f){ PickupLogic(); }
             else if(holdingItem){ DropLogic(); }
 
-            if(input.RController.PrimaryButton.triggered){ controller.Jump(); }
-        }
+            if(input.RController.PrimaryButton.triggered){ controller.Jump(); } //implemented from my game, we probably dont need this
 
+            Vector2 stick = input.RController.Stick.ReadValue<Vector2>();
+            if(stick.y > 0.5f){
+                controller.InitiateTeleport(transform);
+                teleporting = true;
+            }else if(teleporting){
+                controller.Teleport();
+                teleporting = false;
+            }
+            if(stick.x > 0.5f && snapCooldown <= 0){
+                controller.SnapTurn(45);
+                snapCooldown = 1f;
+            }else if(stick.x < -0.5f && snapCooldown <= 0){
+                controller.SnapTurn(-45);
+                snapCooldown = 1f;
+            }
+        }
+        snapCooldown -= Time.deltaTime;
         if(holdingItem){
             Vector3 offset = Vector3.zero;
             Quaternion rotationOffset = Quaternion.identity;
