@@ -4030,6 +4030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d31a494fb6a2943a2ecf0e05125de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LineDebugPref: {fileID: 458509009000086600, guid: f02841c83eecf3e47b68ad9301510d05, type: 3}
   debugText: {fileID: 7491958125296428474}
   leftTouchingText: {fileID: 7491958126526163287}
   rightTouchingText: {fileID: 7491958125492771529}
