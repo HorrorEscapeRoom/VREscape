@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.PlayerSettings.Switch;
+using static UnityEditor.Rendering.CameraUI;
+using UnityEngine.Windows;
 
 namespace Assets.Scripts.LogicGatePuzzle
 {
@@ -23,6 +26,7 @@ namespace Assets.Scripts.LogicGatePuzzle
 	public class InputSwitch
 	{
 		public bool active = false;
+		public GameObject SwitchObject;
 		[SerializeField]
 		public List<SocketMap> socketMap;
 	}
@@ -37,134 +41,109 @@ namespace Assets.Scripts.LogicGatePuzzle
 		public List<SocketMap> ToUpdateIndexs;
 		//public int socketIndex;
 		public GameObject socket;
-		
-		public void UpdateOutput() 
-		{					
-			
-			// Hide/show ic lights
-			switch (logicType)
-			{
-				case EnumLogicGateType.AND:
-					output = inputA & inputB;
-					break;
-				case EnumLogicGateType.OR:
-					output = inputA | inputB;
-					break;
-				case EnumLogicGateType.XOR:
-					output = inputA ^ inputB;
-					break;
-				case EnumLogicGateType.NAND:
-					output = !(inputA & inputB);
-					break;
-				case EnumLogicGateType.NOR:
-					output = !(inputA | inputB);					
-					break;
-				case EnumLogicGateType.UNSET:
-				default:
-					output = false;
-					break;
-			}
-		}
 	}
 
     public class CircuitBoard: MonoBehaviour
     {
-		//public GameObject SumOutLight;
-		//public GameObject CarryOutLight;
-
-		public void Update()
-		{
-
-			UpdateSwitchState(0, false);
-			UpdateSwitchState(1, true);
-			UpdateSwitchState(2, false);
-
-			UpdateAllSocketState();
-
-		}
-
 		[SerializeField]
 		public List<InputSwitch> SwitchList = new();
 		[SerializeField]
 		public List<GameObject> LightList = new();
 		[SerializeField]
         public List<SocketState> ICList = new();
-		
-		public void UpdateLogic(int socketIndex, EnumLogicGateType ICType)
+
+        public void Start()
+        {
+            UpdateAllSocketState();
+        }
+
+        public void UpdateLogic(int socketIndex, EnumLogicGateType ICType)
 		{
 	
-			// Hide/Unhide IC in Socket
-			//bool isSet = !(ICType == EnumLogicGateType.UNSET);
-			//ICList[socketIndex].socket.SetActive(isSet);
-	
-			// Get switch state
-			// This should already be set from the switches themselves.
-
-			// Update all socket states
 			UpdateAllSocketState();
 		}
 
-		private void UpdateAllSocketState()
+		public void UpdateAllSocketState()
 		{
-			// Propergate Switch states
-			foreach (var switchitem in SwitchList) 
+
+            foreach (var switchitem in SwitchList)
 			{
-				foreach(var SocketMap in switchitem.socketMap)
+				foreach(var socketItem in switchitem.socketMap)
 				{
-					var socketToUpdate = ICList[SocketMap.socketIndex];
+					var sockindex = socketItem.socketIndex;
+					var inputindex = socketItem.inputIndex;
 
-					switch (SocketMap.outputType)
-					{
-						case EnumOutputType.Light:
-							UpdateLightState(SocketMap.socketIndex, socketToUpdate.output);
-							break;
-						case EnumOutputType.Socket:
-							switch (SocketMap.inputIndex)
-							{
-								case 0:
-									socketToUpdate.inputA = socketToUpdate.output;
-									break;
-								case 1:
-									socketToUpdate.inputB = socketToUpdate.output;
-									break;
-							}
-							break;
-					}
-				}
+					UpdateInputOnSocket(socketItem, sockindex, inputindex, switchitem.active);
+					UpdateSocketOuput(sockindex, inputindex);
+                }
 			}
 
-			// Update Overall Socket state            
-			foreach (SocketState state in ICList)
-			{				
-				state.UpdateOutput();
-
-				foreach (var SocketMap in state.ToUpdateIndexs)
+			foreach(var socket in ICList)
+			{
+                foreach(var socketItem in socket.ToUpdateIndexs)
 				{
-					var socketToUpdate = ICList[SocketMap.socketIndex];
+                    var sockindex = socketItem.socketIndex;
+                    var inputindex = socketItem.inputIndex;
 
-					switch (SocketMap.outputType)
-					{
-						case EnumOutputType.Light:
-							UpdateLightState(SocketMap.socketIndex, socketToUpdate.output);
-							break;
-						case EnumOutputType.Socket:
-							switch (SocketMap.inputIndex)
-							{
-								case 0:
-									socketToUpdate.inputA = socketToUpdate.output;
-									break;
-								case 1:
-									socketToUpdate.inputB = socketToUpdate.output;
-									break;
-							}
-							break;
-					}
-				}
-			}
+                    UpdateInputOnSocket(socketItem, sockindex, inputindex, socket.output);
+                    UpdateSocketOuput(sockindex, inputindex);
+                }				
+            }
 		}
-	
 
-		private void UpdateLightState(int index, bool newState)
+        private void UpdateInputOnSocket(SocketMap SocketMap, int socketIndex, int inputIndex, bool newState)
+        {
+			var socketref = ICList[socketIndex];			
+			
+			switch (SocketMap.outputType)
+            {
+                case EnumOutputType.Light:
+                    UpdateLightState(SocketMap.socketIndex, newState);
+                    break;
+                case EnumOutputType.Socket:
+                    switch (inputIndex)
+                    {
+                        case 0:
+                            socketref.inputA = newState;
+							Debug.Log($"{socketref.socket.name} InputA({newState}");
+                            break;
+                        case 1:
+                            socketref.inputB = newState;
+                            Debug.Log($"{socketref.socket.name} InputB({newState}");
+                            break;
+                    }
+                    break;
+            }			
+        }
+
+		private void UpdateSocketOuput(int socketIndex, int inputIndex)
+		{            
+            // Hide/show ic lights
+            switch (ICList[socketIndex].logicType)
+            {
+                case EnumLogicGateType.AND:
+                    ICList[socketIndex].output = ICList[socketIndex].inputA & ICList[socketIndex].inputB;
+                    break;
+                case EnumLogicGateType.OR:
+                    ICList[socketIndex].output = ICList[socketIndex].inputA | ICList[socketIndex].inputB;
+                    break;
+                case EnumLogicGateType.XOR:
+                    ICList[socketIndex].output = ICList[socketIndex].inputA ^ ICList[socketIndex].inputB;
+                    break;
+                case EnumLogicGateType.NAND:
+                    ICList[socketIndex].output = !(ICList[socketIndex].inputA & ICList[socketIndex].inputB);
+                    break;
+                case EnumLogicGateType.NOR:
+                    ICList[socketIndex].output = !(ICList[socketIndex].inputA | ICList[socketIndex].inputB);
+                    break;
+                case EnumLogicGateType.UNSET:
+                default:
+                    ICList[socketIndex].output = false;
+                    break;
+            }
+        }
+
+        private void UpdateLightState(int index, bool newState)
 		{
 			if (LightList.Count == 0 || index > LightList.Count - 1)
 			{
@@ -172,7 +151,16 @@ namespace Assets.Scripts.LogicGatePuzzle
 				return;
 			}
 
-			LightList[index].SetActive(newState);
+			//LightList[index].SetActive(newState);
+
+			if (newState)
+			{
+				LightList[index].GetComponent<MeshRenderer>().materials[0].color = Color.green;
+			}
+			else
+			{
+                LightList[index].GetComponent<MeshRenderer>().materials[0].color = Color.red;
+            }
 		}
 
 		private void UpdateSwitchState(int index, bool newState)
@@ -184,7 +172,17 @@ namespace Assets.Scripts.LogicGatePuzzle
 			}
 
 			SwitchList[index].active = newState;
-			UpdateLogic(0, 0);
+
+            if (newState)
+            {
+                SwitchList[index].SwitchObject.GetComponent<MeshRenderer>().materials[0].color = Color.green;
+            }
+            else
+            {
+                SwitchList[index].SwitchObject.GetComponent<MeshRenderer>().materials[0].color = Color.red;
+            }
+
+            UpdateLogic(0, 0);
 		}
 
         public void AddICToSocket(int index, EnumLogicGateType ICType)
