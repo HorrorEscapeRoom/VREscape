@@ -19,8 +19,7 @@ public class HandItemTracker : MonoBehaviour
     List<Vector3> velocitySamples = new List<Vector3>();
 
     //Only in this project
-    float snapCooldown = 0;
-    bool teleporting = false;
+    bool teleporting = false, canSnapTurn = true;
     void Start()
     {
         input = new IInput();
@@ -66,15 +65,16 @@ public class HandItemTracker : MonoBehaviour
                 controller.Teleport();
                 teleporting = false;
             }
-            if(stick.x > 0.5f && snapCooldown <= 0){
+            if(stick.x > 0.5f && canSnapTurn){
                 controller.SnapTurn(45);
-                snapCooldown = 0.1f;
-            }else if(stick.x < -0.5f && snapCooldown <= 0){
+                canSnapTurn = false;
+            }else if(stick.x < -0.5f && canSnapTurn){
                 controller.SnapTurn(-45);
-                snapCooldown = 0.1f;
+                canSnapTurn = false;
+            } else if(stick.x == 0){
+                canSnapTurn = true;
             }
         }
-        snapCooldown -= Time.deltaTime;
         if(holdID == HoldType.Item){
             Vector3 offset = Vector3.zero;
             Quaternion rotationOffset = Quaternion.identity;
