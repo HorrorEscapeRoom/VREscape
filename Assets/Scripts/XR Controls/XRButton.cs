@@ -9,6 +9,7 @@ public class XRButton : MonoBehaviour
     int activeTicks = 0;
     void OnTriggerStay(Collider col){
         if(activeTicks == 0){
+            activeTicks = 3;
             OnButtonPressed?.Invoke();
             FindFirstObjectByType<VRHudManager>().Debug("Button Pressed");
             StartCoroutine(OnLeave());

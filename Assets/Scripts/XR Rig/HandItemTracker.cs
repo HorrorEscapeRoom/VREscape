@@ -108,11 +108,10 @@ public class HandItemTracker : MonoBehaviour
         }
     }
     void FixedUpdate(){
-        Vector3 vel = (transform.parent.parent.localPosition - lastPos) / Time.deltaTime * 1.1f;
+        Vector3 vel = (transform.parent.localPosition - lastPos) / Time.deltaTime * 1.1f;
         //rotate vel 90 degrees to the right
-        vel = new Vector3(-vel.z, vel.y, vel.x);
         velocitySamples.Add(vel);
-        lastPos = transform.parent.parent.localPosition;
+        lastPos = transform.parent.localPosition;
         if(velocitySamples.Count > 10){
             velocitySamples.RemoveAt(0);
         }
@@ -191,7 +190,7 @@ public class HandItemTracker : MonoBehaviour
         //if its a XRItem or ContactPoint then add it to the list
         if (other.gameObject.CompareTag("XRItem")){
             touchingObj.Add(other);
-        }else if(other.gameObject.CompareTag("ContactPoint")){
+        }else if(other.gameObject.CompareTag("StorageVolume")){
             touchingContactPoints.Add(other);
         }else if(other.gameObject.CompareTag("XRControl")){
             touchingControls.Add(other);
@@ -202,7 +201,7 @@ public class HandItemTracker : MonoBehaviour
         //if its a XRItem or ContactPoint then remove it from the list
         if (other.gameObject.CompareTag("XRItem")){
             touchingObj.Remove(other);
-        } else if(other.gameObject.CompareTag("ContactPoint")){
+        } else if(other.gameObject.CompareTag("StorageVolume")){
             touchingContactPoints.Remove(other);
         } else if(other.gameObject.CompareTag("XRControl")){
             touchingControls.Remove(other);

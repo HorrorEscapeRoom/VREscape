@@ -84,7 +84,7 @@ public class VRController : MonoBehaviour
     void DrawTeleportTrace(){
         if(teleporting){
             Vector3 startPos = teleportAimObject.position;
-            Vector3 startDir = teleportAimObject.forward;
+            Vector3 startDir = -teleportAimObject.forward;
             int maxIterations = 100;
             float maxDistance = 0.1f;
             bool foundMap = false;
