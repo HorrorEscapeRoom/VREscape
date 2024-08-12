@@ -13,7 +13,6 @@ public class XRKnob : MonoBehaviour
     VRHudManager hud;
     bool active = false;
     Transform hand, model;
-    float angleOffset = 0;
     Vector3 axis;
     // Start is called before the first frame update
     void Start()
@@ -29,12 +28,9 @@ public class XRKnob : MonoBehaviour
         axis.Normalize();
         active = true;
         // Calculate the angle of the hand position
-        DrawCircle(axis, transform.position, 0.2f, 30);
-        float handAngle = GetClosestPointOnRing(hand.position + hand.up, axis, transform.position, 0.1f);
-        handAngle = ReAngle(handAngle);
-        
-        // Calculate the offset between the knob's current angle and the hand's angle
-        angleOffset = value - handAngle;
+        //DrawCircle(axis, transform.position, 0.2f, 30);
+        //float handAngle = GetClosestPointOnRing(hand.position + hand.up, axis, transform.position, 0.1f);
+        //handAngle = ReAngle(handAngle);
     }
     void Released()
     {
@@ -43,10 +39,8 @@ public class XRKnob : MonoBehaviour
     void Update(){
         if(active){
             float angle = GetClosestPointOnRing(hand.position + hand.up, axis, transform.position, 0.1f);
-            //transform.rotation = originRotation;
-            //model.localEulerAngles = axis * (-angle + angleOffset);
-            hud.Debug($"rotation: {angle + angleOffset}");
-            value = ReAngle(angle + angleOffset);
+            model.localEulerAngles = localAxis * (-angle);
+            value = ReAngle(angle);
             OnValueChanged?.Invoke(value);
             hud.DrawLine(transform.position, hand.position + hand.up, 0.02f, Color.red);
             if(Vector3.Distance(transform.position, hand.position) > UnGrabDistance){
@@ -61,16 +55,25 @@ public class XRKnob : MonoBehaviour
     }
     float GetClosestPointOnRing(Vector3 inputPosition, Vector3 axis, Vector3 center, float radius)
     {
-        Vector3 vectorToInput = inputPosition - center;
-        Vector3 projection = Vector3.ProjectOnPlane(vectorToInput, axis);
+        // Transform inputPosition, axis, and center to local space
+        Vector3 localInputPosition = transform.InverseTransformPoint(inputPosition);
+        Vector3 localAxis = transform.InverseTransformDirection(axis);
+        Vector3 localCenter = transform.InverseTransformPoint(center);
+
+        Vector3 vectorToInput = localInputPosition - localCenter;
+        Vector3 projection = Vector3.ProjectOnPlane(vectorToInput, localAxis);
         projection.Normalize();
-        hud.DrawLine(center, center + projection * radius, 0.02f, Color.green);
-        DrawCircle(axis, center, radius);
+
+        // Transform the projection back to world space for drawing
+        //Vector3 worldProjection = transform.TransformDirection(projection);
+        //Vector3 worldCenter = transform.TransformPoint(localCenter);
+
+        //hud.DrawLine(worldCenter, worldCenter + worldProjection * radius, 0.02f, Color.green);
+        //DrawCircle(axis, center, radius);
         // Calculate the angle in radians
         float angleInRadians = Mathf.Atan2(projection.z, projection.x);
-        //draw a line from the input position to the point on the ring
-        hud.DrawLine(inputPosition, center + projection * radius, 0.02f, Color.blue);
-
+        // Draw a line from the input position to the point on the ring
+        //hud.DrawLine(inputPosition, worldCenter + worldProjection * radius, 0.02f, Color.blue);
         // Convert the angle to degrees
         return ReAngle(angleInRadians * Mathf.Rad2Deg);
     }

@@ -5,7 +5,7 @@ using UnityEngine.XR;
 
 public class VRController : MonoBehaviour
 {
-    [SerializeField] Transform cam, LHand, RHand, teleportTarget;
+    [SerializeField] Transform cam, LHand, RHand, teleportTarget, posMat;
     [SerializeField] Transform LHip, RHip, LChest, RChest, LSholder, RSholder;
     [SerializeField] float speed = 8.0f, jumpForce = 18.0f;
     Transform teleportAimObject;
@@ -37,6 +37,10 @@ public class VRController : MonoBehaviour
         Vector3 euler = transform.eulerAngles;
         euler.y += angle;
         transform.eulerAngles = euler;
+        //roate the posMat the opposite direction
+        euler = posMat.eulerAngles;
+        euler.y -= angle;
+        posMat.eulerAngles = euler;
     }
     public void InitiateTeleport(Transform pointer){
         line.enabled = true;

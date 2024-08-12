@@ -68,10 +68,10 @@ public class HandItemTracker : MonoBehaviour
             }
             if(stick.x > 0.5f && snapCooldown <= 0){
                 controller.SnapTurn(45);
-                snapCooldown = 1f;
+                snapCooldown = 0.1f;
             }else if(stick.x < -0.5f && snapCooldown <= 0){
                 controller.SnapTurn(-45);
-                snapCooldown = 1f;
+                snapCooldown = 0.1f;
             }
         }
         snapCooldown -= Time.deltaTime;
