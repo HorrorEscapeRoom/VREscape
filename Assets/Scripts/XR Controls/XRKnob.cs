@@ -1,7 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
+using Unity.VisualScripting;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
+using UnityEngine.WSA;
+using UnityEngine.XR;
 
 public class XRKnob : MonoBehaviour
 {
@@ -25,23 +31,46 @@ public class XRKnob : MonoBehaviour
     {
         this.hand = hand;
         axis = transform.TransformDirection(localAxis);
-        axis.Normalize();
+
+		debug_draw_axis(transform.position, axis, Color.red);
+		
+
         active = true;
-        // Calculate the angle of the hand position
-        //DrawCircle(axis, transform.position, 0.2f, 30);
-        //float handAngle = GetClosestPointOnRing(hand.position + hand.up, axis, transform.position, 0.1f);
-        //handAngle = ReAngle(handAngle);
+
     }
     void Released()
     {
         active = false; hand = null;
     }
     void Update(){
+
         if(active){
-            float angle = GetClosestPointOnRing(hand.position + hand.up, axis, transform.position, 0.1f);
-            model.localEulerAngles = localAxis * (-angle);
-            value = ReAngle(angle);
-            OnValueChanged?.Invoke(value);
+
+			//Vector3 vectorToInput = hand.position - transform.position;
+
+			Vector3 foobar = transform.InverseTransformPoint(hand.position);
+			foobar.y = 0;
+			foobar.Normalize();
+
+
+			//Vector3 projection = Vector3.ProjectOnPlane(vectorToInput, axis);
+			Debug.Log(foobar);
+
+			
+
+			float angle = Mathf.Atan2(foobar.z, foobar.x);
+			Debug.Log(angle);
+
+			model.rotation.SetAxisAngle(axis, angle);
+			//Vector3 vectorToInput = vectorToInput * Quaternion.Inverse(transform.rotation);
+			//transform.ro
+
+
+			//projection.Normalize();
+
+
+
+			OnValueChanged?.Invoke(value);
             hud.DrawLine(transform.position, hand.position + hand.up, 0.02f, Color.red);
             if(Vector3.Distance(transform.position, hand.position) > UnGrabDistance){
                 Released();
@@ -53,30 +82,7 @@ public class XRKnob : MonoBehaviour
         if(angle > 360) { angle -= 360; }
         return angle;
     }
-    float GetClosestPointOnRing(Vector3 inputPosition, Vector3 axis, Vector3 center, float radius)
-    {
-        // Transform inputPosition, axis, and center to local space
-        Vector3 localInputPosition = transform.InverseTransformPoint(inputPosition);
-        Vector3 localAxis = transform.InverseTransformDirection(axis);
-        Vector3 localCenter = transform.InverseTransformPoint(center);
 
-        Vector3 vectorToInput = localInputPosition - localCenter;
-        Vector3 projection = Vector3.ProjectOnPlane(vectorToInput, localAxis);
-        projection.Normalize();
-
-        // Transform the projection back to world space for drawing
-        //Vector3 worldProjection = transform.TransformDirection(projection);
-        //Vector3 worldCenter = transform.TransformPoint(localCenter);
-
-        //hud.DrawLine(worldCenter, worldCenter + worldProjection * radius, 0.02f, Color.green);
-        //DrawCircle(axis, center, radius);
-        // Calculate the angle in radians
-        float angleInRadians = Mathf.Atan2(projection.z, projection.x);
-        // Draw a line from the input position to the point on the ring
-        //hud.DrawLine(inputPosition, worldCenter + worldProjection * radius, 0.02f, Color.blue);
-        // Convert the angle to degrees
-        return ReAngle(angleInRadians * Mathf.Rad2Deg);
-    }
     void DrawCircle(Vector3 axis, Vector3 center, float radius, float duration = 0.02f)
     {
         Vector3 up = Vector3.Cross(axis, Vector3.up);
@@ -89,4 +95,10 @@ public class XRKnob : MonoBehaviour
             hud.DrawLine(point, center + up * Mathf.Sin(angle + Mathf.Deg2Rad * 10) * radius + right * Mathf.Cos(angle + Mathf.Deg2Rad * 10) * radius, duration, Color.green);
         }
     }
+
+	private void debug_draw_axis(Vector3 point, Vector3 axis, Color col){
+		hud.DrawLine(point, point + (axis*5.0f),1000.0f , col);
+		
+	}
+
 }

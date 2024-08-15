@@ -1873,7 +1873,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CameraFloorOffsetObject: {fileID: 7491958126991150940}
   m_RequestedTrackingMode: 0
-  m_TrackingOriginMode: 1
+  m_TrackingOriginMode: 2
   m_TrackingSpace: 0
   m_CameraYOffset: 1.36144
 --- !u!1 &7491958126130825175
@@ -3022,6 +3022,7 @@ MonoBehaviour:
   LHand: {fileID: 7491958126031656599}
   RHand: {fileID: 7491958127026148449}
   teleportTarget: {fileID: 8384607661880646940}
+  posMat: {fileID: 0}
   LHip: {fileID: 7491958125446291533}
   RHip: {fileID: 7491958125280986551}
   LChest: {fileID: 7491958126339316430}
