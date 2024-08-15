@@ -88,7 +88,7 @@ public class VRController : MonoBehaviour
         DrawTeleportTrace();   
     }
     void FixedUpdate(){
-        NoPeek();
+        //NoPeek(); //Disabled For Main compatibility
     }
     void DrawTeleportTrace(){
         if(teleporting){
