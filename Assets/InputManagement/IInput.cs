@@ -86,7 +86,7 @@ public partial class @IInput: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""33cc33c2-fcbe-46de-b62d-39a4800df906"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
@@ -371,7 +371,7 @@ public partial class @IInput: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""11d010a5-4476-40b7-adec-e88ed594e135"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
