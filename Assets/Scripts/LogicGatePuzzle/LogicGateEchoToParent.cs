@@ -15,14 +15,20 @@ public class LogicGateEchoToParent : MonoBehaviour
 
     void OnItemPlaced(GameObject heldItem)
     {
-        var whatever = heldItem.GetComponent<LogicGateScript>();
-        var gatetype = whatever.gateType; 
+        if (heldItem == null)
+        {
+            return;
+        }
 
-        CircuitBoard.UpdateLogic(Index, gatetype);
+        var logicItem = heldItem.GetComponent<LogicGateScript>();
+        if (logicItem)
+        {
+            CircuitBoard.AddICToSocket(Index, heldItem);
+        }
     }
 
     void OnItemPickedUp(GameObject heldItem)
     {
-        CircuitBoard.UpdateLogic(Index, EnumLogicGateType.UNSET);
+        CircuitBoard.RemoveICFromSocket(Index);
     }
 }

@@ -1,42 +1,40 @@
+using TMPro;
 using UnityEngine;
-
-public enum EnumLogicGateType
-{
-    UNSET,
-    AND,
-    OR,
-    NAND,
-    NOR,
-    XOR
-}
-
 
 public class LogicGateScript : MonoBehaviour
 {
     public GameObject inputA;
     public GameObject inputB;
     public GameObject output;
+    public Color ActiveColour = Color.green;
+    public Color InactiveColour = Color.red;
 
     public EnumLogicGateType gateType;
+    [SerializeField] TextMeshProUGUI m_Object;
+
+    public void Start()
+    {
+        m_Object.text = gateType.ToString();
+    }
 
     public EnumLogicGateType GetGateType()
     {
         return gateType;
     }
 
-    public void ToggleInputA(bool value)
+    public void SetInputOutputState(EnumInputOuputType IntputOutputType, bool value)
     {
-        inputA.SetActive(value);
+        switch (IntputOutputType)
+        {
+            case EnumInputOuputType.InputA:
+                inputA.GetComponent<MeshRenderer>().materials[0].color = value == true ? ActiveColour : InactiveColour;
+                break;
+            case EnumInputOuputType.InputB:
+                inputB.GetComponent<MeshRenderer>().materials[0].color = value == true ? ActiveColour : InactiveColour;
+                break;
+            case EnumInputOuputType.Output:
+                output.GetComponent<MeshRenderer>().materials[0].color = value == true ? ActiveColour : InactiveColour;
+                break;
+        }
     }
-
-    public void ToggleInputB(bool value)
-    {
-        inputB.SetActive(value);
-    }
-
-    public void ToggleOutput(bool value)
-    {
-        output.SetActive(value);
-    }
-
 }

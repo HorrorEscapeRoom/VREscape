@@ -243,31 +243,13 @@ MonoBehaviour:
   SwitchList:
   - active: 0
     SwitchObject: {fileID: 2985935631458305234}
-    socketMap:
-    - socketIndex: 0
-      inputIndex: 0
-      outputType: 0
-    - socketIndex: 3
-      inputIndex: 0
-      outputType: 0
+    socketMapList: []
   - active: 0
     SwitchObject: {fileID: 6917685469451682421}
-    socketMap:
-    - socketIndex: 0
-      inputIndex: 1
-      outputType: 0
-    - socketIndex: 3
-      inputIndex: 1
-      outputType: 0
+    socketMapList: []
   - active: 0
     SwitchObject: {fileID: 8141831670666596631}
-    socketMap:
-    - socketIndex: 1
-      inputIndex: 1
-      outputType: 0
-    - socketIndex: 2
-      inputIndex: 1
-      outputType: 0
+    socketMapList: []
   LightList:
   - {fileID: 3353476705605984823}
   - {fileID: 1090215379328199559}
@@ -275,7 +257,8 @@ MonoBehaviour:
   - inputA: 0
     inputB: 0
     output: 0
-    logicType: 4
+    socket: {fileID: 9042148125119864803}
+    ICObject: {fileID: 0}
     ToUpdateIndexs:
     - socketIndex: 1
       inputIndex: 0
@@ -283,43 +266,42 @@ MonoBehaviour:
     - socketIndex: 2
       inputIndex: 0
       outputType: 0
-    socket: {fileID: 9042148125119864803}
   - inputA: 0
     inputB: 0
     output: 0
-    logicType: 5
+    socket: {fileID: 5484873829745494052}
+    ICObject: {fileID: 0}
     ToUpdateIndexs:
     - socketIndex: 0
       inputIndex: 0
       outputType: 1
-    socket: {fileID: 5484873829745494052}
   - inputA: 0
     inputB: 0
     output: 0
-    logicType: 1
+    socket: {fileID: 2447425347059088139}
+    ICObject: {fileID: 0}
     ToUpdateIndexs:
     - socketIndex: 4
       inputIndex: 0
       outputType: 0
-    socket: {fileID: 2447425347059088139}
   - inputA: 0
     inputB: 0
     output: 0
-    logicType: 1
+    socket: {fileID: 8055849261796149939}
+    ICObject: {fileID: 0}
     ToUpdateIndexs:
     - socketIndex: 4
       inputIndex: 1
       outputType: 0
-    socket: {fileID: 8055849261796149939}
   - inputA: 0
     inputB: 0
     output: 0
-    logicType: 2
+    socket: {fileID: 2979966662199394375}
+    ICObject: {fileID: 0}
     ToUpdateIndexs:
     - socketIndex: 1
       inputIndex: 0
       outputType: 1
-    socket: {fileID: 2979966662199394375}
 --- !u!114 &5901799984932090604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -600,7 +582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67bed0ce24f0ef498038ec5b6be766a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Index: 2
+  Index: 4
 --- !u!1 &2985935631458305234
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,7 +934,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67bed0ce24f0ef498038ec5b6be766a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Index: 0
+  Index: 1
 --- !u!1 &6917685469451682421
 GameObject:
   m_ObjectHideFlags: 0
@@ -1195,7 +1177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67bed0ce24f0ef498038ec5b6be766a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Index: 2
+  Index: 3
 --- !u!1 &8141831670666596631
 GameObject:
   m_ObjectHideFlags: 0
