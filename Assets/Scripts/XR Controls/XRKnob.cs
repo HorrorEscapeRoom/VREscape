@@ -21,73 +21,74 @@ public class XRKnob : MonoBehaviour
     bool active = false;
     Transform hand, model;
     Vector3 axis;
-    // Start is called before the first frame update
-    void Start()
+
+	float BaseAngle = 0.0f;
+	float angleOffset = 0.0f;
+
+	float initGrabHandAngel = 0.0f;
+
+	float absAngle { get { return ReAngle(BaseAngle + angleOffset); } }
+
+
+	// Start is called before the first frame update
+	void Start()
     {
         hud = FindObjectOfType<VRHudManager>();
         model = transform.GetChild(0);
-        
-    }
+		UpdateMeshRotation();
+
+
+	}
     void Grabbed(Transform hand)
     {
         this.hand = hand;
         axis = transform.TransformDirection(localAxis);
 
-		debug_draw_axis(transform.position, axis, Color.red);
+		initGrabHandAngel = GetHandThing();
 		
-
         active = true;
-
     }
     void Released()
     {
-        active = false; hand = null;
+		BaseAngle = absAngle;
+		active = false; hand = null;
     }
     void Update(){
 
         if(active){
 
-			//Vector3 vectorToInput = hand.position - transform.position;
+			angleOffset = initGrabHandAngel - GetHandThing();
 
-			Vector3 foobar = transform.InverseTransformPoint(hand.position);
-			foobar.y = 0;
-			foobar.Normalize();
+			UpdateMeshRotation();
 
-			hud.DrawLine(transform.position, transform.position + (foobar * 2), 0.02f, Color.green);
-			hud.DrawLine(transform.position, foobar, 0.02f, Color.magenta);
-			//Vector3 projection = Vector3.ProjectOnPlane(vectorToInput, axis);
-			Debug.Log(foobar);
-
-			
-
-			float angle = Mathf.Atan2(foobar.z, foobar.x) * Mathf.Rad2Deg;
-			hud.Debug(angle.ToString());
-
-
-
-			//model.rotation.SetAxisAngle(axis, angle);
-			//model.rotation = Quaternion.AxisAngle(axis, -angle);
-			//model.rotation = Quaternion.Euler(model.rotation.eulerAngles.x, -angle, model.rotation.eulerAngles.z); // Vector3();
-
-			model.localRotation = Quaternion.Euler(model.localRotation.eulerAngles.x, -angle, model.localRotation.eulerAngles.z);
-
-			//transform.loo
-			//transform.rotation
-
-			OnValueChanged?.Invoke(value);
+			OnValueChanged?.Invoke(absAngle);
             hud.DrawLine(transform.position, hand.position + hand.up, 0.02f, Color.red);
             if(Vector3.Distance(transform.position, hand.position) > UnGrabDistance){
                 Released();
             }
         }
     }
+
+	void UpdateMeshRotation() {
+		model.localRotation = Quaternion.Euler(model.localRotation.eulerAngles.x, absAngle, model.localRotation.eulerAngles.z);
+	}
+
+	float GetHandThing() {
+
+		Vector3 foobar = transform.InverseTransformPoint(hand.position + hand.up);
+		foobar.y = 0;
+		foobar.Normalize();
+
+		return Mathf.Atan2(foobar.z, foobar.x) * Mathf.Rad2Deg;
+	}
+
     float ReAngle(float angle){
         if(angle < 0) { angle += 360; }
         if(angle > 360) { angle -= 360; }
         return angle;
     }
 
-    void DrawCircle(Vector3 axis, Vector3 center, float radius, float duration = 0.02f)
+	private void DrawCircle(Vector3 axis, Vector3 center, float radius, float duration = 0.02f)
     {
         Vector3 up = Vector3.Cross(axis, Vector3.up);
         if(up.magnitude < 0.1f) up = Vector3.Cross(axis, Vector3.right);
