@@ -1054,7 +1054,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7491958126946239548, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.056
+      value: -1.52
       objectReference: {fileID: 0}
     - target: {fileID: 7491958126946239548, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1062,7 +1062,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7491958126946239548, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2.99
       objectReference: {fileID: 0}
     - target: {fileID: 7491958126946239548, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1098,7 +1098,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9030083675827951303, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1197,7 +1197,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -10.742, y: 14.569}
+  m_AnchoredPosition: {x: -10.742, y: 14.334}
   m_SizeDelta: {x: 160, y: 90.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1753728035
@@ -1709,6 +1709,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -3645442340189716319, guid: 3b25680c7d1a78a46863b22077a6a6c8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.481
+      objectReference: {fileID: 0}
     - target: {fileID: -3623647299942157393, guid: 3b25680c7d1a78a46863b22077a6a6c8, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -1844,6 +1848,14 @@ PrefabInstance:
     - target: {fileID: 5537588398647902305, guid: 3b25680c7d1a78a46863b22077a6a6c8, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5715658931606791109, guid: 3b25680c7d1a78a46863b22077a6a6c8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.572
+      objectReference: {fileID: 0}
+    - target: {fileID: 5715658931606791109, guid: 3b25680c7d1a78a46863b22077a6a6c8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.516
       objectReference: {fileID: 0}
     - target: {fileID: 5732938923526445779, guid: 3b25680c7d1a78a46863b22077a6a6c8, type: 3}
       propertyPath: m_Layer
