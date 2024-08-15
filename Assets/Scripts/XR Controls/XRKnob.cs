@@ -8,6 +8,7 @@ using UnityEngine.Events;
 using UnityEngine.UIElements;
 using UnityEngine.WSA;
 using UnityEngine.XR;
+using static UnityEditor.FilePathAttribute;
 
 public class XRKnob : MonoBehaviour
 {
@@ -52,23 +53,26 @@ public class XRKnob : MonoBehaviour
 			foobar.y = 0;
 			foobar.Normalize();
 
-
+			hud.DrawLine(transform.position, transform.position + (foobar * 2), 0.02f, Color.green);
+			hud.DrawLine(transform.position, foobar, 0.02f, Color.magenta);
 			//Vector3 projection = Vector3.ProjectOnPlane(vectorToInput, axis);
 			Debug.Log(foobar);
 
 			
 
-			float angle = Mathf.Atan2(foobar.z, foobar.x);
-			Debug.Log(angle);
-
-			model.rotation.SetAxisAngle(axis, angle);
-			//Vector3 vectorToInput = vectorToInput * Quaternion.Inverse(transform.rotation);
-			//transform.ro
+			float angle = Mathf.Atan2(foobar.z, foobar.x) * Mathf.Rad2Deg;
+			hud.Debug(angle.ToString());
 
 
-			//projection.Normalize();
 
+			//model.rotation.SetAxisAngle(axis, angle);
+			//model.rotation = Quaternion.AxisAngle(axis, -angle);
+			//model.rotation = Quaternion.Euler(model.rotation.eulerAngles.x, -angle, model.rotation.eulerAngles.z); // Vector3();
 
+			model.localRotation = Quaternion.Euler(model.localRotation.eulerAngles.x, -angle, model.localRotation.eulerAngles.z);
+
+			//transform.loo
+			//transform.rotation
 
 			OnValueChanged?.Invoke(value);
             hud.DrawLine(transform.position, hand.position + hand.up, 0.02f, Color.red);
