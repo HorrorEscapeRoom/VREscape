@@ -12,7 +12,6 @@ using static UnityEditor.FilePathAttribute;
 
 public class XRKnob : MonoBehaviour
 {
-    [SerializeField] Vector3 localAxis;
     [SerializeField] float UnGrabDistance = 0.1f;
     public float value;
     public UnityEvent<float> OnValueChanged;
@@ -20,7 +19,6 @@ public class XRKnob : MonoBehaviour
     VRHudManager hud;
     bool active = false;
     Transform hand, model;
-    Vector3 axis;
 
 	float BaseAngle = 0.0f;
 	float angleOffset = 0.0f;
@@ -36,13 +34,10 @@ public class XRKnob : MonoBehaviour
         hud = FindObjectOfType<VRHudManager>();
         model = transform.GetChild(0);
 		UpdateMeshRotation();
-
-
 	}
     void Grabbed(Transform hand)
     {
         this.hand = hand;
-        axis = transform.TransformDirection(localAxis);
 
 		initGrabHandAngel = GetHandThing();
 		
