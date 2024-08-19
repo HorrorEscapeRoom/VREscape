@@ -86,7 +86,7 @@ public partial class @IInput: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""33cc33c2-fcbe-46de-b62d-39a4800df906"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
@@ -371,7 +371,7 @@ public partial class @IInput: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""11d010a5-4476-40b7-adec-e88ed594e135"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
@@ -472,50 +472,6 @@ public partial class @IInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ba64cffa-ec10-434d-82e3-93b6d0f7ea7f"",
-                    ""path"": ""<XRController>{RightHand}/joystick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Stick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""cf3b7232-09eb-4a56-8876-4c30d983902f"",
-                    ""path"": ""<XRController>{RightHand}/touchpad"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Stick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""88946cef-1386-4f0f-bcef-1eb904ee03ec"",
-                    ""path"": ""<XRController>{RightHand}/trackpad"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Stick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""480724de-cd28-4e63-82b9-5716aa7458e9"",
-                    ""path"": ""<XRController>{RightHand}/thumbstick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Stick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""ed29c197-f564-4446-91d5-118faca81278"",
                     ""path"": ""<XRController>{RightHand}/triggerTouched"",
                     ""interactions"": """",
@@ -588,6 +544,50 @@ public partial class @IInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""StickTouched"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ba64cffa-ec10-434d-82e3-93b6d0f7ea7f"",
+                    ""path"": ""<XRController>{RightHand}/joystick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cf3b7232-09eb-4a56-8876-4c30d983902f"",
+                    ""path"": ""<XRController>{RightHand}/touchpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88946cef-1386-4f0f-bcef-1eb904ee03ec"",
+                    ""path"": ""<XRController>{RightHand}/trackpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""480724de-cd28-4e63-82b9-5716aa7458e9"",
+                    ""path"": ""<XRController>{RightHand}/thumbstick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
