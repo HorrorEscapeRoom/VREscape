@@ -71,8 +71,8 @@ public class Dial : MonoBehaviour
     }
 
 
-    void Update()
+    void Update(float currentAngle)
     {
-        
+        OnRotate(currentAngle);
     }
 }
