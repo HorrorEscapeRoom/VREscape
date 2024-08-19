@@ -17,4 +17,10 @@ public class SceneManager : MonoBehaviour
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
+
+    public void ExitGame()
+    {
+        print("Testing: Game is dead");
+        Application.Quit();
+    }
 }
