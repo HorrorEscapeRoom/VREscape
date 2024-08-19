@@ -10,11 +10,11 @@ public class LogicGateScript : MonoBehaviour
     public Color InactiveColour = Color.red;
 
     public EnumLogicGateType gateType;
-    [SerializeField] TextMeshProUGUI m_Object;
+    [SerializeField] TextMeshProUGUI TextObject;
 
     public void Start()
     {
-        m_Object.text = gateType.ToString();
+        TextObject.text = gateType.ToString();
     }
 
     public EnumLogicGateType GetGateType()
