@@ -325,7 +325,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7ee9142407ab84b9e3d049d8cd29dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localAxis: {x: 0, y: 1, z: 0}
   UnGrabDistance: 0.1
   value: 0
   OnValueChanged:
@@ -343,4 +342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11ceb95fa082a584f8cd4903fab303a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  note: This is a knob, it can be turned, returns 0-360
+  note: 'This is a knob, it can be turned, returns 0-360
+
+    it only rotates around
+    it''s y-axis. so move it and it child object to get it to look right'
