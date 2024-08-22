@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class PipePuzzelSystem : MonoBehaviour
 {
-	PipePuzzelLiquidHolder PipePuzzelLiquidHolder;
+	public PipePuzzelLiquidHolder PipePuzzelLiquidHolder;
 
 	float RequiredAmount = 0.0f;
 
@@ -15,9 +15,9 @@ public class PipePuzzelSystem : MonoBehaviour
     void Update()
     {
         if (PipePuzzelLiquidHolder.amount > RequiredAmount) {
-			PuzzelDoneFuntion.Invoke(true);
+			PuzzelDoneFuntion?.Invoke(true);
 		} else {
-			PuzzelDoneFuntion.Invoke(false);
+			PuzzelDoneFuntion?.Invoke(false);
 		}
     }
 }
