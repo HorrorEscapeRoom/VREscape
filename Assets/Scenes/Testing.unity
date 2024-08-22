@@ -3474,8 +3474,8 @@ GameObject:
   - component: {fileID: 2235442473880183405}
   - component: {fileID: 4098579537919612584}
   - component: {fileID: 4098579537919612585}
-  - component: {fileID: 4098579537919612586}
   - component: {fileID: 4098579537919612587}
+  - component: {fileID: 4098579537919612588}
   m_Layer: 0
   m_Name: TorchTemp
   m_TagString: XRItem
@@ -3753,33 +3753,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4749707353668628313, guid: 3bbf3dde027465e4387f4ccb2c4ff0d7, type: 3}
---- !u!114 &4098579537919612586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 289672275020301240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4d37085d24017f418809bfbf6f811bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  events:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4098579537919612584}
-        m_TargetAssemblyTypeName: FlashlightController, Assembly-CSharp
-        m_MethodName: TestToggle
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!54 &4098579537919612587
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3807,6 +3780,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4098579537919612588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289672275020301240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6126084f1c66db9419ba1d30ff7ffac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  throwVelocity: 2
+  holdOffset: {x: 0, y: 0, z: 0}
+  holdRotation: {x: 0, y: 180, z: 0}
 --- !u!1001 &4896883762459532300
 PrefabInstance:
   m_ObjectHideFlags: 0
