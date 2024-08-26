@@ -14,9 +14,15 @@ public class XRKnob : MonoBehaviour
 {
     [SerializeField] float UnGrabDistance = 0.1f;
     public float value;
-    public UnityEvent<float> OnValueChanged;
+	
+	public UnityEvent<float> OnValueChanged;
 
-    VRHudManager hud;
+	public bool hasLimits = false;
+	public float minLimitAngle = 0.0f;
+	public float maxLimitAngle = 360.0f;
+	
+
+	VRHudManager hud;
     bool active = false;
     Transform hand, model;
 
@@ -78,9 +84,14 @@ public class XRKnob : MonoBehaviour
 	}
 
     float ReAngle(float angle){
-        if(angle < 0) { angle += 360; }
-        if(angle > 360) { angle -= 360; }
-        return angle;
+		if (hasLimits) {
+			if (angle > maxLimitAngle) { angle = maxLimitAngle; }
+			if (angle < minLimitAngle) { angle = minLimitAngle; }
+		} else { 
+			if(angle < 0) { angle += 360; }
+			if(angle > 360) { angle -= 360; }
+		}
+		return angle;
     }
 
 	private void DrawCircle(Vector3 axis, Vector3 center, float radius, float duration = 0.02f)
