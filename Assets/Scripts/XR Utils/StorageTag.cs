@@ -1,3 +1,3 @@
 using UnityEngine;
 public class StorageTag : MonoBehaviour
-{ public string tag;}
+{ new public string tag;}

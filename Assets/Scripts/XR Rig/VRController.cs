@@ -7,11 +7,10 @@ public class VRController : MonoBehaviour
 {
     [SerializeField] Transform NeckPivot, Cam, LHand, RHand, teleportTarget, posMat;
     [SerializeField] Transform LHip, RHip, LChest, RChest, LSholder, RSholder;
-    [SerializeField] GameObject PeekBlocker;
     [SerializeField] float speed = 8.0f, jumpForce = 18.0f;
     Transform teleportAimObject;
     Vector3 teleportEndPosition;
-    bool teleporting = false, validTeleportTarget = false, inPeek = false;
+    bool teleporting = false, validTeleportTarget = false;
     LineRenderer line;
     Rigidbody rb;
     VRHudManager hud;
@@ -149,10 +148,10 @@ public class VRController : MonoBehaviour
     }
     void NoPeek(){
         Vector3 headOrigin = transform.position + Vector3.up * 1.5f;
-        Vector3 headDirection = headOrigin - Cam.position;
+        Vector3 headDirection = Cam.position - headOrigin;
         Debug.DrawRay(headOrigin, headDirection, Color.red);
         bool peeking = Physics.Raycast(headOrigin, headDirection, headDirection.magnitude, 1 << 6);
-        PeekBlocker.SetActive(peeking);
+        Cam.GetComponent<Camera>().enabled = !peeking;
     }
     Vector3 CalculatePosition(Vector3 camPosition, Vector3 offset, Vector3 flatRight, Vector3 flatForward)
     { return camPosition + offset.x * flatRight + offset.z * flatForward + Vector3.up * offset.y; }
