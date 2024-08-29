@@ -43,15 +43,17 @@ public class XRKnob : MonoBehaviour
 
 			float currentAngle = GetHandThing();
 			float deltaAngle = currentAngle - angleLastFrame;
+			deltaAngle *= -1f;
 			if(hasLimits){
 				if(deltaAngle + angle > maxLimitAngle){
+					Debug.Log($"angle: {angle}, deltaAngle: {deltaAngle},sum {angle + deltaAngle} exceedes max: {maxLimitAngle}");
 					angle = maxLimitAngle;
 				}else if(deltaAngle + angle < minLimitAngle){
+					Debug.Log($"angle: {angle}, deltaAngle: {deltaAngle},sum {angle + deltaAngle} is less than min: {minLimitAngle}");
 					angle = minLimitAngle;
 				}
 			}else{
 				angle += deltaAngle;
-				
 			}
 			angle = ReAngle(angle);
 			angleLastFrame = currentAngle;
