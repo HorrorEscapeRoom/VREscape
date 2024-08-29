@@ -2020,14 +2020,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: StorageVolume
       objectReference: {fileID: 0}
-    - target: {fileID: 992517536034823660, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: f0c4ff5caee992148a96a306dbf9cd4d, type: 2}
-    - target: {fileID: 6667862037267777502, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7491958126946239548, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.3929072
@@ -2072,45 +2064,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: VRRIG
       objectReference: {fileID: 0}
-    - target: {fileID: 7491958126946239555, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
-      propertyPath: LBack
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7491958126946239555, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
-      propertyPath: RBack
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 7572292189952697116, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
       propertyPath: m_TagString
       value: StorageVolume
-      objectReference: {fileID: 0}
-    - target: {fileID: 9030083675827951303, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9030083675827951303, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9030083675827951303, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9030083675827951303, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
-      value: 0.121917516
-      objectReference: {fileID: 0}
-    - target: {fileID: 9030083675827951303, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].inSlope
-      value: 0.38320985
-      objectReference: {fileID: 0}
-    - target: {fileID: 9030083675827951303, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].outSlope
-      value: 0.38320985
-      objectReference: {fileID: 0}
-    - target: {fileID: 9030083675827951303, guid: a61515cf7c978eb4b8bf583eb836c74d, type: 3}
-      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].outWeight
-      value: 0.14656211
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2505,6 +2461,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e713cc5d09859b4fbd92568f534f7c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowPlace: 0
+  allowGrab: 0
+  PermitTag: 
 --- !u!114 &1365227521
 MonoBehaviour:
   m_ObjectHideFlags: 0
