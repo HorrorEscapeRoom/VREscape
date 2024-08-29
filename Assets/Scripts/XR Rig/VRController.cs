@@ -150,8 +150,12 @@ public class VRController : MonoBehaviour
         Vector3 headOrigin = transform.position + Vector3.up * 1.5f;
         Vector3 headDirection = Cam.position - headOrigin;
         Debug.DrawRay(headOrigin, headDirection, Color.red);
-        bool peeking = Physics.Raycast(headOrigin, headDirection, headDirection.magnitude + (headDirection.normalized * 0.2f).magnitude, 1 << 6);
-        Cam.GetComponent<Camera>().enabled = !peeking;
+        bool peeking = Physics.Raycast(headOrigin, headDirection, headDirection.magnitude, 1 << 6);
+
+        bool inWall = Physics.CheckSphere(Cam.position, 0.13f, 1 << 6);
+        bool isOOB = peeking || inWall;
+
+        Cam.GetComponent<Camera>().enabled = !isOOB;
     }
     Vector3 CalculatePosition(Vector3 camPosition, Vector3 offset, Vector3 flatRight, Vector3 flatForward)
     { return camPosition + offset.x * flatRight + offset.z * flatForward + Vector3.up * offset.y; }
