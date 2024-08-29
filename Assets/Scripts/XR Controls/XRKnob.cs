@@ -31,7 +31,15 @@ public class XRKnob : MonoBehaviour
 
 	float initGrabHandAngel = 0.0f;
 
-	float absAngle { get { return ReAngle(BaseAngle + angleOffset); } }
+	float absAngle { get {
+            float combin = BaseAngle + angleOffset;
+            if (hasLimits)
+            {
+                if (combin > maxLimitAngle) { combin = maxLimitAngle; }
+                if (combin < minLimitAngle) { combin = minLimitAngle; }
+            }
+            return ReAngle(combin);
+		} }
 
 
 	// Start is called before the first frame update
@@ -84,13 +92,8 @@ public class XRKnob : MonoBehaviour
 	}
 
     float ReAngle(float angle){
-		if (hasLimits) {
-			if (angle > maxLimitAngle) { angle = maxLimitAngle; }
-			if (angle < minLimitAngle) { angle = minLimitAngle; }
-		} else { 
-			if(angle < 0) { angle += 360; }
-			if(angle > 360) { angle -= 360; }
-		}
+		if(angle < 0) { angle += 360; }
+		if(angle > 360) { angle -= 360; }
 		return angle;
     }
 
