@@ -1,19 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
-using Unity.VisualScripting;
-using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
-using UnityEngine.WSA;
-using UnityEngine.XR;
-using static UnityEditor.FilePathAttribute;
 
 public class XRKnob : MonoBehaviour
 {
     [SerializeField] float UnGrabDistance = 0.1f;
-    public float value;
+    public float angle;
 	
 	public UnityEvent<float> OnValueChanged;
 
@@ -26,12 +17,7 @@ public class XRKnob : MonoBehaviour
     bool active = false;
     Transform hand, model;
 
-	float BaseAngle = 0.0f;
-	float angleOffset = 0.0f;
-
-	float initGrabHandAngel = 0.0f;
-
-	float absAngle { get { return ReAngle(BaseAngle + angleOffset); } }
+	float angleLastFrame = 0;
 
 
 	// Start is called before the first frame update
@@ -44,25 +30,34 @@ public class XRKnob : MonoBehaviour
     void Grabbed(Transform hand)
     {
         this.hand = hand;
-
-		initGrabHandAngel = GetHandThing();
-		
+		angleLastFrame =  GetHandThing();
         active = true;
     }
     void Released()
     {
-		BaseAngle = absAngle;
 		active = false; hand = null;
     }
     void Update(){
 
         if(active){
 
-			angleOffset = initGrabHandAngel - GetHandThing();
-
+			float currentAngle = GetHandThing();
+			float deltaAngle = currentAngle - angleLastFrame;
+			if(hasLimits){
+				if(deltaAngle + angle > maxLimitAngle){
+					angle = maxLimitAngle;
+				}else if(deltaAngle + angle < minLimitAngle){
+					angle = minLimitAngle;
+				}
+			}else{
+				angle += deltaAngle;
+				
+			}
+			angle = ReAngle(angle);
+			angleLastFrame = currentAngle;
 			UpdateMeshRotation();
 
-			OnValueChanged?.Invoke(absAngle);
+			OnValueChanged?.Invoke(angle);
             hud.DrawLine(transform.position, hand.position + hand.up, 0.02f, Color.red);
             if(Vector3.Distance(transform.position, hand.position) > UnGrabDistance){
                 Released();
@@ -71,26 +66,19 @@ public class XRKnob : MonoBehaviour
     }
 
 	void UpdateMeshRotation() {
-		model.localRotation = Quaternion.Euler(model.localRotation.eulerAngles.x, absAngle, model.localRotation.eulerAngles.z);
+		model.localRotation = Quaternion.Euler(model.localRotation.eulerAngles.x, angle, model.localRotation.eulerAngles.z);
 	}
 
 	float GetHandThing() {
-
-		Vector3 foobar = transform.InverseTransformPoint(hand.position + hand.up);
-		foobar.y = 0;
-		foobar.Normalize();
-
-		return Mathf.Atan2(foobar.z, foobar.x) * Mathf.Rad2Deg;
+		Vector3 handAngleInLocalSpace = transform.InverseTransformPoint(hand.position + hand.up);
+		handAngleInLocalSpace.y = 0;
+		handAngleInLocalSpace.Normalize();
+		return Mathf.Atan2(handAngleInLocalSpace.z, handAngleInLocalSpace.x) * Mathf.Rad2Deg;
 	}
 
     float ReAngle(float angle){
-		if (hasLimits) {
-			if (angle > maxLimitAngle) { angle = maxLimitAngle; }
-			if (angle < minLimitAngle) { angle = minLimitAngle; }
-		} else { 
-			if(angle < 0) { angle += 360; }
-			if(angle > 360) { angle -= 360; }
-		}
+		if(angle < 0) { angle += 360; }
+		if(angle > 360) { angle -= 360; }
 		return angle;
     }
 
