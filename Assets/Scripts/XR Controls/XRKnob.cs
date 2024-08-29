@@ -68,6 +68,7 @@ public class XRKnob : MonoBehaviour
 			if(angle - angleLastFrame > 15){
 				//we probably snapped Unexpectedly/ full rotation
 				Debug.Log($"snapped: last: {angleLastFrame}, current: {angle}, delta: {angle - angleLastFrame}");
+				angle = angleLastFrame;
 			}
 
 			deltaLastFrame = deltaAngle;
