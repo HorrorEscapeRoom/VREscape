@@ -25,6 +25,9 @@ public class XRKnob : MonoBehaviour
     {
         hud = FindObjectOfType<VRHudManager>();
         model = transform.GetChild(0);
+		if(hasLimits){
+			angle = Mathf.Clamp(angle, minLimitAngle, maxLimitAngle);
+		}
 		UpdateMeshRotation();
 	}
     void Grabbed(Transform hand)
@@ -43,14 +46,15 @@ public class XRKnob : MonoBehaviour
 
 			float currentAngle = GetHandThing();
 			float deltaAngle = currentAngle - angleLastFrame;
-			deltaAngle *= -1f;
 			if(hasLimits){
 				if(deltaAngle + angle > maxLimitAngle){
-					Debug.Log($"angle: {angle}, deltaAngle: {deltaAngle},sum {angle + deltaAngle} exceedes max: {maxLimitAngle}");
+					Debug.Log($"base:{angle}, delta:{deltaAngle}, sum:{angle + deltaAngle} exceedes max: {maxLimitAngle}");
 					angle = maxLimitAngle;
 				}else if(deltaAngle + angle < minLimitAngle){
-					Debug.Log($"angle: {angle}, deltaAngle: {deltaAngle},sum {angle + deltaAngle} is less than min: {minLimitAngle}");
+					Debug.Log($"base: {angle}, delta:{deltaAngle}, sum:{angle + deltaAngle} is less than min: {minLimitAngle}");
 					angle = minLimitAngle;
+				}else{
+					angle += deltaAngle;
 				}
 			}else{
 				angle += deltaAngle;
@@ -68,7 +72,7 @@ public class XRKnob : MonoBehaviour
     }
 
 	void UpdateMeshRotation() {
-		model.localRotation = Quaternion.Euler(model.localRotation.eulerAngles.x, angle, model.localRotation.eulerAngles.z);
+		model.localRotation = Quaternion.Euler(model.localRotation.eulerAngles.x, -angle, model.localRotation.eulerAngles.z);
 	}
 
 	float GetHandThing() {
