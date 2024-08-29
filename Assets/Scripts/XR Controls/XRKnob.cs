@@ -4,19 +4,22 @@ using UnityEngine.Events;
 public class XRKnob : MonoBehaviour
 {
     [SerializeField] float UnGrabDistance = 0.1f;
-    public float angle;
+    [SerializeField] float angle;
 	
 	public UnityEvent<float> OnValueChanged;
 
-	public bool hasLimits = false;
-	public float minLimitAngle = 0.0f;
-	public float maxLimitAngle = 360.0f;
+	[SerializeField] bool hasLimits = false;
+	[SerializeField] float minLimitAngle = 0.0f;
+	[SerializeField] float maxLimitAngle = 360.0f;
 	
 
 	VRHudManager hud;
     bool active = false;
     Transform hand, model;
 
+	float handAngleLastFrame = 0;
+
+	float deltaLastFrame = 0;
 	float angleLastFrame = 0;
 
 
@@ -33,7 +36,7 @@ public class XRKnob : MonoBehaviour
     void Grabbed(Transform hand)
     {
         this.hand = hand;
-		angleLastFrame =  GetHandThing();
+		handAngleLastFrame =  GetHandThing();
         active = true;
     }
     void Released()
@@ -45,13 +48,13 @@ public class XRKnob : MonoBehaviour
         if(active){
 
 			float currentAngle = GetHandThing();
-			float deltaAngle = currentAngle - angleLastFrame;
+			float deltaAngle = currentAngle - handAngleLastFrame;
 			if(hasLimits){
 				if(deltaAngle + angle > maxLimitAngle){
-					Debug.Log($"base:{angle}, delta:{deltaAngle}, sum:{angle + deltaAngle} exceedes max: {maxLimitAngle}");
+					//Debug.Log($"base:{angle}, delta:{deltaAngle}, sum:{angle + deltaAngle} exceedes max: {maxLimitAngle}");
 					angle = maxLimitAngle;
 				}else if(deltaAngle + angle < minLimitAngle){
-					Debug.Log($"base: {angle}, delta:{deltaAngle}, sum:{angle + deltaAngle} is less than min: {minLimitAngle}");
+					//Debug.Log($"base: {angle}, delta:{deltaAngle}, sum:{angle + deltaAngle} is less than min: {minLimitAngle}");
 					angle = minLimitAngle;
 				}else{
 					angle += deltaAngle;
@@ -60,7 +63,16 @@ public class XRKnob : MonoBehaviour
 				angle += deltaAngle;
 			}
 			angle = ReAngle(angle);
-			angleLastFrame = currentAngle;
+			handAngleLastFrame = currentAngle;
+
+			if(angle - angleLastFrame > 15){
+				//we probably snapped Unexpectedly/ full rotation
+				Debug.Log($"snapped: last: {angleLastFrame}, current: {angle}, delta: {angle - angleLastFrame}");
+			}
+
+			deltaLastFrame = deltaAngle;
+			angleLastFrame = angle;
+
 			UpdateMeshRotation();
 
 			OnValueChanged?.Invoke(angle);
@@ -83,8 +95,8 @@ public class XRKnob : MonoBehaviour
 	}
 
     float ReAngle(float angle){
-		if(angle < 0) { angle += 360; }
-		if(angle > 360) { angle -= 360; }
+		while(angle < 0) { angle += 360; }
+		while(angle > 360) { angle -= 360; }
 		return angle;
     }
 
