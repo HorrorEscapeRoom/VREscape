@@ -6,11 +6,11 @@ public class HandItemTracker : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] Hand hand;
-    List<Collider> touchingObj = new List<Collider>(),
+    public List<Collider> touchingObj = new List<Collider>(),
     touchingContactPoints = new List<Collider>(),
     touchingControls = new List<Collider>();
     HoldType holdID = HoldType.None;
-    Transform heldItem;
+    public Transform heldItem;
     IInput input;
     Vector3 lastPos;
     VRHudManager hud;
