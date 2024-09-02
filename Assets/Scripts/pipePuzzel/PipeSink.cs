@@ -10,6 +10,10 @@ public class PipeSink : MonoBehaviour
         
     }
 
+    void DoSinkAnimation() { 
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
