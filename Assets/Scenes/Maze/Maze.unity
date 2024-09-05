@@ -1008,6 +1008,14 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: -1486180375544387876, guid: 8e36718dbd8a0c2459b0b2809837cf06, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -516098083770646512, guid: 8e36718dbd8a0c2459b0b2809837cf06, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8e36718dbd8a0c2459b0b2809837cf06, type: 3}
       propertyPath: m_Name
       value: Maze
@@ -1045,6 +1053,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -2816680098373195539, guid: 8e36718dbd8a0c2459b0b2809837cf06, type: 3}
       insertIndex: -1
       addedObject: {fileID: 826009606}
+    - targetCorrespondingSourceObject: {fileID: -1486180375544387876, guid: 8e36718dbd8a0c2459b0b2809837cf06, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2079634056}
   m_SourcePrefab: {fileID: 100100000, guid: 8e36718dbd8a0c2459b0b2809837cf06, type: 3}
 --- !u!4 &826009603 stripped
 Transform:
@@ -2632,6 +2643,33 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &2079634055 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -1486180375544387876, guid: 8e36718dbd8a0c2459b0b2809837cf06, type: 3}
+  m_PrefabInstance: {fileID: 826009602}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &2079634056
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079634055}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1181871209767145106, guid: 8e36718dbd8a0c2459b0b2809837cf06, type: 3}
 --- !u!1001 &5460686669542605186
 PrefabInstance:
   m_ObjectHideFlags: 0
