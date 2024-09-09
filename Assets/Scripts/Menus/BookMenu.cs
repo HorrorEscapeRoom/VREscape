@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class BookMenu : MonoBehaviour
 {
+    public ObjectivesManager manager;
     public TextMeshProUGUI text;
     public XRSlider xrSlider;
     public Slider uiSlider;
@@ -39,7 +40,7 @@ public class BookMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        manager.OnValueChanged.AddListener(UpdateObjectivesGui);
     }
 
     // Update is called once per frame

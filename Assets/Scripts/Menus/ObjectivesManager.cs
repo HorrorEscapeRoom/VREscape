@@ -8,7 +8,7 @@ using UnityEngine.Events;
 [CreateAssetMenu()]
 public class ObjectivesManager : ScriptableObject
 {
-    private List<Objective> objectives;
+    private List<Objective> objectives = new List<Objective>();
 
     public UnityEvent<List<Objective>> OnValueChanged;
     
@@ -37,7 +37,7 @@ public class ObjectivesManager : ScriptableObject
     public void AddObjective(int id, string title, string text)
     {
         Objective objective = objectives.Find(x => x.id == id);
-        if ( objective != null )
+        if ( objective == null )
         {   
             objective = new Objective(id, title, text);
             objectives.Add(objective);
