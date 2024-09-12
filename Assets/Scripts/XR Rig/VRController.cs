@@ -5,13 +5,12 @@ using UnityEngine.XR;
 
 public class VRController : MonoBehaviour
 {
-    [SerializeField] Transform NeckPivot,Cam, LHand, RHand, teleportTarget, posMat;
+    [SerializeField] Transform NeckPivot, Cam, LHand, RHand, teleportTarget, posMat;
     [SerializeField] Transform LHip, RHip, LChest, RChest, LSholder, RSholder;
-    [SerializeField] GameObject PeekBlocker;
     [SerializeField] float speed = 8.0f, jumpForce = 18.0f;
     Transform teleportAimObject;
     Vector3 teleportEndPosition;
-    bool teleporting = false, validTeleportTarget = false, inPeek = false;
+    bool teleporting = false, validTeleportTarget = false;
     LineRenderer line;
     Rigidbody rb;
     VRHudManager hud;
@@ -85,10 +84,11 @@ public class VRController : MonoBehaviour
     void Update()
     {
         UpdatePositions();
-        DrawTeleportTrace();   
+        DrawTeleportTrace();
+        NoPeek(); //Disabled For Main compatibility
     }
     void FixedUpdate(){
-        //NoPeek(); //Disabled For Main compatibility
+        
     }
     void DrawTeleportTrace(){
         if(teleporting){
@@ -147,33 +147,15 @@ public class VRController : MonoBehaviour
         RSholder.position = CalculatePosition(NeckPivot.position, new Vector3(-sholderOffset.x, sholderOffset.y, sholderOffset.z), flatRight, flatForward);
     }
     void NoPeek(){
-        Vector3 headPos = Cam.position;
-        Vector3 headDelta = headPos - lastheadPos;
-        bool hit = Physics.Raycast(lastheadPos, -headDelta, headDelta.magnitude, 1 << 6);
-        if(inPeek){
-            hud.DrawLine(headPos, lastheadPos, 3f, Color.red);
-            if(!hit){
-                PeekBlocker.SetActive(false);
-                inPeek = false;
-            }
-            else{
-                //if we are somehow a meter away from the wall, reset the last head pos
-                if(Vector3.Distance(headPos, lastheadPos) > 1f){
-                    lastheadPos = headPos;
-                    inPeek = false;
-                }
-            }
-        }else{
-            //raycast from head to head + delta
-            hud.DrawLine(headPos, lastheadPos, 3f, Color.green);
-            if(hit){
-                //if we hit something, move the player back
-                PeekBlocker.SetActive(true);
-                inPeek = true;
-            }else{
-                lastheadPos = headPos;
-            }
-        }
+        Vector3 headOrigin = transform.position + Vector3.up * 1.5f;
+        Vector3 headDirection = Cam.position - headOrigin;
+        Debug.DrawRay(headOrigin, headDirection, Color.red);
+        bool peeking = Physics.Raycast(headOrigin, headDirection, headDirection.magnitude, 1 << 6);
+
+        bool inWall = Physics.CheckSphere(Cam.position, 0.13f, 1 << 6);
+        bool isOOB = peeking || inWall;
+
+        Cam.GetComponent<Camera>().enabled = !isOOB;
     }
     Vector3 CalculatePosition(Vector3 camPosition, Vector3 offset, Vector3 flatRight, Vector3 flatForward)
     { return camPosition + offset.x * flatRight + offset.z * flatForward + Vector3.up * offset.y; }

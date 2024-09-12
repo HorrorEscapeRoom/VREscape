@@ -12,7 +12,7 @@ public class LightSense : MonoBehaviour
     void Start()
     {
         torch = FindFirstObjectByType<FlashlightController>().transform;
-        OnLightSense.Invoke(0);
+        OnLightSense?.Invoke(0);
     }
     // Update is called once per frame
     void Update()
