@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -19,7 +20,7 @@ public class BookMenu : MonoBehaviour
         foreach ( Objective obj in objectives )
         {
             objesctivesText += obj.title + "\n";
-            objesctivesText += "- " + obj.text;
+            objesctivesText += "- " + obj.text + "\n";
         }
 
         text.text = objesctivesText;
@@ -37,16 +38,11 @@ public class BookMenu : MonoBehaviour
         print(uiSlider.value);
         // audioSource.volume = uiSlider.value;
     }
+
     // Start is called before the first frame update
     void Start()
     {
-        manager.OnValueChanged.AddListener(UpdateObjectivesGui);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        manager.AddListenerToEvent(UpdateObjectivesGui);
     }
 
     public void QuitGame()

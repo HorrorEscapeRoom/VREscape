@@ -10,7 +10,12 @@ public class ObjectivesManager : ScriptableObject
 {
     private List<Objective> objectives = new List<Objective>();
 
-    public UnityEvent<List<Objective>> OnValueChanged;
+    private UnityEvent<List<Objective>> OnValueChanged = new UnityEvent<List<Objective>>();
+
+    public void AddListenerToEvent(UnityAction<List<Objective>> call)
+    {
+        OnValueChanged.AddListener(call);
+    }
     
     public void ModifyObjective(int id, string title, string text)
     {
@@ -69,7 +74,7 @@ public class ObjectivesManager : ScriptableObject
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
