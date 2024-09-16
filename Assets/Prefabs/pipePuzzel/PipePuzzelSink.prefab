@@ -107,6 +107,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1790821225370493183
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2645414038153081983}
+  m_Layer: 0
+  m_Name: tap_hole
+  m_TagString: Untagged
+  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2645414038153081983
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790821225370493183}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.018, y: 0.832, z: -0.005}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1109038908136670323}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3463719953873322177
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,6 +281,7 @@ Transform:
   - {fileID: 4487123164107469056}
   - {fileID: 8514520781674414978}
   - {fileID: 7223581431562216061}
+  - {fileID: 2645414038153081983}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &517148127900582009
@@ -266,6 +298,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   display_water: {fileID: 7504971409163489300}
   waterSource: {fileID: 0}
+  KeyPrefab: {fileID: 6743979937053116214, guid: c5f29ccba011fbf4cb6c11c656b43892, type: 3}
+  streamPrefab: {fileID: 5238570228697279498, guid: 687fe5b6c1388c34882009636030b3c7, type: 3}
+  Tap_hole_loaction: {fileID: 2645414038153081983}
 --- !u!1 &5968265328207038263
 GameObject:
   m_ObjectHideFlags: 0
