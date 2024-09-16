@@ -2666,6 +2666,7 @@ MonoBehaviour:
   finishedResult: {fileID: 329172266}
   resultLocation: {fileID: 1215379903}
   solutionResult: {fileID: 1687945614}
+  solutionResultPerfect: {fileID: 1335453166}
   solutionMaterial: {fileID: 2100000, guid: 712aee9fc747986428e5ae2f89b27ba0, type: 2}
   solutionAmount: 0
   resultIsFluid: 1
@@ -3646,8 +3647,9 @@ MonoBehaviour:
   currentIngredients:
   - {fileID: 1628591572}
   - {fileID: 1157990319}
-  - {fileID: 0}
+  - {fileID: 1782882066}
   puzzleSolvedItem: {fileID: 329172267}
+  puzzlePerfectSolvedItem: {fileID: 1550640345}
   SolvedLocation: {fileID: 1183292468}
   solutionItems:
   - {fileID: 1628591572}
@@ -4295,6 +4297,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1998055812}
     m_Modifications:
+    - target: {fileID: 5062531105454868772, guid: 8a98a2ae28974d4479c0c2bc4f6fa4a9, type: 3}
+      propertyPath: fillAmount
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 5062531105454868772, guid: 8a98a2ae28974d4479c0c2bc4f6fa4a9, type: 3}
+      propertyPath: ingredient
+      value: Perfect Fuel
+      objectReference: {fileID: 0}
     - target: {fileID: 6644932697034255870, guid: 8a98a2ae28974d4479c0c2bc4f6fa4a9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.6
@@ -5489,7 +5499,7 @@ GameObject:
   - component: {fileID: 1782882072}
   - component: {fileID: 1782882071}
   m_Layer: 0
-  m_Name: AlchemyIngredient 4
+  m_Name: AlchemyPerfectSolvedItem
   m_TagString: XRItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5864,6 +5874,7 @@ MonoBehaviour:
   finishedResult: {fileID: 329172266}
   resultLocation: {fileID: 1215379903}
   solutionResult: {fileID: 0}
+  solutionResultPerfect: {fileID: 0}
   solutionMaterial: {fileID: 0}
   solutionAmount: 0
   resultIsFluid: 0

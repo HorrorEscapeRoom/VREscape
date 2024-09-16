@@ -10,6 +10,7 @@ public class AlchemyPouring : MonoBehaviour
     public GameObject finishedResult;
     public StorageVolume resultLocation;
     public AlchemyIngredient solutionResult;
+    public AlchemyIngredient solutionResultPerfect;
     public Material solutionMaterial;
     public float solutionAmount;
     public bool resultIsFluid = false;
@@ -101,12 +102,13 @@ public class AlchemyPouring : MonoBehaviour
                 }*/
                 if(itemAmounts.All(val => val >= maxFill))
                 {
-                    PuzzleSolved();
+                    PuzzleSolved(true);
+                    Debug.Log("Alchemy Puzzle Solved - Pouring Perfect Ingredients");
                 }
             }
             else
             {
-                PuzzleSolved();
+                PuzzleSolved(true);
             }                     
         }
         else
@@ -116,25 +118,35 @@ public class AlchemyPouring : MonoBehaviour
             {
                 if(itemAmounts.All(val => val >= maxFill))
                 {
-                    ResetItems();
-                    print("Ingredients Incorrect - Puzzle Failed");
-                    VisualFill();
+                    Debug.Log("Alchemy Puzzle Solved - Pouring Incorrect Ingredients");
+                    PuzzleSolved(false);
+                    //ResetItems();
+                    //print("Ingredients Incorrect - Puzzle Failed");
+                    //VisualFill();
                     //TODO: Smoke/Fizzle effect
                 }
             }       
         }
     }
 
-    public void PuzzleSolved()
+    public void PuzzleSolved(bool perfectCompletion)
     {
         if (!puzzleSolved)
         {            
-            Debug.Log("Alchemy Puzzle Solved");
+            //Debug.Log("Alchemy Puzzle Solved");
             if (resultIsFluid)
             {
                 solutionAmount = maxFill * InputItems.Count;
                 //Set this puzzles Alch ingr to the solution
-                gameObject.GetComponent<AlchemyIngredient>().ingredient = solutionResult.ingredient;
+                if(perfectCompletion)
+                {
+                    gameObject.GetComponent<AlchemyIngredient>().ingredient = solutionResultPerfect.ingredient;
+                }
+                else
+                {
+                    gameObject.GetComponent<AlchemyIngredient>().ingredient = solutionResult.ingredient;
+                }
+                
                 gameObject.GetComponent<AlchemyIngredient>().fillAmount = solutionAmount;
                 gameObject.GetComponent<PourDetector>().SetFluid(solutionResult);
                 if(solutionMaterial != null) //Set fluid Shader
