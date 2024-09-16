@@ -19,7 +19,7 @@ public class AlchemyPouring : MonoBehaviour
 
     public float maxFill = 200f;
     public bool useFill = false;
-    public GameObject fillObj;
+    public Liquid liquid;
 
     public List<AlchemyIngredient> InputItems;
     public List<float> itemAmounts;
@@ -151,7 +151,7 @@ public class AlchemyPouring : MonoBehaviour
                 gameObject.GetComponent<PourDetector>().SetFluid(solutionResult);
                 if(solutionMaterial != null) //Set fluid Shader
                 {
-                    fillObj.GetComponent<MeshRenderer>().material = solutionMaterial;
+                    liquid.GetComponent<MeshRenderer>().material = solutionMaterial;
                 }
             }
             else
@@ -177,11 +177,12 @@ public class AlchemyPouring : MonoBehaviour
 
     void VisualFill()
     {
-        if (fillObj == null)
+        if (liquid == null)
             return;
+        float totalFillAmount = itemAmounts.Sum(x => x);
 
         //Using which ever object
-        if (!puzzleSolved)
+        /*if (!puzzleSolved)
         {
             float totalFillAmount = itemAmounts.Sum(x => x);//InputItems.Sum(x => x.fillAmount);
 
@@ -192,11 +193,15 @@ public class AlchemyPouring : MonoBehaviour
         else if (puzzleSolved)
         {            
             fillObj.transform.localScale = new Vector3(0.8f, (solutionAmount / (maxFill * SolutionItems.Count))-0.1f, 0.8f);
-        }
+        }*/
         //Using liquid shader
         /*if (liquid != null)// 0.3 is Full 0.7 is empty
         {
-            liquid.fillAmount = Mathf.Lerp(0.65f, 0.4f, (fluid.fillAmount / maxFluidAmount));
+            liquid.fillAmount = Mathf.Lerp(0.65f, 0.4f, (solutionResult.fillAmount / totalFillAmount));
         }*/
+        if(!puzzleSolved)
+        {
+            liquid.fillAmount = Mathf.Lerp(0.7f, 0.3f, (totalFillAmount/ (maxFill*3)));
+        }
     }
 }

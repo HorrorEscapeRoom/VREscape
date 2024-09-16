@@ -507,7 +507,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 21a901ce36865a6418b30e38b87ec403, type: 2}
+  - {fileID: 2100000, guid: 7f94fd2b413f44e4294451ec8da879ba, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2602,7 +2602,7 @@ MonoBehaviour:
   onlyEmptyWhenFilling: 0
   maxFluidAmount: 600
   fluid: {fileID: 833296590}
-  liquid: {fileID: 0}
+  liquid: {fileID: 148453526}
 --- !u!54 &833296587
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2673,7 +2673,7 @@ MonoBehaviour:
   maxInputItemCount: 3
   maxFill: 200
   useFill: 1
-  fillObj: {fileID: 148453520}
+  liquid: {fileID: 148453526}
   InputItems: []
   itemAmounts: []
   SolutionItems:
@@ -3647,7 +3647,7 @@ MonoBehaviour:
   currentIngredients:
   - {fileID: 1628591572}
   - {fileID: 1157990319}
-  - {fileID: 1782882066}
+  - {fileID: 1727981906}
   puzzleSolvedItem: {fileID: 329172267}
   puzzlePerfectSolvedItem: {fileID: 1550640345}
   SolvedLocation: {fileID: 1183292468}
@@ -4485,33 +4485,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1411335178 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6414387836005185187, guid: 7f3a7d27314e27a4db544b3fcd7d2e4c, type: 3}
-  m_PrefabInstance: {fileID: 1896960525}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1411335179 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5931147715053136921, guid: 7f3a7d27314e27a4db544b3fcd7d2e4c, type: 3}
   m_PrefabInstance: {fileID: 1896960525}
   m_PrefabAsset: {fileID: 0}
---- !u!111 &1411335180
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1411335178}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Animation: {fileID: 7400000, guid: 41a427e5e41598f4c913ead1aac161a0, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 41a427e5e41598f4c913ead1aac161a0, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_UpdateMode: 0
-  m_CullingType: 0
 --- !u!1 &1497622115
 GameObject:
   m_ObjectHideFlags: 0
@@ -5881,7 +5859,7 @@ MonoBehaviour:
   maxInputItemCount: 3
   maxFill: 200
   useFill: 0
-  fillObj: {fileID: 148453520}
+  liquid: {fileID: 0}
   InputItems: []
   itemAmounts: []
   SolutionItems: []
@@ -5941,6 +5919,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1998055812}
     m_Modifications:
+    - target: {fileID: 130506069812676255, guid: 7f3a7d27314e27a4db544b3fcd7d2e4c, type: 3}
+      propertyPath: onlyEmptyWhenFilling
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1331863580885552904, guid: 7f3a7d27314e27a4db544b3fcd7d2e4c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -5959,7 +5941,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5931147715053136921, guid: 7f3a7d27314e27a4db544b3fcd7d2e4c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.111
+      value: 0.11
       objectReference: {fileID: 0}
     - target: {fileID: 5931147715053136921, guid: 7f3a7d27314e27a4db544b3fcd7d2e4c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6008,10 +5990,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6414387836005185187, guid: 7f3a7d27314e27a4db544b3fcd7d2e4c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1411335180}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f3a7d27314e27a4db544b3fcd7d2e4c, type: 3}
 --- !u!1 &1903977412
 GameObject:
