@@ -54,8 +54,7 @@ public class AlchemicalCauldron : MonoBehaviour
         }
         else if(currentItems.Count >= solutionItems.Count)
         {
-            ResetPuzzle();
-            print("Ingredients Incorrect");
+            PuzzleSolved(false);
         }
     }
 
