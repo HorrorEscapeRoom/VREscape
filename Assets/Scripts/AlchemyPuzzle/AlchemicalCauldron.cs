@@ -6,6 +6,7 @@ using UnityEngine;
 public class AlchemicalCauldron : MonoBehaviour
 {        
     public GameObject finishedResult;
+    public GameObject finishedResultPerfect;
     public StorageVolume resultLocation;
 
     public List<AlchemyIngredient> currentItems;
@@ -49,7 +50,7 @@ public class AlchemicalCauldron : MonoBehaviour
     {
         if (currentItems.ContainsAll(solutionItems))
         {
-            PuzzleSolved();
+            PuzzleSolved(true);
         }
         else if(currentItems.Count >= solutionItems.Count)
         {
@@ -59,16 +60,24 @@ public class AlchemicalCauldron : MonoBehaviour
     }
 
 
-    public void PuzzleSolved()
+    public void PuzzleSolved(bool perfectSolution)
     {
         if (puzzleSolved != true)
         {
-            print("Alchemy Puzzle Solved");
-            resultLocation.SetItem(Instantiate(finishedResult.transform));
+            if(perfectSolution)
+            {
+                print("Alchemy Cauldron Puzzle Solved Perfectly");
+                resultLocation.SetItem(Instantiate(finishedResultPerfect.transform));
+            }
+            else
+            {
+                print("Alchemy Cauldron Puzzle Solved Poorly");
+                resultLocation.SetItem(Instantiate(finishedResult.transform));
+            }
+            
             puzzleSolved = true;
 
             //Clears variables and Destroy objects
-            /*item1 = null; item2 = null; item3 = null;*/
             ResetPuzzle();
         }
     }
