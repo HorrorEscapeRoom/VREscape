@@ -20,6 +20,6 @@ public class PipeSink : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		display_water.fillAmount = waterSource.amount;
+		display_water.fillAmount = 1-waterSource.amount;
 	}
 }

@@ -7,8 +7,8 @@ using static PipePuzzelSystem;
 public class PipePuzzelLiquidHolder : MonoBehaviour
 {
 
-	public float constAmount = 0.0f;
-	public float choke = 1.0f;
+	public float constAmount = 0.0f; // the scale is 0 - 1
+	public float choke = 1.0f; // 1 will let 100% thogre
 
 	public void NewChoke(float NewChoke) {
 		choke = NewChoke/360;
@@ -24,7 +24,7 @@ public class PipePuzzelLiquidHolder : MonoBehaviour
 				sum += liquid_source[i].amount;
 			}
 			float ret = sum + constAmount;			
-			return Mathf.Clamp(ret, 0, choke);
+			return Mathf.Clamp(ret, -choke, choke);
 		}
 	}
 	public List<PipePuzzelLiquidHolder> liquid_source = new List<PipePuzzelLiquidHolder>() { };
