@@ -12,6 +12,7 @@ public class AlchemyPouring : MonoBehaviour
     public AlchemyIngredient solutionResult;
     public AlchemyIngredient solutionResultPerfect;
     public Material solutionMaterial;
+    public Material solutionMaterialPerfect;
     public float solutionAmount;
     public bool resultIsFluid = false;
 
@@ -141,18 +142,22 @@ public class AlchemyPouring : MonoBehaviour
                 if(perfectCompletion)
                 {
                     gameObject.GetComponent<AlchemyIngredient>().ingredient = solutionResultPerfect.ingredient;
+                    if (solutionMaterialPerfect != null) //Set fluid Shader
+                    {
+                        liquid.GetComponent<MeshRenderer>().material = solutionMaterialPerfect;
+                    }
                 }
                 else
                 {
                     gameObject.GetComponent<AlchemyIngredient>().ingredient = solutionResult.ingredient;
+                    if (solutionMaterial != null) //Set fluid Shader
+                    {
+                        liquid.GetComponent<MeshRenderer>().material = solutionMaterial;
+                    }
                 }
                 
                 gameObject.GetComponent<AlchemyIngredient>().fillAmount = solutionAmount;
                 gameObject.GetComponent<PourDetector>().SetFluid(solutionResult);
-                if(solutionMaterial != null) //Set fluid Shader
-                {
-                    liquid.GetComponent<MeshRenderer>().material = solutionMaterial;
-                }
             }
             else
             {
