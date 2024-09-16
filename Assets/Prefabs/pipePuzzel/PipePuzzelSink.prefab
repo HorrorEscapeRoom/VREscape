@@ -264,7 +264,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 506f144e9716d694292f97a589c15584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  water: {fileID: 7504971409163489300}
+  display_water: {fileID: 7504971409163489300}
+  waterSource: {fileID: 0}
 --- !u!1 &5968265328207038263
 GameObject:
   m_ObjectHideFlags: 0

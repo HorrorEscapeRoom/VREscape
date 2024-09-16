@@ -19,24 +19,21 @@ public class PipePuzzelLiquidHolder : MonoBehaviour
 		get
 		{
 			float sum = 0;
-			for (int i = 0; i < childen.Count; i++)
+			for (int i = 0; i < liquid_source.Count; i++)
 			{
-				sum += childen[i].amount;
+				sum += liquid_source[i].amount;
 			}
 			float ret = sum + constAmount;			
 			return Mathf.Clamp(ret, 0, choke);
 		}
 	}
-	List<PipePuzzelLiquidHolder> childen = new List<PipePuzzelLiquidHolder>() { };
-	public List<GameObject> childenObjects;
+	public List<PipePuzzelLiquidHolder> liquid_source = new List<PipePuzzelLiquidHolder>() { };
 
 	public void Start() {
-		foreach (GameObject childenObject in childenObjects) {
-			childen.Add(childenObject.GetComponent<PipePuzzelLiquidHolder>());
-		}
+
 	}
 
-	 void Update() {
+	void Update() {
 		Gauge?.UpdateGauge(amount); // for testing remove me
 	}
 
