@@ -5,7 +5,7 @@ using UnityEngine.XR;
 
 public class VRController : MonoBehaviour
 {
-    [SerializeField] Transform cam, LHand, RHand, teleportTarget;
+    [SerializeField] Transform NeckPivot, Cam, LHand, RHand, teleportTarget, posMat;
     [SerializeField] Transform LHip, RHip, LChest, RChest, LSholder, RSholder;
     [SerializeField] float speed = 8.0f, jumpForce = 18.0f;
     Transform teleportAimObject;
@@ -14,16 +14,17 @@ public class VRController : MonoBehaviour
     LineRenderer line;
     Rigidbody rb;
     VRHudManager hud;
+    Vector3 lastheadPos;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         line = GetComponent<LineRenderer>();
-        hud = FindObjectOfType<VRHudManager>();
+        hud = FindFirstObjectByType<VRHudManager>();
     }
     public void Move(Vector2 input){
-        Vector3 forward = cam.forward;
-        Vector3 right = cam.right;
+        Vector3 forward = NeckPivot.forward;
+        Vector3 right = NeckPivot.right;
         forward.y = 0;
         right.y = 0;
         forward.Normalize();
@@ -37,6 +38,10 @@ public class VRController : MonoBehaviour
         Vector3 euler = transform.eulerAngles;
         euler.y += angle;
         transform.eulerAngles = euler;
+        //roate the posMat the opposite direction
+        euler = posMat.eulerAngles;
+        euler.y -= angle;
+        posMat.eulerAngles = euler;
     }
     public void InitiateTeleport(Transform pointer){
         line.enabled = true;
@@ -71,7 +76,7 @@ public class VRController : MonoBehaviour
         }
     }
     public void LogOffsetFromHead(Vector3 position){
-        Vector3 offset = position - cam.position;
+        Vector3 offset = position - NeckPivot.position;
         hud.Debug($"Offset: {offset}");
     }
 
@@ -79,12 +84,16 @@ public class VRController : MonoBehaviour
     void Update()
     {
         UpdatePositions();
-        DrawTeleportTrace();        
+        DrawTeleportTrace();
+        NoPeek(); //Disabled For Main compatibility
+    }
+    void FixedUpdate(){
+        
     }
     void DrawTeleportTrace(){
         if(teleporting){
             Vector3 startPos = teleportAimObject.position;
-            Vector3 startDir = teleportAimObject.forward;
+            Vector3 startDir = -teleportAimObject.forward;
             int maxIterations = 100;
             float maxDistance = 0.1f;
             bool foundMap = false;
@@ -121,21 +130,32 @@ public class VRController : MonoBehaviour
     }
     void UpdatePositions()
     {
-        Vector3 flatForward = new Vector3(cam.forward.x, 0, cam.forward.z).normalized;
-        Vector3 flatRight = new Vector3(cam.right.x, 0, cam.right.z).normalized;
+        Vector3 flatForward = new Vector3(NeckPivot.forward.x, 0, NeckPivot.forward.z).normalized;
+        Vector3 flatRight = new Vector3(NeckPivot.right.x, 0, NeckPivot.right.z).normalized;
         //offset based on camera forward and right
         Vector3 hipOffset = new Vector3(0.2f, -0.70f, -0.02f);
         Vector3 chestOffset = new Vector3(0.11f, -0.37f, 0.07f);
         Vector3 sholderOffset = new Vector3(-0.14f, 0f, 0.0f);
 
-        LHip.position = CalculatePosition(cam.position, hipOffset, flatRight, flatForward);
-        RHip.position = CalculatePosition(cam.position, new Vector3(-hipOffset.x, hipOffset.y, hipOffset.z), flatRight, flatForward);
+        LHip.position = CalculatePosition(NeckPivot.position, hipOffset, flatRight, flatForward);
+        RHip.position = CalculatePosition(NeckPivot.position, new Vector3(-hipOffset.x, hipOffset.y, hipOffset.z), flatRight, flatForward);
 
-        LChest.position = CalculatePosition(cam.position, chestOffset, flatRight, flatForward);
-        RChest.position = CalculatePosition(cam.position, new Vector3(-chestOffset.x, chestOffset.y, chestOffset.z), flatRight, flatForward);
+        LChest.position = CalculatePosition(NeckPivot.position, chestOffset, flatRight, flatForward);
+        RChest.position = CalculatePosition(NeckPivot.position, new Vector3(-chestOffset.x, chestOffset.y, chestOffset.z), flatRight, flatForward);
 
-        LSholder.position = CalculatePosition(cam.position, sholderOffset, flatRight, flatForward);
-        RSholder.position = CalculatePosition(cam.position, new Vector3(-sholderOffset.x, sholderOffset.y, sholderOffset.z), flatRight, flatForward);
+        LSholder.position = CalculatePosition(NeckPivot.position, sholderOffset, flatRight, flatForward);
+        RSholder.position = CalculatePosition(NeckPivot.position, new Vector3(-sholderOffset.x, sholderOffset.y, sholderOffset.z), flatRight, flatForward);
+    }
+    void NoPeek(){
+        Vector3 headOrigin = transform.position + Vector3.up * 1.5f;
+        Vector3 headDirection = Cam.position - headOrigin;
+        Debug.DrawRay(headOrigin, headDirection, Color.red);
+        bool peeking = Physics.Raycast(headOrigin, headDirection, headDirection.magnitude, 1 << 6);
+
+        bool inWall = Physics.CheckSphere(Cam.position, 0.13f, 1 << 6);
+        bool isOOB = peeking || inWall;
+
+        Cam.GetComponent<Camera>().enabled = !isOOB;
     }
     Vector3 CalculatePosition(Vector3 camPosition, Vector3 offset, Vector3 flatRight, Vector3 flatForward)
     { return camPosition + offset.x * flatRight + offset.z * flatForward + Vector3.up * offset.y; }
