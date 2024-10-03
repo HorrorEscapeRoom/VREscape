@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class PourDetector : MonoBehaviour
@@ -67,7 +68,8 @@ public class PourDetector : MonoBehaviour
         }
         else
         {
-            return transform.forward.z * Mathf.Rad2Deg;
+            float[] currentPourAngles = { transform.forward.z * Mathf.Rad2Deg, transform.right.x * Mathf.Rad2Deg };
+            return currentPourAngles.Min();
         }
     }
 

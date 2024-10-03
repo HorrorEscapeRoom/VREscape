@@ -62,27 +62,31 @@ public class AlchemyPouring : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        var newItem = other.GetComponentInParent<AlchemyIngredient>();
-
-        var whatever = InputItems.FirstOrDefault(x => x.name == newItem.name);
-        var index = InputItems.IndexOf(newItem);
-
-        if (whatever == null)         
+        if(other.GetComponentInParent<AlchemyIngredient>() != null)
         {
-            return;
-        }
+
+            var newItem = other.GetComponentInParent<AlchemyIngredient>();
+
+            var whatever = InputItems.FirstOrDefault(x => x.name == newItem.name);
+            var index = InputItems.IndexOf(newItem);
+
+            if (whatever == null)         
+            {
+                return;
+            }
         
-        /*if (whatever.fillAmount < maxFill)
-        {
-            whatever.fillAmount += 1f;
-        }*/
-        if (itemAmounts[index] < maxFill)
-        {
-            itemAmounts[index] += 1f;
-        }
+            /*if (whatever.fillAmount < maxFill)
+            {
+                whatever.fillAmount += 1f;
+            }*/
+            if (itemAmounts[index] < maxFill)
+            {
+                itemAmounts[index] += 1f;
+            }
 
-        VisualFill();
-        CheckSolution();
+            VisualFill();
+            CheckSolution();
+        }
     }
 
     private void OnTriggerExit(Collider other)
