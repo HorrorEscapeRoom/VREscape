@@ -19,12 +19,18 @@ public class AlchemicalCauldron : MonoBehaviour
 
     bool puzzleSolved = false;
 
+    public bool combindedPuzzle = false;
+    public bool bothPuzzlesSolved = false;
+    public AlchemyPouring PouringPuzzle;
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "XRItem" && other.GetComponent<AlchemyIngredient>() != null)
+        if(other.tag == "XRItem" && other.GetComponent<AlchemyIngredient>() != null && other.GetComponentInParent<PourDetector>() == null)
         {
-            //print("Is an alchemical ingredient");
-            AddItem(other.transform);            
+            if(!puzzleSolved)
+            {
+                AddItem(other.transform);
+            }
         }
     }
 
@@ -61,7 +67,7 @@ public class AlchemicalCauldron : MonoBehaviour
 
     public void PuzzleSolved(bool perfectSolution)
     {
-        if (puzzleSolved != true)
+        if (puzzleSolved != true && combindedPuzzle == false)
         {
             if(perfectSolution)
             {
@@ -78,6 +84,36 @@ public class AlchemicalCauldron : MonoBehaviour
 
             //Clears variables and Destroy objects
             ResetPuzzle();
+        }
+        else if(combindedPuzzle)
+        {
+            print("Cauldron items completed");
+            puzzleSolved = true;
+            CheckBothPuzzles(perfectSolution);
+        }
+    }
+
+    public void CheckBothPuzzles(bool perfectSolution)
+    {
+        if(!bothPuzzlesSolved)
+        {
+            if(PouringPuzzle != null)
+            {
+                if(puzzleSolved && PouringPuzzle.puzzleSolved)
+                {
+                    bothPuzzlesSolved = true;
+                    if (perfectSolution)
+                    {
+                        print("Alchemy Cauldron Puzzle Solved Perfectly");
+                        resultLocation.SetItem(Instantiate(finishedResultPerfect.transform));
+                    }
+                    else
+                    {
+                        print("Alchemy Cauldron Puzzle Solved Poorly");
+                        resultLocation.SetItem(Instantiate(finishedResult.transform));
+                    }
+                }
+            }
         }
     }
 

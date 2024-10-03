@@ -26,11 +26,13 @@ public class AlchemyPouring : MonoBehaviour
     public List<float> itemAmounts;
     public List<AlchemyIngredient> SolutionItems;
 
-    bool puzzleSolved = false;
+    public bool puzzleSolved = false;
+
+    public AlchemicalCauldron cauldron;
 
     private void OnTriggerEnter(Collider other)
     {               
-        if (other.GetComponentInParent<AlchemyIngredient>() != null)
+        if (other.GetComponentInParent<AlchemyIngredient>() != null && other.GetComponentInParent<PourDetector>())
         {
             // If we are already full
             if (InputItems.Count >= maxInputItemCount)
@@ -62,7 +64,7 @@ public class AlchemyPouring : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.GetComponentInParent<AlchemyIngredient>() != null)
+        if(other.GetComponentInParent<AlchemyIngredient>() != null && other.GetComponentInParent<PourDetector>())
         {
 
             var newItem = other.GetComponentInParent<AlchemyIngredient>();
@@ -170,6 +172,10 @@ public class AlchemyPouring : MonoBehaviour
 
             puzzleSolved = true;
             ResetItems();
+            if(cauldron != null)
+            {
+                cauldron.CheckBothPuzzles(perfectCompletion);
+            }
         }
     }
 
