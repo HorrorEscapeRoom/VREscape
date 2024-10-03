@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class MazeGenerator : MonoBehaviour
 {
@@ -14,58 +15,104 @@ public class MazeGenerator : MonoBehaviour
         StartCoroutine(GenerateMazeDelayed());
     }
     IEnumerator GenerateMazeDelayed(){
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(3);
+        MapProcess();
+    }
+    async Task MapProcess(){
         bool mapOK = false;
-        int attempts = 0;
+        int attempts = 0, maxAttempts = 40;
+        List<float> generationTimes = new List<float>();
         while (!mapOK)
         {
+            float startTime = Time.realtimeSinceStartup;
             RefreshMaze();
-            GenerateRandomPaths();
+            await Task.Delay(3);
+            await GenerateRandomPaths();
             ForcedWalls();
+            await Task.Delay(3);
             mapOK = RunCompleteCheck();
             attempts++;
-            if(attempts > 10){
-                Debug.Log("Failed to generate a valid map after 10 attempts");
+            generationTimes.Add(Time.realtimeSinceStartup - startTime);
+            if(attempts > maxAttempts){
+                Debug.Log($"Failed to generate a valid maze after {maxAttempts} attempts");
                 break;
-            }
+            }   
+        }
+        float totalTime = 0;
+        foreach (float time in generationTimes)
+        {
+            totalTime += time;
+        }
+        float averageTime = totalTime / generationTimes.Count;
+        Debug.Log($"Average generation time: {averageTime} seconds");
+        if(mapOK){
+            Debug.Log($"Maze generated in {attempts} attempts");
+        }else{
+            //use this preset map if the map generation fails
+            int[,] presetMap = new int[30, 30]{
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1},
+                {1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1},
+                {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
+                {1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1},
+                {1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1},
+                {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1},
+                {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+                {0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0},
+                {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1},
+                {1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+                {1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1},
+                {1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+            };
+            maze = FromInt(presetMap);
         }
         DebugMaze();
     }
-    void RefreshMaze(){
-        maze = new bool[30, 30];
-
-        for (int i = 0; i < 30; i++)
-        {
-            for (int j = 0; j < 30; j++)
-            {
-                maze[i, j] = true;
-            }
-        }
+    void RefreshMaze(int size = 30){
+        maze = new bool[size, size];
+        for (int i = 0; i < size; i++) { for (int j = 0; j < 30; j++) { maze[i, j] = true; } }
     }
-    void GenerateRandomPaths(){
+    async Task GenerateRandomPaths(){
         for (int i = 0; i < 60; i++)
         {
-            //pick a random point in the maze
+            // Pick a random point in the maze
             Vector2Int randomPoint = new Vector2Int(Random.Range(1, 29), Random.Range(1, 29));
-            //pick a random 90 degree direction
-            Vector2Int direction = new Vector2Int(0, 0);
-            if (Random.Range(0, 2) == 0)
-            {
-                direction.x = Random.Range(-1, 2);
-            }
-            else
-            {
-                direction.y = Random.Range(-1, 2);
-            }
+
+            // Pick a random 90 degree direction
+            Vector2Int direction = Random.Range(0, 2) == 0  ? new Vector2Int(Random.Range(-1, 2), 0)  : new Vector2Int(0, Random.Range(-1, 2));
+
             int distance = Random.Range(5, 15);
-            //from the random point set all cells in the direction to false
+
+            // From the random point set all cells in the direction to false
             for (int j = 0; j < distance; j++)
             {
-                if (randomPoint.x + direction.x * j >= 0 && randomPoint.x + direction.x * j < 30 && randomPoint.y + direction.y * j >= 0 && randomPoint.y + direction.y * j < 30)
+                int newX = randomPoint.x + direction.x * j;
+                int newY = randomPoint.y + direction.y * j;
+
+                if (newX >= 0 && newX < 30 && newY >= 0 && newY < 30)
                 {
-                    maze[randomPoint.x + direction.x * j, randomPoint.y + direction.y * j] = false;
+                    maze[newX, newY] = false;
                 }
+                
             }
+            await Task.Delay(1);
         }
     }
     void ForcedWalls(){
@@ -89,51 +136,49 @@ public class MazeGenerator : MonoBehaviour
         maze[goalCell.x, goalCell.y - 1] = false;
         maze[goalCell.x, goalCell.y - 2] = false;
     }
-    bool RunCompleteCheck(){
-
-        //ensure that the start and goal are connected
+    bool RunCompleteCheck()
+    {
+        // Ensure that the start and goal are connected
         bool connected = false;
-        List<Vector2Int> openList = new List<Vector2Int>();
-        List<Vector2Int> closedList = new List<Vector2Int>();
-        openList.Add(startCell);
+        Queue<Vector2Int> openList = new Queue<Vector2Int>();
+        HashSet<Vector2Int> closedList = new HashSet<Vector2Int>();
+        openList.Enqueue(startCell);
         while (openList.Count > 0)
         {
-            Vector2Int currentCell = openList[0];
-            openList.RemoveAt(0);
+            Vector2Int currentCell = openList.Dequeue();
             closedList.Add(currentCell);
             if (currentCell == goalCell)
             {
                 connected = true;
                 break;
             }
-            if (currentCell.x + 1 < 30 && !maze[currentCell.x + 1, currentCell.y] && !closedList.Contains(new Vector2Int(currentCell.x + 1, currentCell.y)))
+            // Check the four possible directions
+            Vector2Int[] directions = new Vector2Int[]
             {
-                openList.Add(new Vector2Int(currentCell.x + 1, currentCell.y));
-            }
-            if (currentCell.x - 1 >= 0 && !maze[currentCell.x - 1, currentCell.y] && !closedList.Contains(new Vector2Int(currentCell.x - 1, currentCell.y)))
+                new Vector2Int(1, 0),  // Right
+                new Vector2Int(-1, 0), // Left
+                new Vector2Int(0, 1),  // Up
+                new Vector2Int(0, -1)  // Down
+            };
+            foreach (var direction in directions)
             {
-                openList.Add(new Vector2Int(currentCell.x - 1, currentCell.y));
-            }
-            if (currentCell.y + 1 < 30 && !maze[currentCell.x, currentCell.y + 1] && !closedList.Contains(new Vector2Int(currentCell.x, currentCell.y + 1)))
-            {
-                openList.Add(new Vector2Int(currentCell.x, currentCell.y + 1));
-            }
-            if (currentCell.y - 1 >= 0 && !maze[currentCell.x, currentCell.y - 1] && !closedList.Contains(new Vector2Int(currentCell.x, currentCell.y - 1)))
-            {
-                openList.Add(new Vector2Int(currentCell.x, currentCell.y - 1));
+                Vector2Int neighbor = new Vector2Int(currentCell.x + direction.x, currentCell.y + direction.y);
+                if (neighbor.x >= 0 && neighbor.x < 30 && neighbor.y >= 0 && neighbor.y < 30 && 
+                    !maze[neighbor.x, neighbor.y] && !closedList.Contains(neighbor))
+                {
+                    openList.Enqueue(neighbor);
+                }
             }
         }
-        Debug.Log($"Map is connected: {connected}");
         return connected;
     }
-
     void DebugMaze()
     {
         Vector3 backLeft = transform.position - new Vector3(15, 0, 15);
         for (int i = 0; i < 30; i++) {
             for (int j = 0; j < 30; j++) {
                 if (maze[i, j]) {
-                    Debug.DrawRay(backLeft + new Vector3(i, 0, j), Vector3.up * 2, Color.red, 200f);
+                    //Debug.DrawRay(backLeft + new Vector3(i, 0, j), Vector3.up * 2, Color.red, 200f);
 
 
                     //if there are walls on all sides, instantiate a wall
@@ -159,5 +204,16 @@ public class MazeGenerator : MonoBehaviour
             return true;
         }
         return false;
+    }
+    bool[,] FromInt(int[,] input){
+        bool[,] output = new bool[input.GetLength(0), input.GetLength(1)];
+        for (int x = 0; x < input.GetLength(0); x++)
+        {
+            for (int y = 0; y < input.GetLength(1); y++)
+            {
+                output[x, y] = input[x, y] == 1;
+            }
+        }
+        return output;
     }
 }
