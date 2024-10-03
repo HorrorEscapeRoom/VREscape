@@ -6,11 +6,11 @@ public class HandItemTracker : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] Hand hand;
-    List<Collider> touchingObj = new List<Collider>(),
+    public List<Collider> touchingObj = new List<Collider>(),
     touchingContactPoints = new List<Collider>(),
     touchingControls = new List<Collider>();
     HoldType holdID = HoldType.None;
-    Transform heldItem;
+    public Transform heldItem;
     IInput input;
     Vector3 lastPos;
     VRHudManager hud;
@@ -27,7 +27,26 @@ public class HandItemTracker : MonoBehaviour
         hud = FindObjectOfType<VRHudManager>();
         controller = GetComponentInParent<VRController>();
     }
+    IEnumerator PerformActionsWithDelay(GameObject droppedObject)
+    {
 
+        // Wait for 1 seconds
+        yield return new WaitForSeconds(1f);
+        droppedObject.tag = "XRItem";
+    }
+
+    public void DropThatShit()
+    {
+        GameObject theObject = heldItem.gameObject;
+        theObject.tag = "Untagged";
+        theObject.GetComponent<Rigidbody>().useGravity = true;
+        theObject.GetComponent<Rigidbody>().isKinematic = false;
+        theObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+        touchingObj.Remove(heldItem.GetComponent<Collider>());
+        holdID = HoldType.None;
+        heldItem = null;
+        StartCoroutine(PerformActionsWithDelay(theObject));
+    }
     void LateUpdate() {
 
     }
