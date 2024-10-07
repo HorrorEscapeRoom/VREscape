@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using static UnityEditor.PlayerSettings.Switch;
 
 namespace Assets.Scripts.LogicGatePuzzle
 {
 
-    public class CircuitBoard: MonoBehaviour
+    public class CircuitBoard: MonoBehaviour, IPuzzle
     {
 		[SerializeField]
 		public List<InputSwitch> SwitchList = new();
@@ -13,9 +14,17 @@ namespace Assets.Scripts.LogicGatePuzzle
 		public List<GameObject> LightList = new();
 		[SerializeField]
         public List<SocketState> ICList = new();
+        [field: SerializeField]
+        public int PuzzleID { get; set; }
+        [field: SerializeField]
+        public EnumPuzzleType PuzzleType { get; set; }
+
+        public Orchestrator Orchestrator { get; set; }
+   
 
         public void Start()
         {
+            RegisterWithOrchestrator();
             UpdateAllSocketState();
         }
 
@@ -45,7 +54,9 @@ namespace Assets.Scripts.LogicGatePuzzle
                     UpdateSocketOuput(sockindex);
                 }				
             }
-		}
+
+            CheckIsComplete();
+        }
 
         private void UpdateInputOnSocket(SocketMap SocketMap, int socketIndex, int inputIndex, bool newState)
         {
@@ -189,6 +200,28 @@ namespace Assets.Scripts.LogicGatePuzzle
 
             ICList[socketIndex].ICObject = null;                   
             UpdateAllSocketState();
-        }               
+        }   
+        
+        private void CheckIsComplete()
+        {
+            if (LightList.All(x => x.GetComponent<MeshRenderer>().materials[0].color == Color.green))
+            {
+                OnPuzzleComplete();
+            }
+        }
+        public void RegisterWithOrchestrator()
+        {
+            //Find the orchstrator in the object tree
+            Orchestrator = gameObject.GetComponentInParent<Orchestrator>();
+            Orchestrator?.RegisterPuzzle(this);
+        }
+
+        public void OnPuzzleComplete()
+        {
+            if (Orchestrator != null)
+            {
+                Orchestrator?.OnPuzzleComplete(this);
+            }
+        }
     }
 }
