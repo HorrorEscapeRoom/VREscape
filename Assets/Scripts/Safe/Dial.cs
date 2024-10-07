@@ -1,16 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Dial : MonoBehaviour
 {
     [SerializeField]
-    int _numberSections;
-
+    int _numberSections = 12; 
     public float CurrentAngle { get; private set; }
-    float previousAngle;
-    const float epsilon = 0.001f;  // Tolerance for floating-point precision issues
-
-    DialAngleManager _angleManager = new();
-    float angleThreshold = 0.1f;  // Sensitivity threshold for detecting rotation changes
+    private XRKnob knob;
 
     public int NumberSections
     {
@@ -19,63 +16,66 @@ public class Dial : MonoBehaviour
         {
             if (_numberSections != value)
             {
-                //Debug.Log($"NumberSections changed to: {_numberSections} -> {value}");
                 _numberSections = value;
-                _angleManager.DialSteps = value;
             }
         }
     }
+
+    public float StepAngle() => 360f / NumberSections;
 
     void Start()
     {
-        _angleManager.DialSteps = NumberSections;
-        previousAngle = transform.eulerAngles.y; 
-        //Debug.Log($"Start: Previous Angle: {previousAngle}, DialSteps: {_angleManager.DialSteps}");
-    }
-
-    void Update()
-    {
-        float newAngle = transform.eulerAngles.z;
-        float deltaAngle = NormalizeAngle(newAngle - previousAngle);
-
-        // Only proceed if the delta angle is greater than our defined epsilon tolerance
-        if (Mathf.Abs(deltaAngle) > epsilon)
+        knob = GetComponentInParent<XRKnob>();
+        if (knob == null)
         {
-            //Debug.Log($"Update: Previous Angle: {previousAngle}, New Angle: {newAngle}, Delta Angle: {deltaAngle}");
-
-            if (Mathf.Abs(deltaAngle) > angleThreshold)
-            {
-                CurrentAngle = GetWrappedAngle(newAngle);
-                //Debug.Log($"Significant rotation detected. Current Angle: {CurrentAngle}");
-                OnRotate(deltaAngle);
-            }
-
-            previousAngle = newAngle;
+            return;
         }
-        //Debug.Log($"Update: Small delta angle detected (Delta: {deltaAngle}), ignoring due to epsilon tolerance.");
+        knob.OnValueChanged.AddListener(UpdateDialPosition);
     }
 
-    void OnRotate(float deltaAngle)
+    int CalculateDialNumber(float angle) => Mathf.FloorToInt(angle / StepAngle()) % NumberSections;
+
+    public void UpdateDialPosition(float newAngle)
     {
-        bool isClockwise = deltaAngle > 0;
-        int newDialValue = _angleManager.GetDialIndex(CurrentAngle);
-
-        //Debug.Log($"OnRotate: Rotating {(isClockwise ? "clockwise" : "counter-clockwise")}, Delta Angle: {deltaAngle}, Dial rotated to value {newDialValue}");
+        CurrentAngle = newAngle;
+        int dialNumber = CalculateDialNumber(CurrentAngle);
+        Debug.Log($"Dial turned to number {dialNumber} with angle {CurrentAngle}");
     }
 
-    float NormalizeAngle(float angle)
-    {
-        if (angle > 180) angle -= 360;
-        else if (angle < -180) angle += 360;
+    //int OnRotate(float angle)
+    //{
+    //    int stepAngle = StepAngle();
+    //    return Mathf.FloorToInt(angle / stepAngle);
+    //}
 
-        //Debug.Log($"Normalized Angle: {angle}");
-        return angle;
-    }
+    // void Start() => previousAngle = TransformUtils.GetInspectorRotation(transform).x;
 
-    float GetWrappedAngle(float angle)
-    {
-        float wrappedAngle = (angle + 360) % 360;
-        //Debug.Log($"Raw Angle: {angle}, Wrapped Angle: {wrappedAngle}");
-        return wrappedAngle;
-    }
+    //void Update()
+    //{
+    //    int dialIndex = 0;
+    //    float newAngle = TransformUtils.GetInspectorRotation(transform).x;
+    //    float deltaAngle = newAngle - previousAngle; //  delta angle is change in rotation
+
+
+    //    //Only proceed if the delta angle is greater than the epsilon tolerance
+    //    if (Mathf.Abs(deltaAngle) > EPSILON)
+    //    {
+    //        CurrentAngle = newAngle % 360; 
+    //        Debug.Log($"Delta Angle = {deltaAngle}, New Angle = {newAngle}, True Angle = {CurrentAngle}, Previous Angle = {previousAngle}");
+    //        dialIndex = OnRotate(CurrentAngle);
+    //        previousAngle = newAngle;
+    //    }
+    //}
+
+    //int OnRotate(float deltaAngle)
+    //{
+    //    int stepAngle = StepAngle();
+    //    int dialTurned = Mathf.Abs(Mathf.FloorToInt(deltaAngle / stepAngle));
+    //    if ((deltaAngle % stepAngle) > 0)
+    //    {
+    //        dialTurned += 1;
+    //    }
+    //    Debug.Log($"Rotating, Delta Angle: {deltaAngle},  Dial rotated to value {dialTurned}");
+    //    return dialTurned;
+    //}
 }

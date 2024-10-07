@@ -31,6 +31,7 @@ public class XRKnob : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
+        Debug.Log("XRKnob Start called");
         hud = FindObjectOfType<VRHudManager>();
         model = transform.GetChild(0);
 		UpdateMeshRotation();
@@ -51,12 +52,10 @@ public class XRKnob : MonoBehaviour
     void Update(){
 
         if(active){
-
-			angleOffset = initGrabHandAngel - GetHandThing();
+            angleOffset = initGrabHandAngel - GetHandThing();
 
 			UpdateMeshRotation();
-
-			OnValueChanged?.Invoke(absAngle);
+            OnValueChanged?.Invoke(absAngle);
             hud.DrawLine(transform.position, hand.position + hand.up, 0.02f, Color.red);
             if(Vector3.Distance(transform.position, hand.position) > UnGrabDistance){
                 Released();
@@ -98,7 +97,5 @@ public class XRKnob : MonoBehaviour
 
 	private void debug_draw_axis(Vector3 point, Vector3 axis, Color col){
 		hud.DrawLine(point, point + (axis*5.0f),1000.0f , col);
-		
 	}
-
 }
