@@ -21,13 +21,16 @@ public class DoorManager : MonoBehaviour
     {
         if ( value >= 0.6f && !isOpen )
         {
+            if (tag.Equals("ExitDoor"))
+            {
+                Application.Quit();
+            }
+
             isOpen = true;
 
             doorTrigger.OpenDoor();
 
             doorknob.gameObject.SetActive(false);
-
-            handle.gameObject.transform.rotation.Euler(0f, -86.55f, -180));
         }
 
         print(value.ToString());

@@ -8,6 +8,8 @@ TagManager:
   - XRItem
   - StorageVolume
   - ContactPoint
+  - XRControl
+  - ExitDoor
   layers:
   - Default
   - TransparentFX
