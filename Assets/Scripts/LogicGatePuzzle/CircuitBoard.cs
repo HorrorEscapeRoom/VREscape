@@ -1,12 +1,10 @@
-﻿using Assets.Scripts.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.LogicGatePuzzle
 {
-
-    public class CircuitBoard: MonoBehaviour, IPuzzle
+    public class CircuitBoard: PuzzleBase
     {
 		[SerializeField]
 		public List<InputSwitch> SwitchList = new();
@@ -14,14 +12,7 @@ namespace Assets.Scripts.LogicGatePuzzle
 		public List<GameObject> LightList = new();
 		[SerializeField]
         public List<SocketState> ICList = new();
-        [field: SerializeField]
-        public int PuzzleID { get; set; }
-        [field: SerializeField]
-        public EnumPuzzleType PuzzleType { get; set; }
-
-        public Orchestrator Orchestrator { get; set; }
-   
-
+        
         public void Start()
         {
             RegisterWithOrchestrator();
@@ -207,20 +198,6 @@ namespace Assets.Scripts.LogicGatePuzzle
             if (LightList.All(x => x.GetComponent<MeshRenderer>().materials[0].color == Color.green))
             {
                 OnPuzzleComplete();
-            }
-        }
-        public void RegisterWithOrchestrator()
-        {
-            //Find the orchstrator in the object tree
-            Orchestrator = gameObject.GetComponentInParent<Orchestrator>();
-            Orchestrator?.RegisterPuzzle(this);
-        }
-
-        public void OnPuzzleComplete()
-        {
-            if (Orchestrator != null)
-            {
-                Orchestrator?.OnPuzzleComplete(this);
             }
         }
     }
