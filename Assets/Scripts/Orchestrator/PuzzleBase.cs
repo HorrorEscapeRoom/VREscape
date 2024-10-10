@@ -9,7 +9,7 @@ public class PuzzleBase : MonoBehaviour, IPuzzle
     [field: SerializeField]
     public EnumPuzzleType PuzzleType { get; set; }
 
-    private void Start()
+    private void Awake()
     {
         _orchestrator = gameObject.GetComponentInParent<PuzzleOrchestrator>();
         if (_orchestrator == null)

@@ -960,10 +960,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 620548a0de01a804fb0a48a92bd94619, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OutputList:
-  - Id: 1
-    PuzzleType: 0
-    Actions:
+  outputList:
+  - id: 1
+    puzzleType: 0
+    actions:
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1654579379}
@@ -975,7 +975,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: DummyPuzzle1 Input fired
+            m_StringArgument: I Fired Dummy 1
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 1654579378}
@@ -987,7 +987,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: DummyPuzzle2 Input fired
+            m_StringArgument: I Fired Dummy 2
             m_BoolArgument: 0
           m_CallState: 2
 --- !u!4 &1654579381
@@ -1031,8 +1031,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 1654579381}
     m_Modifications:
     - target: {fileID: 772332830084823528, guid: 07d970d066b4d194881a3a174c47f9a6, type: 3}
+      propertyPath: <PuzzleId>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 772332830084823528, guid: 07d970d066b4d194881a3a174c47f9a6, type: 3}
       propertyPath: <PuzzleType>k__BackingField
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 772332830084823528, guid: 07d970d066b4d194881a3a174c47f9a6, type: 3}
       propertyPath: ICList.Array.data[0].inputA
