@@ -24,14 +24,11 @@ public class CauldronPlacement : MonoBehaviour
     }
 
     public void OnItemPlaced(Transform transform)
-    {
-        if(transform.gameObject.name == "Cauldron")
-        {
-            realCauldron = transform.gameObject;
-            cauldronPlaced = true;
-        }
-        
-        if(storage != null)
+    {        
+        realCauldron = transform.gameObject;
+        cauldronPlaced = true;
+
+        if (storage != null)
         {
             storage.SetLocks(true, true);
         }
@@ -43,7 +40,15 @@ public class CauldronPlacement : MonoBehaviour
         {
             BoxCollider box = realCauldron.GetComponent<BoxCollider>();
             box.enabled = false;
-            realCauldron.tag = null;
+            //realCauldron.tag = null;
+            BoxCollider[] alchBoxes =  realCauldron.GetComponentsInChildren<BoxCollider>();
+            foreach(BoxCollider thisBox in alchBoxes)
+            {
+                if(thisBox != box)
+                {
+                    thisBox.enabled = true;
+                }
+            }
         }
     }
 
