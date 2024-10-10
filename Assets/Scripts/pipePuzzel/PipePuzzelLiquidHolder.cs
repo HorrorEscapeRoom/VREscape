@@ -12,6 +12,7 @@ public class PipePuzzelLiquidHolder : MonoBehaviour
 
 	public void NewChoke(float NewChoke) {
 		choke = NewChoke/360;
+		Debug.Log($"NewChoke got :{NewChoke} , {choke}");
 	}
 
 	public float amount
