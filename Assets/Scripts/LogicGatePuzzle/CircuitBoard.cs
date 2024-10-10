@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using static UnityEditor.PlayerSettings.Switch;
 
 namespace Assets.Scripts.LogicGatePuzzle
 {
-
-    public class CircuitBoard: MonoBehaviour
+    public class CircuitBoard: PuzzleBase
     {
 		[SerializeField]
 		public List<InputSwitch> SwitchList = new();
@@ -14,23 +13,26 @@ namespace Assets.Scripts.LogicGatePuzzle
 		[SerializeField]
         public List<SocketState> ICList = new();
 
+        private bool _verboseLog;
         public void Start()
         {
+	        _verboseLog = true;
+	        RegisterWithOrchestrator();
             UpdateAllSocketState();
         }
 
 		public void UpdateAllSocketState()
 		{
 
-            foreach (var switchitem in SwitchList)
+            foreach (var switchItem in SwitchList)
 			{
-				foreach(var socketItem in switchitem.socketMapList)
+				foreach(var socketItem in switchItem.socketMapList)
 				{
-					var sockindex = socketItem.socketIndex;
-					var inputindex = socketItem.inputIndex;
+					var sockIndex = socketItem.socketIndex;
+					var inputIndex = socketItem.inputIndex;
 
-					UpdateInputOnSocket(socketItem, sockindex, inputindex, switchitem.active);
-					UpdateSocketOuput(sockindex);
+					UpdateInputOnSocket(socketItem, sockIndex, inputIndex, switchItem.active);
+					UpdateSocketOutput(sockIndex);
                 }
 			}
 
@@ -38,18 +40,20 @@ namespace Assets.Scripts.LogicGatePuzzle
 			{
                 foreach(var socketItem in socket.ToUpdateIndexs)
 				{
-                    var sockindex = socketItem.socketIndex;
-                    var inputindex = socketItem.inputIndex;
+                    var sockIndex = socketItem.socketIndex;
+                    var inputIndex = socketItem.inputIndex;
 
-                    UpdateInputOnSocket(socketItem, sockindex, inputindex, socket.output);
-                    UpdateSocketOuput(sockindex);
+                    UpdateInputOnSocket(socketItem, sockIndex, inputIndex, socket.output);
+                    UpdateSocketOutput(sockIndex);
                 }				
             }
-		}
+
+            CheckIsComplete();
+        }
 
         private void UpdateInputOnSocket(SocketMap SocketMap, int socketIndex, int inputIndex, bool newState)
         {
-			var socketref = ICList[socketIndex];			
+			var socketRef = ICList[socketIndex];			
 			
 			switch (SocketMap.outputType)
             {
@@ -60,21 +64,24 @@ namespace Assets.Scripts.LogicGatePuzzle
                     switch (inputIndex)
                     {
                         case 0:
-                            socketref.inputA = newState;
-                            UpdateLogicGateState(socketIndex, socketref.inputA, EnumInputOuputType.InputA);                            
+	                        socketRef.inputA = newState;
+                            UpdateLogicGateState(socketIndex, socketRef.inputA, EnumInputOuputType.InputA);                            
                             break;
                         case 1:
-                            socketref.inputB = newState;
-                            UpdateLogicGateState(socketIndex, socketref.inputB, EnumInputOuputType.InputB);                            
+	                        socketRef.inputB = newState;
+                            UpdateLogicGateState(socketIndex, socketRef.inputB, EnumInputOuputType.InputB);                            
                             break;
                     }                    
                     break;
             }
-
-            Debug.Log($"UpdateInputOnSocket - SocketIndex:({socketIndex}), OutputType:{SocketMap.outputType}, inputIndex:{inputIndex}, newState:{newState}");
+			
+			if (_verboseLog)
+			{
+				Debug.Log($"UpdateInputOnSocket - SocketIndex:({socketIndex}), OutputType:{SocketMap.outputType}, inputIndex:{inputIndex}, newState:{newState}");
+			}
         }
 
-		private void UpdateSocketOuput(int socketIndex)
+		private void UpdateSocketOutput(int socketIndex)
 		{
             // Hide/show ic lights
             
@@ -100,7 +107,13 @@ namespace Assets.Scripts.LogicGatePuzzle
                     ICList[socketIndex].output = false;
                     break;
             }
-            Debug.Log($"UpdateSocketOuput - SocketIndex:({socketIndex}), GateType:{ICList[socketIndex].logicType}, Inputs:{ICList[socketIndex].inputA}-{ICList[socketIndex].inputB}, Output:{ICList[socketIndex].output}");
+
+            if (_verboseLog)
+            {
+	            Debug.Log(
+		            $"UpdateSocketOutput - SocketIndex:({socketIndex}), GateType:{ICList[socketIndex].logicType}, Inputs:{ICList[socketIndex].inputA}-{ICList[socketIndex].inputB}, Output:{ICList[socketIndex].output}");
+            }
+
             UpdateLogicGateState(socketIndex, ICList[socketIndex].output, EnumInputOuputType.Output);
             
         }
@@ -128,22 +141,15 @@ namespace Assets.Scripts.LogicGatePuzzle
         }
 
         private void UpdateLightState(int index, bool newState)
-		{
-			if (LightList.Count == 0 || index > LightList.Count - 1)
+        {
+	        if (LightList.Count == 0 || index > LightList.Count - 1)
 			{
 				Debug.LogError($"CircuitBoard - Invalid index in UpdateLightState: ({LightList})");
 				return;
 			}
 
-			if (newState)
-			{
-				LightList[index].GetComponent<MeshRenderer>().materials[0].color = Color.green;
-			}
-			else
-			{
-                LightList[index].GetComponent<MeshRenderer>().materials[0].color = Color.red;
-            }
-		}
+	        LightList[index].GetComponent<MeshRenderer>().materials[0].color = newState ? Color.green : Color.red;
+        }
 
 		private void UpdateSwitchState(int index, bool newState)
 		{
@@ -155,14 +161,7 @@ namespace Assets.Scripts.LogicGatePuzzle
 
 			SwitchList[index].active = newState;
 
-            if (newState)
-            {
-                SwitchList[index].SwitchObject.GetComponent<MeshRenderer>().materials[0].color = Color.green;
-            }
-            else
-            {
-                SwitchList[index].SwitchObject.GetComponent<MeshRenderer>().materials[0].color = Color.red;
-            }
+            SwitchList[index].SwitchObject.GetComponent<MeshRenderer>().materials[0].color = newState ? Color.green : Color.red;
 
             UpdateAllSocketState();
         }
@@ -189,6 +188,18 @@ namespace Assets.Scripts.LogicGatePuzzle
 
             ICList[socketIndex].ICObject = null;                   
             UpdateAllSocketState();
-        }               
+        }   
+        
+        private void CheckIsComplete()
+        {
+            if (LightList.All(x => x.GetComponent<MeshRenderer>().materials[0].color == Color.green))
+            {
+	            if (_verboseLog)
+	            {
+		            Debug.Log($"CircuitBoard - Puzzle Is Completed.");
+	            }
+	            OnPuzzleComplete();
+            }
+        }
     }
 }
