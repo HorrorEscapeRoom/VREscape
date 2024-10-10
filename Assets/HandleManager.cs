@@ -6,6 +6,7 @@ using UnityEngine;
 public class HandleManager : MonoBehaviour
 {
     public Transform knobPosition;
+    public bool isOpen = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +16,10 @@ public class HandleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if ( isOpen )
+        {
+            return;
+        }
         Vector3 current = this.transform.position;
         transform.LookAt(new Vector3(knobPosition.position.x, knobPosition.position.y, this.transform.position.z), transform.up);
         
