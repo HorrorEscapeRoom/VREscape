@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings.Switch;
 
 namespace Assets.Scripts.LogicGatePuzzle
 {

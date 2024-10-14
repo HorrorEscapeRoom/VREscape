@@ -63,6 +63,18 @@ public class VRController : MonoBehaviour
 
         }
     }
+    public void TeleportToPosition(Vector3 position, float newFacingDirection = -1){
+        rb.isKinematic = true;
+        transform.position = position;
+        if(newFacingDirection != -1){
+            Quaternion rot = posMat.rotation;
+            Vector3 euler = transform.eulerAngles;
+            euler.y = newFacingDirection;
+            transform.eulerAngles = euler;
+            posMat.rotation = rot; //dont rotate the posMat
+        }
+        rb.isKinematic = false;
+    }
     public void Jump(){
         //are we grounded?
         bool grounded = Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, 0.15f);

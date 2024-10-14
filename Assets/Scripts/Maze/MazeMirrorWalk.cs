@@ -18,7 +18,7 @@ public class MazeMirrorWalk : MonoBehaviour
     {
         if(player.position.z > 290 && player.position.z < 720)  
         {
-            Vector3 playerPositionInGroundSpace = ground.InverseTransformPoint(player.position);
+            Vector3 playerPositionInGroundSpace = ground.InverseTransformPoint(player.position + Vector3.up);
             Quaternion playerRotationInGroundSpace = Quaternion.Inverse(ground.rotation) * player.rotation;
             for(int i = 0; i < groundMirrors.Length; i++)
             {
@@ -27,8 +27,6 @@ public class MazeMirrorWalk : MonoBehaviour
                 shadowPlayers[i].rotation = groundMirrors[i].rotation * playerRotationInGroundSpace;
 
             }
-        }else{
-            Debug.Log("Player is not in the mirror zone");
         }
     }
 }
