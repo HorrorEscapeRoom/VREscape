@@ -35,8 +35,9 @@ public class PuzzleOrchestrator : MonoBehaviour
         _registeredPuzzles.Remove(puzzle);
     }
 
-    public void OnPuzzleComplete(IPuzzle puzzle)
+    public void OnPuzzleComplete(IPuzzle puzzle, bool success)
     {
+        // Gets the registered puzzle where matching puzzle ID's
         var puzzleResult = _registeredPuzzles.SingleOrDefault(x => x.PuzzleId == puzzle.PuzzleId);
         if (puzzleResult == null)
         {
@@ -47,19 +48,23 @@ public class PuzzleOrchestrator : MonoBehaviour
             return;
         }
 
-        var outputResult = outputList.SingleOrDefault(x => x.id == puzzleResult.PuzzleId);
+        // Checks to see if there are any output events matching the Puzzle ID and success flag.
+        // This allows 2 different output states to be defined:
+        // Success = True -> The puzzle completed in the success state
+        // Success = False -> The puzzle was not successful. This might be that the puzzle has been reset or no longer "Complete"
+        var outputResult = outputList.SingleOrDefault(x => x.id == puzzleResult.PuzzleId & x.successful == success);
         if (outputResult == null)
         {
             if (_verboseLogs)
             {
-                Debug.LogWarning($"PuzzleOrchestrator->OnPuzzleComplete - Registered puzzle found for id: '{puzzle.PuzzleId}' but it has no output events.");
+                Debug.LogWarning($"PuzzleOrchestrator->OnPuzzleComplete - Registered puzzle found for PuzzleID/Success: {puzzle.PuzzleId}, {success} but it has no output events.");
             }
             return;
         }
 
         if (_verboseLogs)
         {
-            Debug.Log($"PuzzleOrchestrator->OnPuzzleComplete - Found {outputResult.actions.Count} actions for PuzzleID: {puzzle.PuzzleId}");
+            Debug.Log($"PuzzleOrchestrator->OnPuzzleComplete - Found {outputResult.actions.Count} actions for PuzzleID/Success: {puzzle.PuzzleId}, {success}");
         }
 
         outputResult.ProcessActions();

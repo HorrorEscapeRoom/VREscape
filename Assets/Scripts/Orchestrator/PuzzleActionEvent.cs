@@ -6,11 +6,12 @@ public class PuzzleActionEvent
 {
     public int id;
     public EnumPuzzleType puzzleType;
+    public bool successful;
     public List<UnityEvent> actions = new();
 
     public void ProcessActions()
     {
-        foreach (UnityEvent action in actions)
+        foreach (var action in actions)
         {
             action?.Invoke();
         }

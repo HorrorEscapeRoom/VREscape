@@ -9,6 +9,10 @@ public class PuzzleBase : MonoBehaviour, IPuzzle
     [field: SerializeField]
     public EnumPuzzleType PuzzleType { get; set; }
 
+    public bool AllowRepeatCompletedActivations = false;
+    private bool HasCompleted = false;
+    
+
     private void Awake()
     {
         _orchestrator = gameObject.GetComponentInParent<PuzzleOrchestrator>();
@@ -52,14 +56,23 @@ public class PuzzleBase : MonoBehaviour, IPuzzle
     /// <summary>
     /// Notifies the PuzzleOrchestrator when the puzzle has completed.
     /// </summary>
-    public virtual void OnPuzzleComplete()
+    public virtual void OnPuzzleComplete(bool success)
     {
+        if (!AllowRepeatCompletedActivations & HasCompleted)
+        {
+            // This puzzle has already completed once and has repeat disabled.
+            // Return and do nothing
+            return;
+        }
+        
         if (_orchestrator == null)
         {
             Debug.LogError($"PuzzleBase->{this.name} - Error in OnPuzzleComplete(): PuzzleOrchestrator is null.");
             return;
         }
-        _orchestrator.OnPuzzleComplete(this);
+        
+        _orchestrator.OnPuzzleComplete(this, success);
+        HasCompleted = true;
     }
 }
 // USAGE:

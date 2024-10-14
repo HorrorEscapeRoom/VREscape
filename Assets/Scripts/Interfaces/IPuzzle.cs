@@ -5,5 +5,5 @@
     public void RegisterWithOrchestrator();
     public void UnRegisterWithOrchestrator();
     public void OnPuzzleAwake();
-    public void OnPuzzleComplete();
+    public void OnPuzzleComplete(bool success);
 }

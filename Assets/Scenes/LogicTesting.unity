@@ -905,6 +905,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6778647496707890357, guid: 07d970d066b4d194881a3a174c47f9a6, type: 3}
   m_PrefabInstance: {fileID: 1883383579}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1633085454 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 772332830084823528, guid: 07d970d066b4d194881a3a174c47f9a6, type: 3}
+  m_PrefabInstance: {fileID: 1883383579}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa646ffaccfff6b4c9f348be61ab74d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1654579377
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,10 +977,10 @@ MonoBehaviour:
     actions:
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1654579379}
-          m_TargetAssemblyTypeName: DummyPuzzle, Assembly-CSharp
-          m_MethodName: DoSomething
-          m_Mode: 5
+        - m_Target: {fileID: 1633085454}
+          m_TargetAssemblyTypeName: PuzzleBase, Assembly-CSharp
+          m_MethodName: OnPuzzleAwake
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

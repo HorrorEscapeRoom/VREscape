@@ -16,7 +16,7 @@ namespace Assets.Scripts.LogicGatePuzzle
         private bool _verboseLog;
         public void Start()
         {
-	        _verboseLog = true;
+	        _verboseLog = false;
 	        RegisterWithOrchestrator();
             UpdateAllSocketState();
         }
@@ -198,7 +198,7 @@ namespace Assets.Scripts.LogicGatePuzzle
 	            {
 		            Debug.Log($"CircuitBoard - Puzzle Is Completed.");
 	            }
-	            OnPuzzleComplete();
+	            OnPuzzleComplete(true);
             }
         }
     }
