@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Android.Gradle;
 using UnityEngine;
 
 public class KeyHolder : MonoBehaviour
@@ -25,7 +22,7 @@ public class KeyHolder : MonoBehaviour
         {
             key = other.gameObject;
             KeyFound();
-            print("Rocky unlocked the door");
+            //print("Rocky unlocked the door");
         }
     }
 }
