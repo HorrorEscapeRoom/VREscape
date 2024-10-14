@@ -19,7 +19,7 @@ public class AlchemicalCauldron : MonoBehaviour
 
     bool puzzleSolved = false;
 
-    public bool combindedPuzzle = false;
+    public bool combinedPuzzle = false;
     public bool bothPuzzlesSolved = false;
     public AlchemyPouring PouringPuzzle;
 
@@ -67,7 +67,7 @@ public class AlchemicalCauldron : MonoBehaviour
 
     public void PuzzleSolved(bool perfectSolution)
     {
-        if (puzzleSolved != true && combindedPuzzle == false)
+        if (puzzleSolved != true && combinedPuzzle == false)
         {
             if(perfectSolution)
             {
@@ -85,7 +85,7 @@ public class AlchemicalCauldron : MonoBehaviour
             //Clears variables and Destroy objects
             ResetPuzzle();
         }
-        else if(combindedPuzzle)
+        else if(combinedPuzzle)
         {
             print("Cauldron items completed");
             puzzleSolved = true;
