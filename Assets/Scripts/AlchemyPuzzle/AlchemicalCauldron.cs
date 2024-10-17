@@ -10,15 +10,9 @@ public class AlchemicalCauldron : MonoBehaviour
     public StorageVolume resultLocation;
 
     public List<AlchemyIngredient> currentItems;
-
     public List<AlchemyIngredient> solutionItems;
 
-    public bool testing = false;
-    public float timer = 5;
-    float timer2 = 0;
-
     bool puzzleSolved = false;
-
     public bool combinedPuzzle = false;
     public bool bothPuzzlesSolved = false;
     public AlchemyPouring PouringPuzzle;
@@ -117,14 +111,6 @@ public class AlchemicalCauldron : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (testing && timer2 <= Time.time)
-        {
-            CheckSolution();
-            timer2 += Time.time + timer;
-        }
-    }
 
     void ResetPuzzle()
     {
