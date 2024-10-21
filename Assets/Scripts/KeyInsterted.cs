@@ -8,10 +8,16 @@ public class KeyInsterted : MonoBehaviour
 
     public void OnItemPlaced(object heldItem)
     {
-        StorageVolume volume = GetComponent<StorageVolume>();
+        Transform item = (Transform)heldItem;
 
-        volume.SetLocks(false, false);
+        if ( item.gameObject.transform.GetChild(0).tag == "Key" )
+        {
+            StorageVolume volume = GetComponent<StorageVolume>();
 
-        key.KeyFound();
+            volume.SetLocks(false, false);
+
+            key.KeyFound();
+        }
+       
     }
 }
