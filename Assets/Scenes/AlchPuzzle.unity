@@ -6602,6 +6602,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab7cb69281b88e468d0f2dc8391f8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <PuzzleId>k__BackingField: 0
+  <PuzzleType>k__BackingField: 1
+  AllowRepeatCompletedActivations: 0
   finishedResult: {fileID: 329172266}
   finishedResultPerfect: {fileID: 1782882065}
   resultLocation: {fileID: 1787949882}
@@ -6954,6 +6957,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4271233869111512073, guid: 76f55e2756b92734fabd7bcf2767236c, type: 3}
+      propertyPath: <PuzzleType>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5390976593772218132, guid: 76f55e2756b92734fabd7bcf2767236c, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -6997,10 +7004,6 @@ PrefabInstance:
     - target: {fileID: 7044746118983673686, guid: 76f55e2756b92734fabd7bcf2767236c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7434857824301876382, guid: 76f55e2756b92734fabd7bcf2767236c, type: 3}
-      propertyPath: fillAmount
-      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7676429450164387308, guid: 76f55e2756b92734fabd7bcf2767236c, type: 3}
       propertyPath: m_Name

@@ -64,7 +64,7 @@ Material:
     - _Rim_Power: 2
     m_Colors:
     - _BottomColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FillAmount: {r: -0.000044822693, g: -0.28088585, b: 0.000027179718, a: 0}
+    - _FillAmount: {r: -0.00044870377, g: 0.69114184, b: 0.0002708435, a: 0}
     - _FoamColor: {r: 0, g: 0, b: 0, a: 1}
     - _Rim_Color: {r: 0.21698111, g: 0.16799954, b: 0.011258455, a: 1}
     - _TopColor: {r: 0.028301895, g: 0.01376902, b: 0, a: 1}

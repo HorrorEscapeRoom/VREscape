@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class AlchemicalCauldron : MonoBehaviour
+public class AlchemicalCauldron : PuzzleBase
 {        
     public GameObject finishedResult;
     public GameObject finishedResultPerfect;
@@ -16,6 +16,11 @@ public class AlchemicalCauldron : MonoBehaviour
     public bool combinedPuzzle = false;
     public bool bothPuzzlesSolved = false;
     public AlchemyPouring PouringPuzzle;
+
+    private void Start()
+    {
+        RegisterWithOrchestrator();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -106,6 +111,7 @@ public class AlchemicalCauldron : MonoBehaviour
                         print("Alchemy Cauldron Puzzle Solved Poorly");
                         resultLocation.SetItem(Instantiate(finishedResult.transform));
                     }
+                    OnPuzzleComplete(true);
                 }
             }
         }
