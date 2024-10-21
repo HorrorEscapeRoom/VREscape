@@ -100,7 +100,7 @@ public class HandItemTracker : MonoBehaviour
             if(col.gameObject.CompareTag("XRControl")){
                 touchingControls.Add(col);
             }
-            else if(col.gameObject.CompareTag("ContactPoint")){
+            else if(col.gameObject.CompareTag("StorageVolume")){
                 touchingContactPoints.Add(col);
             }
         }
