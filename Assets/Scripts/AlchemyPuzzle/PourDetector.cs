@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PourDetector : MonoBehaviour
 {
+    [Tooltip("Angle at which pouring activates")]
     public int pourThreshold = 45;
+    [Tooltip("Location where the stream is created")]
     public Transform origin;
     public GameObject streamPrefab;
 

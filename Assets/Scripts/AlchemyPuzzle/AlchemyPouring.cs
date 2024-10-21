@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class AlchemyPouring : MonoBehaviour
 {
-    public GameObject finishedResult;
+    public GameObject solutionResultItem;
     public StorageVolume resultLocation;
     public AlchemyIngredient solutionResult;
     public AlchemyIngredient solutionResultPerfect;
@@ -76,11 +76,7 @@ public class AlchemyPouring : MonoBehaviour
             {
                 return;
             }
-        
-            /*if (whatever.fillAmount < maxFill)
-            {
-                whatever.fillAmount += 1f;
-            }*/
+
             if (itemAmounts[index] < maxFill)
             {
                 itemAmounts[index] += 1f;
@@ -103,10 +99,6 @@ public class AlchemyPouring : MonoBehaviour
             // All SolutionItems exist in InputItems
             if (useFill)
             {
-                /*if (InputItems.All(val => val.fillAmount >= maxFill))
-                {
-                    PuzzleSolved();
-                }*/
                 if(itemAmounts.All(val => val >= maxFill))
                 {
                     PuzzleSolved(true);
@@ -127,10 +119,6 @@ public class AlchemyPouring : MonoBehaviour
                 {
                     Debug.Log("Alchemy Puzzle Solved - Pouring Incorrect Ingredients");
                     PuzzleSolved(false);
-                    //ResetItems();
-                    //print("Ingredients Incorrect - Puzzle Failed");
-                    //VisualFill();
-                    //TODO: Smoke/Fizzle effect
                 }
             }       
         }
@@ -139,8 +127,7 @@ public class AlchemyPouring : MonoBehaviour
     public void PuzzleSolved(bool perfectCompletion)
     {
         if (!puzzleSolved)
-        {            
-            //Debug.Log("Alchemy Puzzle Solved");
+        {
             if (resultIsFluid)
             {
                 solutionAmount = maxFill * InputItems.Count;
@@ -167,7 +154,10 @@ public class AlchemyPouring : MonoBehaviour
             }
             else
             {
-                resultLocation.SetItem(Instantiate(finishedResult.transform));
+                if(solutionResultItem != null)
+                {
+                    resultLocation.SetItem(Instantiate(solutionResultItem.transform));
+                }
             }
 
             puzzleSolved = true;
@@ -181,11 +171,6 @@ public class AlchemyPouring : MonoBehaviour
 
     private void ResetItems()
     {
-        //Clears variables and Destroy objects
-        /*foreach(var item in InputItems)
-        {
-            item.fillAmount = 0;
-        }*/
         InputItems.Clear();
         itemAmounts.Clear();
     }
@@ -196,27 +181,9 @@ public class AlchemyPouring : MonoBehaviour
             return;
         float totalFillAmount = itemAmounts.Sum(x => x);
 
-        //Using which ever object
-        /*if (!puzzleSolved)
-        {
-            float totalFillAmount = itemAmounts.Sum(x => x);//InputItems.Sum(x => x.fillAmount);
-
-            fillObj.transform.localScale = new Vector3(0.8f, (totalFillAmount / (maxFill * SolutionItems.Count))-0.1f, 0.8f);
-
-            //fillObj.transform.localPosition = new Vector3(fillObj.transform.localPosition.x, (totalFillAmount / (maxFill * SolutionItems.Count)) - 1f, fillObj.transform.localPosition.z);
-        }
-        else if (puzzleSolved)
-        {            
-            fillObj.transform.localScale = new Vector3(0.8f, (solutionAmount / (maxFill * SolutionItems.Count))-0.1f, 0.8f);
-        }*/
-        //Using liquid shader
-        /*if (liquid != null)// 0.3 is Full 0.7 is empty
-        {
-            liquid.fillAmount = Mathf.Lerp(0.65f, 0.4f, (solutionResult.fillAmount / totalFillAmount));
-        }*/
         if(!puzzleSolved)
         {
-            liquid.fillAmount = Mathf.Lerp(0.7f, 0.3f, (totalFillAmount/ (maxFill*3)));
+            liquid.fillAmount = Mathf.Lerp(0.7f, 0.3f, (totalFillAmount/ (maxFill*maxInputItemCount)));
         }
     }
 }
