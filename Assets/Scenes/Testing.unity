@@ -2465,8 +2465,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e713cc5d09859b4fbd92568f534f7c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowPlace: 0
-  allowGrab: 0
+  allowPlace: 1
+  allowGrab: 1
   PermitTag: 
 --- !u!114 &1365227521
 MonoBehaviour:
@@ -2935,7 +2935,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1629251402}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c7ee9142407ab84b9e3d049d8cd29dc, type: 3}
+  m_Script: {fileID: 11500000, guid: e154e9c6570217447855df51c7edbcb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   UnGrabDistance: 0.1
