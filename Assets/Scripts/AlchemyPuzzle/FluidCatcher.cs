@@ -7,6 +7,7 @@ public class FluidCatcher : MonoBehaviour
     public PourDetector receivingDetector;
     public AlchemyIngredient alchemyIng;
     public PourDetector pouringDetector;
+    public float pourAmount = 1f;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,15 +20,7 @@ public class FluidCatcher : MonoBehaviour
                 pouringDetector = other.GetComponentInParent<PourDetector>();
                 receivingDetector.liquid.GetComponent<MeshRenderer>().material = pouringDetector.liquid.GetComponent<MeshRenderer>().material;
             }
-            /*if (other.GetComponentInParent<PourDetector>() != null)
-            {
-                if(other.GetComponentInParent<AlchemyIngredient>().ingredient == alchemyIng.ingredient)
-                {
-                    pouringDetector = other.GetComponentInParent<PourDetector>();
-                }
-            }*/
         }
-        //if(other.GetComponent<FluidCatcher>() == this)
     }
 
     private void OnTriggerStay(Collider other)
@@ -40,10 +33,10 @@ public class FluidCatcher : MonoBehaviour
                 {
                     if (pouringDetector.onlyEmptyWhenFilling)
                     {
-                        pouringDetector.fluid.fillAmount -= 1f;
+                        pouringDetector.fluid.fillAmount -= pourAmount;
                         pouringDetector.UpdateVisual();
                     }
-                    alchemyIng.fillAmount += 1f;
+                    alchemyIng.fillAmount += pourAmount;
                     receivingDetector.UpdateVisual();
                 }
                 else
