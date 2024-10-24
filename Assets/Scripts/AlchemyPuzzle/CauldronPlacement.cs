@@ -30,7 +30,7 @@ public class CauldronPlacement : MonoBehaviour
 
         if (storage != null)
         {
-            storage.SetLocks(true, true);
+            storage.SetLocks(false, false);
         }
         if(fakeCauldron != null)
         {
