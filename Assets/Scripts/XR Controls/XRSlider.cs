@@ -65,5 +65,4 @@ public class XRSlider : MonoBehaviour
     { this.hand = hand; active = true; }
     void OnRelease()
     { hand = null; active = false; }
-    
 }
