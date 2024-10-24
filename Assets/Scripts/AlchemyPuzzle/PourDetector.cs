@@ -70,6 +70,9 @@ public class PourDetector : MonoBehaviour
 
         hit.transform.gameObject.TryGetComponent<FluidCatcher>(out FluidCatcher fc);
         fc?.Pour(gameObject);
+        hit.transform.gameObject.TryGetComponent<AlchemyPouring>(out AlchemyPouring pourPuzzle);
+        pourPuzzle?.FirstPour(gameObject);
+        pourPuzzle?.Pour(gameObject);
     }
 
     void EndPour()
