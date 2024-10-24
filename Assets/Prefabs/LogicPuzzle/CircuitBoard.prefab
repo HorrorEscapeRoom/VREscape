@@ -240,6 +240,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa646ffaccfff6b4c9f348be61ab74d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <PuzzleId>k__BackingField: 0
+  <PuzzleType>k__BackingField: 0
+  AllowRepeatCompletedActivations: 0
   SwitchList:
   - active: 0
     SwitchObject: {fileID: 2985935631458305234}
@@ -436,6 +439,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e713cc5d09859b4fbd92568f534f7c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowPlace: 0
+  allowGrab: 0
+  PermitTag: 
 --- !u!114 &5199856797235554537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -570,6 +576,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e713cc5d09859b4fbd92568f534f7c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowPlace: 0
+  allowGrab: 0
+  PermitTag: 
 --- !u!114 &645573597624507782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -922,6 +931,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e713cc5d09859b4fbd92568f534f7c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowPlace: 0
+  allowGrab: 0
+  PermitTag: 
 --- !u!114 &6803418373161542894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1165,6 +1177,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e713cc5d09859b4fbd92568f534f7c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowPlace: 0
+  allowGrab: 0
+  PermitTag: 
 --- !u!114 &1493086635277615492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1408,6 +1423,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e713cc5d09859b4fbd92568f534f7c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allowPlace: 0
+  allowGrab: 0
+  PermitTag: 
 --- !u!114 &5975719439582110129
 MonoBehaviour:
   m_ObjectHideFlags: 0
