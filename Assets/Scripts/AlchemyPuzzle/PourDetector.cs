@@ -31,7 +31,7 @@ public class PourDetector : MonoBehaviour
 
     private void Update()
     {
-        bool pourCheck = CalculatePouringAngle() < pourThreshold;
+        bool pourCheck = CanPour();
         if (pourCheck)
         {
             CreateRaycast();
@@ -51,6 +51,11 @@ public class PourDetector : MonoBehaviour
         UpdateFluidAmount();
     }
     
+    public bool CanPour()
+    {
+        return CalculatePouringAngle() < pourThreshold;
+    }
+
     private void StartPour()
     {
         currentStream = CreateStream();
@@ -109,7 +114,7 @@ public class PourDetector : MonoBehaviour
         if (fluid.fillAmount <= 0 && fluid != null && currentStream != null) //currentFluidAmount <= 0 &&
         {
             isPouring = false;
-            gameObject.GetComponent<AlchemyIngredient>().ingredient = null;
+            gameObject.GetComponent<AlchemyIngredient>().ingredient = "";
             UpdateVisual();
             //fluid = null;
         }
