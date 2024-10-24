@@ -32,6 +32,10 @@ public class PourDetector : MonoBehaviour
     private void Update()
     {
         bool pourCheck = CalculatePouringAngle() < pourThreshold;
+        if (pourCheck)
+        {
+            CreateRaycast();
+        }
         if (isPouring != pourCheck )
         {
             isPouring = pourCheck;            
@@ -51,6 +55,16 @@ public class PourDetector : MonoBehaviour
     {
         currentStream = CreateStream();
         currentStream.Begin();
+
+    }
+
+    void CreateRaycast()
+    {
+        RaycastHit hit;
+        Physics.Raycast(origin.position,Vector3.down, out hit);
+
+        hit.transform.gameObject.TryGetComponent<FluidCatcher>(out FluidCatcher fc);
+        fc?.Pour(gameObject);
     }
 
     void EndPour()
