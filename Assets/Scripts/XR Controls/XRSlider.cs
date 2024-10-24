@@ -16,7 +16,7 @@ public class XRSlider : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     { 
-        hud = FindObjectOfType<VRHudManager>();
+        hud = FindFirstObjectByType<VRHudManager>();
         slider = transform.GetChild(1); 
         sliderStart = transform.GetChild(2).position;
         sliderEnd = transform.GetChild(3).position;

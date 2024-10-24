@@ -7,13 +7,7 @@ using UnityEngine.InputSystem.LowLevel;
 public class ObjectClick : MonoBehaviour
 {
     public GameObject CircuitBoard; 
-
-// Start is called before the first frame update
-    void Start()
-    {
-        Debug.Log($"I started objectclick on {gameObject.name}");
-    }
-
+    
     // Update is called once per frame
     void Update()
     {        
@@ -25,7 +19,7 @@ public class ObjectClick : MonoBehaviour
             {
                 if (hit.transform.name == "Switch0" || hit.transform.name == "Switch1" || hit.transform.name == "Switch2")
                 {
-                    Debug.Log($"Hit switch {hit.transform.name}");
+                    //Debug.Log($"Hit switch {hit.transform.name}");
                 }
 
                 var whatever = CircuitBoard.GetComponent<CircuitBoard>() as CircuitBoard;

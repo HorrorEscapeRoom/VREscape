@@ -7,10 +7,12 @@ using UnityEngine;
 
 public class AlchemyPouring : MonoBehaviour
 {
-    public GameObject finishedResult;
+    public GameObject solutionResultItem;
     public StorageVolume resultLocation;
     public AlchemyIngredient solutionResult;
+    public AlchemyIngredient solutionResultPerfect;
     public Material solutionMaterial;
+    public Material solutionMaterialPerfect;
     public float solutionAmount;
     public bool resultIsFluid = false;
 
@@ -18,17 +20,19 @@ public class AlchemyPouring : MonoBehaviour
 
     public float maxFill = 200f;
     public bool useFill = false;
-    public GameObject fillObj;
+    public Liquid liquid;
 
     public List<AlchemyIngredient> InputItems;
     public List<float> itemAmounts;
     public List<AlchemyIngredient> SolutionItems;
 
-    bool puzzleSolved = false;
+    public bool puzzleSolved = false;
+
+    public AlchemicalCauldron cauldron;
 
     private void OnTriggerEnter(Collider other)
     {               
-        if (other.GetComponentInParent<AlchemyIngredient>() != null)
+        if (other.GetComponentInParent<AlchemyIngredient>() != null && other.GetComponentInParent<PourDetector>())
         {
             // If we are already full
             if (InputItems.Count >= maxInputItemCount)
@@ -60,27 +64,27 @@ public class AlchemyPouring : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        var newItem = other.GetComponentInParent<AlchemyIngredient>();
-
-        var whatever = InputItems.FirstOrDefault(x => x.name == newItem.name);
-        var index = InputItems.IndexOf(newItem);
-
-        if (whatever == null)         
+        if(other.GetComponentInParent<AlchemyIngredient>() != null && other.GetComponentInParent<PourDetector>())
         {
-            return;
+
+            var newItem = other.GetComponentInParent<AlchemyIngredient>();
+
+            var whatever = InputItems.FirstOrDefault(x => x.name == newItem.name);
+            var index = InputItems.IndexOf(newItem);
+
+            if (whatever == null)         
+            {
+                return;
+            }
+
+            if (itemAmounts[index] < maxFill)
+            {
+                itemAmounts[index] += 1f;
+            }
+
+            VisualFill();
+            CheckSolution();
         }
-        
-        /*if (whatever.fillAmount < maxFill)
-        {
-            whatever.fillAmount += 1f;
-        }*/
-        if (itemAmounts[index] < maxFill)
-        {
-            itemAmounts[index] += 1f;
-        }
-
-        VisualFill();
-        CheckSolution();
     }
 
     private void OnTriggerExit(Collider other)
@@ -95,18 +99,15 @@ public class AlchemyPouring : MonoBehaviour
             // All SolutionItems exist in InputItems
             if (useFill)
             {
-                /*if (InputItems.All(val => val.fillAmount >= maxFill))
-                {
-                    PuzzleSolved();
-                }*/
                 if(itemAmounts.All(val => val >= maxFill))
                 {
-                    PuzzleSolved();
+                    PuzzleSolved(true);
+                    Debug.Log("Alchemy Puzzle Solved - Pouring Perfect Ingredients");
                 }
             }
             else
             {
-                PuzzleSolved();
+                PuzzleSolved(true);
             }                     
         }
         else
@@ -116,75 +117,73 @@ public class AlchemyPouring : MonoBehaviour
             {
                 if(itemAmounts.All(val => val >= maxFill))
                 {
-                    ResetItems();
-                    print("Ingredients Incorrect - Puzzle Failed");
-                    VisualFill();
-                    //TODO: Smoke/Fizzle effect
+                    Debug.Log("Alchemy Puzzle Solved - Pouring Incorrect Ingredients");
+                    PuzzleSolved(false);
                 }
             }       
         }
     }
 
-    public void PuzzleSolved()
+    public void PuzzleSolved(bool perfectCompletion)
     {
         if (!puzzleSolved)
-        {            
-            Debug.Log("Alchemy Puzzle Solved");
+        {
             if (resultIsFluid)
             {
                 solutionAmount = maxFill * InputItems.Count;
                 //Set this puzzles Alch ingr to the solution
-                gameObject.GetComponent<AlchemyIngredient>().ingredient = solutionResult.ingredient;
+                if(perfectCompletion)
+                {
+                    gameObject.GetComponent<AlchemyIngredient>().ingredient = solutionResultPerfect.ingredient;
+                    if (solutionMaterialPerfect != null) //Set fluid Shader
+                    {
+                        liquid.GetComponent<MeshRenderer>().material = solutionMaterialPerfect;
+                    }
+                }
+                else
+                {
+                    gameObject.GetComponent<AlchemyIngredient>().ingredient = solutionResult.ingredient;
+                    if (solutionMaterial != null) //Set fluid Shader
+                    {
+                        liquid.GetComponent<MeshRenderer>().material = solutionMaterial;
+                    }
+                }
+                
                 gameObject.GetComponent<AlchemyIngredient>().fillAmount = solutionAmount;
                 gameObject.GetComponent<PourDetector>().SetFluid(solutionResult);
-                if(solutionMaterial != null) //Set fluid Shader
-                {
-                    fillObj.GetComponent<MeshRenderer>().material = solutionMaterial;
-                }
             }
             else
             {
-                resultLocation.SetItem(Instantiate(finishedResult.transform));
+                if(solutionResultItem != null)
+                {
+                    resultLocation.SetItem(Instantiate(solutionResultItem.transform));
+                }
             }
 
             puzzleSolved = true;
             ResetItems();
+            if(cauldron != null)
+            {
+                cauldron.CheckBothPuzzles(perfectCompletion);
+            }
         }
     }
 
     private void ResetItems()
     {
-        //Clears variables and Destroy objects
-        /*foreach(var item in InputItems)
-        {
-            item.fillAmount = 0;
-        }*/
         InputItems.Clear();
         itemAmounts.Clear();
     }
 
     void VisualFill()
     {
-        if (fillObj == null)
+        if (liquid == null)
             return;
+        float totalFillAmount = itemAmounts.Sum(x => x);
 
-        //Using which ever object
-        if (!puzzleSolved)
+        if(!puzzleSolved)
         {
-            float totalFillAmount = itemAmounts.Sum(x => x);//InputItems.Sum(x => x.fillAmount);
-
-            fillObj.transform.localScale = new Vector3(0.8f, (totalFillAmount / (maxFill * SolutionItems.Count))-0.1f, 0.8f);
-
-            //fillObj.transform.localPosition = new Vector3(fillObj.transform.localPosition.x, (totalFillAmount / (maxFill * SolutionItems.Count)) - 1f, fillObj.transform.localPosition.z);
+            liquid.fillAmount = Mathf.Lerp(0.7f, 0.3f, (totalFillAmount/ (maxFill*maxInputItemCount)));
         }
-        else if (puzzleSolved)
-        {            
-            fillObj.transform.localScale = new Vector3(0.8f, (solutionAmount / (maxFill * SolutionItems.Count))-0.1f, 0.8f);
-        }
-        //Using liquid shader
-        /*if (liquid != null)// 0.3 is Full 0.7 is empty
-        {
-            liquid.fillAmount = Mathf.Lerp(0.65f, 0.4f, (fluid.fillAmount / maxFluidAmount));
-        }*/
     }
 }

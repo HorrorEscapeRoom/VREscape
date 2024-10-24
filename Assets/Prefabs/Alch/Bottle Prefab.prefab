@@ -95,6 +95,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bottle Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1b540b8182256d2468b209e2e965f74a, type: 3}
+      propertyPath: m_TagString
+      value: XRItem
+      objectReference: {fileID: 0}
     - target: {fileID: 5169755032221336826, guid: 1b540b8182256d2468b209e2e965f74a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -223,6 +227,7 @@ MonoBehaviour:
   streamPrefab: {fileID: 3157059729272208096, guid: 0c92442af374a6247ba74c5b2fd0fd24, type: 3}
   yAxisPour: 0
   infiniteFluid: 0
+  onlyEmptyWhenFilling: 1
   maxFluidAmount: 200
   fluid: {fileID: 5018632602735510064}
   liquid: {fileID: 774805311784911489}

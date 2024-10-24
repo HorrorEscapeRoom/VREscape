@@ -3,27 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class AlchemicalCauldron : MonoBehaviour
+public class AlchemicalCauldron : PuzzleBase
 {        
     public GameObject finishedResult;
+    public GameObject finishedResultPerfect;
     public StorageVolume resultLocation;
 
     public List<AlchemyIngredient> currentItems;
-
     public List<AlchemyIngredient> solutionItems;
 
-    public bool testing = false;
-    public float timer = 5;
-    float timer2 = 0;
-
     bool puzzleSolved = false;
+    public bool combinedPuzzle = false;
+    public bool bothPuzzlesSolved = false;
+    public AlchemyPouring PouringPuzzle;
+
+    private void Start()
+    {
+        RegisterWithOrchestrator();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "XRItem" && other.GetComponent<AlchemyIngredient>() != null)
+        if(other.tag == "XRItem" && other.GetComponent<AlchemyIngredient>() != null && other.GetComponentInParent<PourDetector>() == null)
         {
-            //print("Is an alchemical ingredient");
-            AddItem(other.transform);            
+            if(!puzzleSolved)
+            {
+                AddItem(other.transform);
+            }
         }
     }
 
@@ -49,38 +55,68 @@ public class AlchemicalCauldron : MonoBehaviour
     {
         if (currentItems.ContainsAll(solutionItems))
         {
-            PuzzleSolved();
+            PuzzleSolved(true);
         }
         else if(currentItems.Count >= solutionItems.Count)
         {
-            ResetPuzzle();
-            print("Ingredients Incorrect");
+            PuzzleSolved(false);
         }
     }
 
 
-    public void PuzzleSolved()
+    public void PuzzleSolved(bool perfectSolution)
     {
-        if (puzzleSolved != true)
+        if (puzzleSolved != true && combinedPuzzle == false)
         {
-            print("Alchemy Puzzle Solved");
-            resultLocation.SetItem(Instantiate(finishedResult.transform));
+            if(perfectSolution)
+            {
+                print("Alchemy Cauldron Puzzle Solved Perfectly");
+                resultLocation.SetItem(Instantiate(finishedResultPerfect.transform));
+            }
+            else
+            {
+                print("Alchemy Cauldron Puzzle Solved Poorly");
+                resultLocation.SetItem(Instantiate(finishedResult.transform));
+            }
+            
             puzzleSolved = true;
 
             //Clears variables and Destroy objects
-            /*item1 = null; item2 = null; item3 = null;*/
             ResetPuzzle();
+        }
+        else if(combinedPuzzle)
+        {
+            print("Cauldron items completed");
+            puzzleSolved = true;
+            CheckBothPuzzles(perfectSolution);
         }
     }
 
-    private void Update()
+    public void CheckBothPuzzles(bool perfectSolution)
     {
-        if (testing && timer2 <= Time.time)
+        if(!bothPuzzlesSolved)
         {
-            CheckSolution();
-            timer2 += Time.time + timer;
+            if(PouringPuzzle != null)
+            {
+                if(puzzleSolved && PouringPuzzle.puzzleSolved)
+                {
+                    bothPuzzlesSolved = true;
+                    if (perfectSolution)
+                    {
+                        print("Alchemy Cauldron Puzzle Solved Perfectly");
+                        resultLocation.SetItem(Instantiate(finishedResultPerfect.transform));
+                    }
+                    else
+                    {
+                        print("Alchemy Cauldron Puzzle Solved Poorly");
+                        resultLocation.SetItem(Instantiate(finishedResult.transform));
+                    }
+                    OnPuzzleComplete(true);
+                }
+            }
         }
     }
+
 
     void ResetPuzzle()
     {

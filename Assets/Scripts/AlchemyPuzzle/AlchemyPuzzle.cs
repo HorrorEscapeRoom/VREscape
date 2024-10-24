@@ -10,6 +10,7 @@ public class AlchemyPuzzle : MonoBehaviour
     public List<AlchemyIngredient> currentIngredients;
 
     public XRItem puzzleSolvedItem;
+    public XRItem puzzlePerfectSolvedItem;
     public StorageVolume SolvedLocation;
 
     public List<AlchemyIngredient> solutionItems;
@@ -45,21 +46,31 @@ public class AlchemyPuzzle : MonoBehaviour
     {
         if (currentIngredients.ContainsAll(solutionItems))
         {
-            PuzzleSolved();
+            PuzzleSolved(true);
         }
-        else
+        else if(currentIngredients.Count == solutionItems.Count)
         {
-            print("Incorrect Ingredients");
+            PuzzleSolved(false);
         }
     }
 
 
-    public void PuzzleSolved()
+    public void PuzzleSolved(bool perfectCompletion)
     {
         if (puzzleSolved != true)
         {
-            print("Alchemy Puzzle Solved");
-            SolvedLocation.SetItem(Instantiate(puzzleSolvedItem.transform));
+            if (perfectCompletion)
+            {
+                print("Alchemy Item Puzzle Solved Perfectly");
+                SolvedLocation.SetItem(Instantiate(puzzlePerfectSolvedItem.transform));
+            }
+            else
+            {
+                print("Alchemy Item Puzzle Solved Poorly");
+                SolvedLocation.SetItem(Instantiate(puzzleSolvedItem.transform));
+            }
+            
+            
             puzzleSolved = true;
             
             

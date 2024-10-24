@@ -1,14 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
-using Unity.VisualScripting;
-using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
-using UnityEngine.WSA;
-using UnityEngine.XR;
-using static UnityEditor.FilePathAttribute;
+
 
 public class XRKnob : MonoBehaviour
 {
@@ -31,7 +23,7 @@ public class XRKnob : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-        hud = FindObjectOfType<VRHudManager>();
+        hud = FindFirstObjectByType<VRHudManager>();
         model = transform.GetChild(0);
 		UpdateMeshRotation();
 	}
@@ -98,7 +90,5 @@ public class XRKnob : MonoBehaviour
 
 	private void debug_draw_axis(Vector3 point, Vector3 axis, Color col){
 		hud.DrawLine(point, point + (axis*5.0f),1000.0f , col);
-		
 	}
-
 }

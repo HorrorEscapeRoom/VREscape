@@ -1,9 +1,12 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class PourDetector : MonoBehaviour
 {
+    [Tooltip("Angle at which pouring activates")]
     public int pourThreshold = 45;
+    [Tooltip("Location where the stream is created")]
     public Transform origin;
     public GameObject streamPrefab;
 
@@ -67,7 +70,8 @@ public class PourDetector : MonoBehaviour
         }
         else
         {
-            return transform.forward.z * Mathf.Rad2Deg;
+            float[] currentPourAngles = { transform.forward.z * Mathf.Rad2Deg, transform.right.x * Mathf.Rad2Deg };
+            return currentPourAngles.Min();
         }
     }
 
