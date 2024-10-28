@@ -1061,7 +1061,7 @@ Transform:
   m_GameObject: {fileID: 236235389}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.13600004, y: 1, z: -0.09399986}
+  m_LocalPosition: {x: 1.488, y: 0.19899994, z: -0.09399986}
   m_LocalScale: {x: 0.099999994, y: 0.10000001, z: 0.10000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1756,7 +1756,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &394794501
 Transform:
   m_ObjectHideFlags: 0
@@ -1766,7 +1766,7 @@ Transform:
   m_GameObject: {fileID: 394794500}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 3.99, z: 0}
+  m_LocalPosition: {x: -1.515, y: 3.99, z: 0}
   m_LocalScale: {x: 0.099999994, y: 0.10000001, z: 0.10000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2955,7 +2955,6 @@ MonoBehaviour:
   pourThreshold: 45
   origin: {fileID: 1497622116}
   streamPrefab: {fileID: 3157059729272208096, guid: 0c92442af374a6247ba74c5b2fd0fd24, type: 3}
-  yAxisPour: 0
   infiniteFluid: 0
   onlyEmptyWhenFilling: 0
   maxFluidAmount: 600
@@ -4736,7 +4735,7 @@ Transform:
   m_GameObject: {fileID: 1319127195}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.164, y: 1, z: -0.094}
+  m_LocalPosition: {x: 1.188, y: 0.199, z: -0.094}
   m_LocalScale: {x: 0.099999994, y: 0.10000001, z: 0.10000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5289,7 +5288,7 @@ Transform:
   m_GameObject: {fileID: 1550640344}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.014000028, y: 1, z: -0.09399986}
+  m_LocalPosition: {x: 1.3379999, y: 0.19899994, z: -0.09399986}
   m_LocalScale: {x: 0.099999994, y: 0.10000001, z: 0.10000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6901,7 +6900,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1202254751348910650, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
       propertyPath: maxFill
-      value: 600
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1202254751348910650, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
+      propertyPath: useFill
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3340197404017181022, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
       propertyPath: fillAmount
@@ -6910,6 +6913,10 @@ PrefabInstance:
     - target: {fileID: 4836959251148696771, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
       propertyPath: m_Name
       value: Cauldron
+      objectReference: {fileID: 0}
+    - target: {fileID: 7490977373206753707, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.296
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

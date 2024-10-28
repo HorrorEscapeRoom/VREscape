@@ -28,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1169583481032939573}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: -0, z: 0.014}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.013999938}
   m_LocalScale: {x: 0.85, y: 0.9, z: 0.85}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -234,9 +234,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3266341766202267323}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0096712, y: 1.0096712, z: 1.0096712}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0096712, y: 1.009671, z: 1.009671}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6325240980869137155}
@@ -540,7 +540,6 @@ MonoBehaviour:
   pourThreshold: 45
   origin: {fileID: 6039582733862857194}
   streamPrefab: {fileID: 3157059729272208096, guid: 0c92442af374a6247ba74c5b2fd0fd24, type: 3}
-  yAxisPour: 0
   infiniteFluid: 1
   onlyEmptyWhenFilling: 0
   maxFluidAmount: 600
@@ -791,8 +790,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6844072634285662265}
-  - {fileID: 837340614835674249}
   - {fileID: 6039582733862857194}
+  - {fileID: 837340614835674249}
   m_Father: {fileID: 333177782410359524}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2022833816449593695

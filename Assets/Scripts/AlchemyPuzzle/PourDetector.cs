@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -68,11 +69,21 @@ public class PourDetector : MonoBehaviour
         Physics.Raycast(origin.position,Vector3.down, out hit);
 
         hit.transform.gameObject.TryGetComponent<FluidCatcher>(out FluidCatcher fc);
-		//Debug.Log(fc);
         fc?.Pour(gameObject);
-        hit.transform.gameObject.TryGetComponent<AlchemyPouring>(out AlchemyPouring pourPuzzle);
+        AlchemyPouring pourPuzzle;
+        /*hit.transform.gameObject.TryGetComponent<AlchemyPouring>(out AlchemyPouring pourPuzzle);
         pourPuzzle?.FirstPour(gameObject);
-        pourPuzzle?.Pour(gameObject);
+        pourPuzzle?.Pour(gameObject);*/
+        try
+        {
+            pourPuzzle = hit.transform.gameObject.GetComponentInParent<AlchemyPouring>();
+            pourPuzzle?.FirstPour(gameObject);
+            pourPuzzle?.Pour(gameObject);
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 
     void EndPour()

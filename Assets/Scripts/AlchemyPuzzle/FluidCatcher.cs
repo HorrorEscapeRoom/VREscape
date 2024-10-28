@@ -13,7 +13,6 @@ public class FluidCatcher : MonoBehaviour
 
     public void Pour(GameObject other)
     {
-		Debug.Log("am moving liqide");
         if (receivingDetector.CanPour())
         {
             return;
