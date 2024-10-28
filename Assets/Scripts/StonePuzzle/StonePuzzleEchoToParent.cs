@@ -1,9 +1,8 @@
-using Assets.Scripts.LogicGatePuzzle;
 using UnityEngine;
 
 public class StonePuzzleEchoToParent : MonoBehaviour
 {
-    // Start is called before the first frame update
+    
     [SerializeField]
     int Index;
     GemCradle _gemCradle;

@@ -1,8 +1,6 @@
 using Assets.Scripts.LogicGatePuzzle;
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.LowLevel;
 
 public class ObjectClick : MonoBehaviour
 {
