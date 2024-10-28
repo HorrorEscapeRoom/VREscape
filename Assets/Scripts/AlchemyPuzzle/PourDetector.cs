@@ -10,7 +10,6 @@ public class PourDetector : MonoBehaviour
     public Transform origin;
     public GameObject streamPrefab;
 
-    public bool yAxisPour = false;
     bool isPouring = false;
     Stream currentStream;
 
@@ -53,7 +52,7 @@ public class PourDetector : MonoBehaviour
     
     public bool CanPour()
     {
-        return CalculatePouringAngle() < pourThreshold;
+        return Vector3.Angle(transform.up, Vector3.up) > pourThreshold;
     }
 
     private void StartPour()
@@ -69,6 +68,7 @@ public class PourDetector : MonoBehaviour
         Physics.Raycast(origin.position,Vector3.down, out hit);
 
         hit.transform.gameObject.TryGetComponent<FluidCatcher>(out FluidCatcher fc);
+		//Debug.Log(fc);
         fc?.Pour(gameObject);
         hit.transform.gameObject.TryGetComponent<AlchemyPouring>(out AlchemyPouring pourPuzzle);
         pourPuzzle?.FirstPour(gameObject);
@@ -84,18 +84,6 @@ public class PourDetector : MonoBehaviour
         }
     }
 
-    float CalculatePouringAngle()
-    {
-        if(yAxisPour)
-        {
-            return transform.forward.y * Mathf.Rad2Deg;
-        }
-        else
-        {
-            float[] currentPourAngles = { transform.forward.z * Mathf.Rad2Deg, transform.right.x * Mathf.Rad2Deg };
-            return currentPourAngles.Min();
-        }
-    }
 
     Stream CreateStream()
     {
