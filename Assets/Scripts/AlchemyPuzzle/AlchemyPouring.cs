@@ -30,7 +30,7 @@ public class AlchemyPouring : MonoBehaviour
 
     public AlchemicalCauldron cauldron;
 
-    private void OnTriggerEnter(Collider other)
+    public void FirstPour(GameObject other)
     {               
         if (other.GetComponentInParent<AlchemyIngredient>() != null && other.GetComponentInParent<PourDetector>())
         {
@@ -62,7 +62,7 @@ public class AlchemyPouring : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    public void Pour(GameObject other)
     {
         if(other.GetComponentInParent<AlchemyIngredient>() != null && other.GetComponentInParent<PourDetector>())
         {
@@ -94,6 +94,10 @@ public class AlchemyPouring : MonoBehaviour
 
     void CheckSolution()
     {
+        if(puzzleSolved)
+        {
+            return;
+        }
         if (InputItems.ContainsAll(SolutionItems))
         {
             // All SolutionItems exist in InputItems

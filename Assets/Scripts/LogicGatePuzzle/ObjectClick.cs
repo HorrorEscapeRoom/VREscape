@@ -6,8 +6,7 @@ using UnityEngine.InputSystem.LowLevel;
 
 public class ObjectClick : MonoBehaviour
 {
-    public GameObject CircuitBoard; 
-    
+    public GameObject CircuitBoard;    
     // Update is called once per frame
     void Update()
     {        
@@ -30,11 +29,11 @@ public class ObjectClick : MonoBehaviour
                         Debug.Log($"Switch0 set to {whatever.SwitchList[0].active}");
                         if (whatever.SwitchList[0].active)
                         {
-                            whatever.SwitchList[0].SwitchObject.GetComponent<MeshRenderer>().materials[0].color = Color.green;
+                            whatever.SwitchList[0].SwitchObject.GetComponentInChildren<MeshRenderer>().materials[0].color = Color.green;
                         }
                         else
                         {
-                            whatever.SwitchList[0].SwitchObject.GetComponent<MeshRenderer>().materials[0].color = Color.red;
+                            whatever.SwitchList[0].SwitchObject.GetComponentInChildren<MeshRenderer>().materials[0].color = Color.red;
                         }
                         break;
                     case "Switch1":
@@ -42,11 +41,11 @@ public class ObjectClick : MonoBehaviour
                         Debug.Log($"Switch1 set to {whatever.SwitchList[1].active}");
                         if (whatever.SwitchList[1].active)
                         {
-                            whatever.SwitchList[1].SwitchObject.GetComponent<MeshRenderer>().materials[0].color = Color.green;
+                            whatever.SwitchList[1].SwitchObject.GetComponentInChildren<MeshRenderer>().materials[0].color = Color.green;
                         }
                         else
                         {
-                            whatever.SwitchList[1].SwitchObject.GetComponent<MeshRenderer>().materials[0].color = Color.red;
+                            whatever.SwitchList[1].SwitchObject.GetComponentInChildren<MeshRenderer>().materials[0].color = Color.red;
                         }
                         break;
                     case "Switch2":
@@ -54,11 +53,11 @@ public class ObjectClick : MonoBehaviour
                         Debug.Log($"Switch2 set to {whatever.SwitchList[2].active}");
                         if (whatever.SwitchList[2].active)
                         {
-                            whatever.SwitchList[2].SwitchObject.GetComponent<MeshRenderer>().materials[0].color = Color.green;
+                            whatever.SwitchList[2].SwitchObject.GetComponentInChildren<MeshRenderer>().materials[0].color = Color.green;
                         }
                         else
                         {
-                            whatever.SwitchList[2].SwitchObject.GetComponent<MeshRenderer>().materials[0].color = Color.red;
+                            whatever.SwitchList[2].SwitchObject.GetComponentInChildren<MeshRenderer>().materials[0].color = Color.red;
                         }
                         break;
                 }
@@ -66,5 +65,21 @@ public class ObjectClick : MonoBehaviour
                 whatever.UpdateAllSocketState();
             }
         }
+    }
+
+    public void OnButtonPressed(int index)
+    {
+        var whatever = CircuitBoard.GetComponent<CircuitBoard>() as CircuitBoard;
+        whatever.SwitchList[index].active = !whatever.SwitchList[index].active;
+        Debug.Log($"Switch0 set to {whatever.SwitchList[0].active}");
+        if (whatever.SwitchList[index].active)
+        {
+            whatever.SwitchList[index].SwitchObject.GetComponentInChildren<MeshRenderer>().materials[0].color = Color.green;
+        }
+        else
+        {
+            whatever.SwitchList[index].SwitchObject.GetComponentInChildren<MeshRenderer>().materials[0].color = Color.red;
+        }
+        whatever.UpdateAllSocketState();
     }
 }

@@ -170,8 +170,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e713cc5d09859b4fbd92568f534f7c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowPlace: 0
-  allowGrab: 0
+  allowPlace: 1
+  allowGrab: 1
   PermitTag: Cauldron
 --- !u!1001 &4152442428958534662
 PrefabInstance:

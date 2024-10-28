@@ -12,6 +12,10 @@ namespace Assets.Scripts.LogicGatePuzzle
 		public List<GameObject> LightList = new();
 		[SerializeField]
         public List<SocketState> ICList = new();
+        [SerializeField]
+        Material lightRed;
+        [SerializeField]
+        Material lightGreen;
 
         private bool _verboseLog;
         public void Start()
@@ -148,7 +152,7 @@ namespace Assets.Scripts.LogicGatePuzzle
 				return;
 			}
 
-	        LightList[index].GetComponent<MeshRenderer>().materials[0].color = newState ? Color.green : Color.red;
+	        LightList[index].GetComponent<MeshRenderer>().material = newState ? lightGreen : lightRed;
         }
 
 		private void UpdateSwitchState(int index, bool newState)
@@ -161,7 +165,7 @@ namespace Assets.Scripts.LogicGatePuzzle
 
 			SwitchList[index].active = newState;
 
-            SwitchList[index].SwitchObject.GetComponent<MeshRenderer>().materials[0].color = newState ? Color.green : Color.red;
+            SwitchList[index].SwitchObject.GetComponent<MeshRenderer>().material = newState ? lightGreen : lightRed;
 
             UpdateAllSocketState();
         }
@@ -192,7 +196,7 @@ namespace Assets.Scripts.LogicGatePuzzle
         
         private void CheckIsComplete()
         {
-            if (LightList.All(x => x.GetComponent<MeshRenderer>().materials[0].color == Color.green))
+            if (LightList.All(x => x.GetComponent<MeshRenderer>().material == lightGreen))
             {
 	            if (_verboseLog)
 	            {

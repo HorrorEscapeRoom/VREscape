@@ -31,7 +31,11 @@ public class PourDetector : MonoBehaviour
 
     private void Update()
     {
-        bool pourCheck = CalculatePouringAngle() < pourThreshold;
+        bool pourCheck = CanPour();
+        if (pourCheck)
+        {
+            CreateRaycast();
+        }
         if (isPouring != pourCheck )
         {
             isPouring = pourCheck;            
@@ -47,10 +51,28 @@ public class PourDetector : MonoBehaviour
         UpdateFluidAmount();
     }
     
+    public bool CanPour()
+    {
+        return CalculatePouringAngle() < pourThreshold;
+    }
+
     private void StartPour()
     {
         currentStream = CreateStream();
         currentStream.Begin();
+
+    }
+
+    void CreateRaycast()
+    {
+        RaycastHit hit;
+        Physics.Raycast(origin.position,Vector3.down, out hit);
+
+        hit.transform.gameObject.TryGetComponent<FluidCatcher>(out FluidCatcher fc);
+        fc?.Pour(gameObject);
+        hit.transform.gameObject.TryGetComponent<AlchemyPouring>(out AlchemyPouring pourPuzzle);
+        pourPuzzle?.FirstPour(gameObject);
+        pourPuzzle?.Pour(gameObject);
     }
 
     void EndPour()
@@ -95,7 +117,7 @@ public class PourDetector : MonoBehaviour
         if (fluid.fillAmount <= 0 && fluid != null && currentStream != null) //currentFluidAmount <= 0 &&
         {
             isPouring = false;
-            gameObject.GetComponent<AlchemyIngredient>().ingredient = null;
+            gameObject.GetComponent<AlchemyIngredient>().ingredient = "";
             UpdateVisual();
             //fluid = null;
         }
