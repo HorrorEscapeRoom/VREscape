@@ -10,21 +10,20 @@ public class PipeSink : MonoBehaviour
 	public PipePuzzelLiquidHolder drain_waterSource;
 
 	public GameObject KeyPrefab;
-	public GameObject streamPrefab;
 
-	public Transform Tap_hole_loaction;
+	//public Transform Tap_hole_loaction;
 
-	Stream streamObject;
+	public Stream streamObject;
 
 	private bool key_dispensed = false;
 
 	float fill_amount = 0.0f;
 	bool tap_stream_on = false;
 
-	void Start()
-    {
-		streamObject = Instantiate(streamPrefab, Tap_hole_loaction.position, Quaternion.identity, transform).GetComponent<Stream>();
-	}
+	//void Start()
+    //{
+	//	streamObject = Instantiate(streamPrefab, Tap_hole_loaction.position, Quaternion.identity, transform).GetComponent<Stream>();
+	//}
 	//[ContextMenu("DoSinkAnimation")]
 	//void DoSinkAnimation() {
 	//	sinkAnimationEndTime = Time.time + 10.0f;
@@ -38,9 +37,9 @@ public class PipeSink : MonoBehaviour
 
 		if (tap_waterSource.amount > 0.5) {
 			fill_amount += tap_waterSource.amount * Time.deltaTime * 0.1f;
-			if (!tap_stream_on) streamObject.Begin();
+			//if (!tap_stream_on) streamObject.Begin();
 		} else {
-			if (tap_stream_on) streamObject.End();
+			//if (tap_stream_on) streamObject.End();
 		}
 
 		fill_amount += drain_waterSource.amount * Time.deltaTime * 0.1f;
