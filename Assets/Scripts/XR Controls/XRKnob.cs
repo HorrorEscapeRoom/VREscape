@@ -8,136 +8,93 @@ public class XRKnob : MonoBehaviour
     [SerializeField] int amountDialNumbers;
     [SerializeField] List<int> correctNumbers = new();
     [SerializeField] float pauseDuration = new();
-    [SerializeField] GameObject door;
-    [SerializeField] AudioSource doorMoving;
-    [SerializeField] AudioSource correctNumber;
-    [SerializeField] AudioSource incorrectNumber;
-    [SerializeField] AudioSource locking;
-    [SerializeField] AudioSource unlocking;
-    [SerializeField] AudioSource combinationComplete;
-    [SerializeField] GameObject safe;
-    [SerializeField] float speedDial;
-    [SerializeField] float speedDoor;
+    [SerializeField] AudioSource[] audioSorces;
+
+    enum Sound
+    {
+        DoorMoving,
+        CorrectNumber,
+        IncorrectNumber,
+        Locking,
+        Unlocking
+    }
+
     int maxDoorOpenAngle = 180;
 
+    GameObject door;
     public UnityEvent<float> OnValueChanged;
     VRHudManager hud;
     bool active = false;
     Transform hand, model;
+    float handRotationY;
+    float handPositionZ;
     int dialIndex;
-    float prevDoorRotation;
-    float baseAngle = 0.0f;
+    float baseAngleKnob = 0.0f;
     float angleOffset = 0.0f;
     int stepAngle;
     float initGrabHandAngel = 0.0f;
     const float EPSILON = 1.0f;
     float prevAngle;
     bool canDoorOpen = false;
+    bool lockDial = false;
     int indexOfCorrectDigit = 0;
-    string correctDirRotationDial = "CLK";
-    string currentDirRotationDial;
-
+    bool needReset = false;
+    int predecessor;
+    bool doorOpened = false;
+    bool lockSoundPlayed;
+    float doorsInitialYRotation;
     int totalAmountRotations;
     int correctAmountRotations;
+    int timesPredecessorPassed;
+    float timerHandRotation = 0.0f;
+    float timerHandDisplacement = 0.0f;
+    float pauseTimer = 0.0f;
 
-    Dictionary<int, int> timesNumberPassed = new();
-
-    float timer = 0.0f;
-
-    float absAngle { get { return ReAngle(baseAngle + angleOffset); } }
+    float AbsAngle { get { return ReAngle(baseAngleKnob + angleOffset); } }
 
     void Start()
     {
-        InitializeComponents();
-        stepAngle = 360 / amountDialNumbers;
-        prevDoorRotation = door.transform.rotation.z;
-        correctAmountRotations = CalculateCorrectRotations();
-    }
-
-    void InitializeComponents()
-    {
         hud = FindObjectOfType<VRHudManager>();
         model = transform.GetChild(0);
-        doorMoving = GetComponent<AudioSource>();
-        correctNumber = GetComponent<AudioSource>();
-        incorrectNumber = GetComponent<AudioSource>();
-        locking = GetComponent<AudioSource>();
-        unlocking = GetComponent<AudioSource>();
-        combinationComplete = GetComponent<AudioSource>();
-        door = door.gameObject.GetComponent<GameObject>();
+        stepAngle = 360 / amountDialNumbers;
+        door = transform.parent.gameObject;
+        doorsInitialYRotation = door.transform.rotation.y;
     }
 
-    void Grabbed(Transform hand) 
+    float GetHandThing()
+    {
+        Vector3 foobar = transform.InverseTransformPoint(hand.position + hand.up);
+        foobar.y = 0;
+        foobar.Normalize();
+        float result = Mathf.Atan2(foobar.z, foobar.x) * Mathf.Rad2Deg;
+        Debug.Log($"GetHandThing result: {result}");
+        return result;
+    }
+
+    void Grabbed(Transform hand)
     {
         this.hand = hand;
         initGrabHandAngel = GetHandThing();
         active = true;
+        handRotationY = hand.transform.rotation.y;
+        Debug.Log("Hand grabbed; initialization angle set.");
     }
 
-    void Released() 
+    void Released()
     {
-        baseAngle = absAngle;
+        baseAngleKnob = AbsAngle;
         active = false;
         hand = null;
+        Debug.Log("Hand released; base angle updated.");
     }
 
-    bool IsDoorOpen() => door.transform.eulerAngles.z > 0;
-
-    void PlaySound(AudioSource sound)
+    void PlaySound(Sound soundType)
     {
-        if (!sound.isPlaying) sound.Play();
-    }
-
-    int prevDialNumber = -1;  
-
-    void HandleRotationUpdate()
-    {
-        UpdateRotation();
-        if (Vector3.Distance(transform.position, hand.position) > UnGrabDistance)
+        if (!audioSorces[(int)soundType].isPlaying)
         {
-            Released();
-            return;
+            audioSorces[(int)soundType].Play();
+            Debug.Log($"Playing sound: {soundType}");
         }
-
-        if (Mathf.Abs(absAngle - prevAngle) > EPSILON)
-        {
-            prevAngle = absAngle;
-            if (timer >= pauseDuration)
-            {
-                ProcessDigitDialed();
-                timer = 0f;
-            }
-
-            int currentDialNumber = Mathf.FloorToInt(absAngle / stepAngle) % amountDialNumbers;
-
-            if (currentDialNumber != prevDialNumber)
-            {
-                if (timesNumberPassed.ContainsKey(currentDialNumber))
-                {
-                    timesNumberPassed[currentDialNumber]++;
-                }
-                else
-                {
-                    timesNumberPassed[currentDialNumber] = 1;
-                }
-
-                prevDialNumber = currentDialNumber;
-            }
-
-            totalAmountRotations = Mathf.FloorToInt((absAngle - prevAngle) / 360.0f);
-            PlaySound(IsNumberDialedCorrect() ? correctNumber : incorrectNumber);
-            ValidateConditions();
-        }
-
-        timer += Time.deltaTime;
-    }
-
-    void UpdateRotation()
-    {
-        angleOffset = (initGrabHandAngel - GetHandThing()) * speedDial;
-        UpdateMeshRotation();
-        OnValueChanged?.Invoke(absAngle);
-        hud.DrawLine(transform.position, hand.position + hand.up, 0.02f, Color.red);
     }
 
     int CalculateCorrectRotations()
@@ -145,98 +102,189 @@ public class XRKnob : MonoBehaviour
         int currentAngle = correctNumbers[indexOfCorrectDigit] * stepAngle;
         int previousAngle = correctNumbers[Mathf.Max(indexOfCorrectDigit - 1, 0)] * stepAngle;
         float angleDifference = currentAngle - previousAngle;
-        return Mathf.FloorToInt(angleDifference / 360);
+        int rotations = Mathf.FloorToInt(angleDifference / 360);
+        Debug.Log($"Current Angle: {currentAngle}, Previous Angle: {previousAngle}, Calculated Rotations: {rotations}");
+        return rotations;
     }
 
-    void ValidateConditions()
-    {
-        if (IsDoorOpen()) return;
+    bool IsLockActive() => !doorOpened && !lockDial;
 
-        currentDirRotationDial = absAngle - prevAngle < 0 ? "CCW" : "CLK";
-        if (!IsNumberDialedCorrect()) ResetCombinationState();
+    bool UpdateDoorState()
+    {
+        doorOpened = door.transform.eulerAngles.z > 0;
+        lockDial = !doorOpened;
+        Debug.Log($"Door state updated: DoorOpened={doorOpened}, LockDial={lockDial}");
+        return doorOpened;
     }
 
-    bool IsNumberDialedCorrect() =>
-        dialIndex == correctNumbers[indexOfCorrectDigit] &&
-        totalAmountRotations == correctAmountRotations;
+    bool IsHandNearby() => Vector3.Distance(transform.position, hand.position) >= UnGrabDistance;
 
-    void ResetCombinationState()
+    void ResetCombination(ref float prevAngle, ref float absAngle)
     {
-        if (IsDoorOpen()) return;
-
-        canDoorOpen = false;
-        locking.Play();
-        ResetForNextDigit();
-        timesNumberPassed.Clear();
+        indexOfCorrectDigit = 0;
+        totalAmountRotations = 0;
+        correctAmountRotations = 0;
+        timesPredecessorPassed = 0;
+        needReset = false;
+        prevAngle = absAngle;
+        Debug.Log("Combination reset.");
     }
 
-    void ResetForNextDigit()
+    void UpdateTimerIfCondition(ref float timer, bool condition)
     {
-        indexOfCorrectDigit = (indexOfCorrectDigit + 1) % correctNumbers.Count;
-        correctDirRotationDial = (indexOfCorrectDigit % 2 == 0) ? "CLK" : "CCW";
-        correctAmountRotations = CalculateCorrectRotations();
+        if (condition) timer += Time.deltaTime;
+        else timer = 0f;
     }
 
-    void ProcessDigitDialed()
+    bool IncrementIndexOfCorrectDigit(bool numberDialedCorrect, ref float timer)
     {
-        if (IsDoorOpen()) return;
-
-        dialIndex = Mathf.FloorToInt(prevAngle / stepAngle);
-        if (IsNumberDialedCorrect())
+        UpdateTimerIfCondition(ref timer, numberDialedCorrect);
+        if (numberDialedCorrect)
         {
-            if (indexOfCorrectDigit == correctNumbers.Count - 1)
+            PlaySound(Sound.CorrectNumber);
+            predecessor = correctNumbers[(indexOfCorrectDigit - 1 + correctNumbers.Count) % correctNumbers.Count];
+            if (indexOfCorrectDigit != correctNumbers.Count - 1)
             {
-                PlaySound(combinationComplete);
-                PlaySound(unlocking);
-                canDoorOpen = true;
+                indexOfCorrectDigit++;
+                Debug.Log($"Index of correct digit incremented: {indexOfCorrectDigit}");
+                return true;
             }
-            else ResetForNextDigit();
         }
-        else ResetCombinationState();
+        return false;
     }
 
-    void Update()
+    void ProcessDigitDialed(ref float timer, ref float pauseDuration, float prevAngle, float absAngle)
     {
-        if (!active)
+        if (!IsLockActive()) return;
+
+        if (timer >= pauseDuration)
         {
-            if (IsHandNearby()) Grabbed(hand);
+            dialIndex = Mathf.FloorToInt(prevAngle / stepAngle);
+            correctAmountRotations = CalculateCorrectRotations();
+            if (IncrementIndexOfCorrectDigit(dialIndex == correctNumbers[indexOfCorrectDigit], ref timer))
+            {
+                lockDial = true;
+                canDoorOpen = true;
+                PlaySound(Sound.Unlocking);
+                needReset = true;
+                Debug.Log($"Dialed digit processed: {dialIndex}, Correct index: {indexOfCorrectDigit}, Lock Dial: {lockDial}, Can Door Open: {canDoorOpen}");
+            }
+            else PlaySound(Sound.IncorrectNumber);
+        }
+    }
+
+    bool IsExpectedDirection(float angleDiff)
+    {
+        bool expectedDirection = (angleDiff > 0) == (indexOfCorrectDigit % 2 == 0);
+        Debug.Log($"Expected direction: {expectedDirection}, Index: {indexOfCorrectDigit}");
+        return expectedDirection;
+    }
+
+    bool AllConditionsMatch(float angleDifference)
+    {
+        if (!canDoorOpen) handPositionZ = hand.transform.position.z;
+
+        bool conditionsMatch = !doorOpened && !lockDial && !canDoorOpen &&
+                               dialIndex == correctNumbers[indexOfCorrectDigit] &&
+                               totalAmountRotations == correctAmountRotations &&
+                               IsExpectedDirection(angleDifference) && timesPredecessorPassed == indexOfCorrectDigit;
+
+        Debug.Log($"Checking all conditions match: {conditionsMatch}");
+        return conditionsMatch;
+    }
+
+    void IncrementPredecessorCount(ref int timesPredecessorPassed, float angleDifference)
+    {
+        if (dialIndex > predecessor && IsExpectedDirection(angleDifference)) timesPredecessorPassed++;
+        Debug.Log($"Predecessor count: {timesPredecessorPassed}, Predecessor: {predecessor}, Current Number: {dialIndex}");
+    }
+
+    void HandleDoorRotation()
+    {
+        float currentYRotation = door.transform.rotation.y;
+        float diffInitCurrentYRotation = currentYRotation - doorsInitialYRotation;
+        if (currentYRotation == doorsInitialYRotation && doorOpened)
+        {
+            PlaySound(Sound.Locking);
+            canDoorOpen = false;
+            Debug.Log("Door opened");
         }
         else
         {
-            HandleRotationUpdate();
-            if (canDoorOpen) UpdateDoorRotation();
+            if (diffInitCurrentYRotation > 0 && diffInitCurrentYRotation < 180 || diffInitCurrentYRotation < 0)
+            {
+                PlaySound(Sound.DoorMoving);
+                Debug.Log("Handling door rotation.");
+            }
         }
     }
 
-    void UpdateDoorRotation()
+    bool ApplyRotation(ref float absAngle, ref float timer, float deltaAngle, Transform model = null, GameObject targetObject = null)
     {
-        float currentDoorRotation = door.transform.eulerAngles.z;
-        currentDoorRotation = Mathf.Lerp(
-            prevDoorRotation,
-            maxDoorOpenAngle,
-            speedDoor * Time.deltaTime
-        );
-        door.transform.eulerAngles = new Vector3(
-            door.transform.eulerAngles.x,
-            door.transform.eulerAngles.y,
-            currentDoorRotation
-        );
+        if (deltaAngle > EPSILON)
+        {
+            prevAngle = absAngle;
+            if (targetObject == null)
+            {
+                model.localRotation = Quaternion.Euler(model.localRotation.eulerAngles.x, absAngle, transform.localRotation.eulerAngles.z);
+            }
+            else targetObject.transform.Rotate(0, absAngle / timer * Time.deltaTime, 0);
+
+            angleOffset = initGrabHandAngel - GetHandThing();
+            OnValueChanged?.Invoke(absAngle);
+            hud.DrawLine(transform.position, hand.position + hand.up, 0.02f, Color.red);
+
+            Debug.Log($"Applying rotation: AbsAngle={absAngle}, DeltaAngle={deltaAngle}");
+            return true;
+        }
+        else timer = 0f;
+        return false;
     }
 
-    void UpdateMeshRotation() =>
-        model.localRotation = Quaternion.Euler(
-            model.localRotation.eulerAngles.x,
-            absAngle,
-            model.localRotation.eulerAngles.z
-    );
-
-    float GetHandThing()
+    void CheckAndApplyRotation(float absAngle, float angleDifference)
     {
-        Vector3 foobar = transform.InverseTransformPoint(hand.position + hand.up);
-        foobar.y = 0;
-        foobar.Normalize();
-        return Mathf.Atan2(foobar.z, foobar.x) * Mathf.Rad2Deg;
+        if (ApplyRotation(ref absAngle, ref pauseTimer, angleDifference, model))
+        {
+            if (AllConditionsMatch(angleDifference))
+            {
+                ProcessDigitDialed(ref pauseTimer, ref pauseDuration, prevAngle, absAngle);
+                IncrementPredecessorCount(ref timesPredecessorPassed, angleDifference);
+            }
+            totalAmountRotations = Mathf.FloorToInt((angleDifference) / 360.0f);
+            Debug.Log($"Checking rotation: AbsAngle={absAngle}, Angle Difference={angleDifference}");
+        }
     }
+
+    void HandleRotationUpdate()
+    {
+        float absAngle = AbsAngle;
+        float angleDifference = absAngle - prevAngle;
+
+        if (!active)
+        {
+            if (!IsHandNearby())
+            {
+                Released();
+                return;
+            }
+            else Grabbed(hand);
+            if (UpdateDoorState())
+            {
+                handPositionZ = hand.transform.position.z;
+                needReset = true;
+                return;
+            }
+            else CheckAndApplyRotation(absAngle, angleDifference);
+            if (needReset) ResetCombination(ref prevAngle, ref absAngle);
+            if (canDoorOpen)
+            {
+                HandleDoorRotation();
+            }
+        }
+        Debug.Log("Updating rotation handling.");
+    }
+
+    void Update() => HandleRotationUpdate();
 
     float ReAngle(float angle)
     {
@@ -245,13 +293,7 @@ public class XRKnob : MonoBehaviour
         return angle;
     }
 
-    bool IsHandNearby()
-    {
-        float handDistance = Vector3.Distance(transform.position, hand.position);
-        return handDistance <= UnGrabDistance; 
-    }
-
-    private void DrawCircle(Vector3 axis, Vector3 center, float radius, float duration = 0.02f)
+    void DrawCircle(Vector3 axis, Vector3 center, float radius, float duration = 0.02f)
     {
         Vector3 up = Vector3.Cross(axis, Vector3.up);
         if (up.magnitude < 0.1f) up = Vector3.Cross(axis, Vector3.right);
@@ -265,8 +307,6 @@ public class XRKnob : MonoBehaviour
         }
     }
 
-    private void debug_draw_axis(Vector3 point, Vector3 axis, Color col)
-    {
+    void debug_draw_axis(Vector3 point, Vector3 axis, Color col) =>
         hud.DrawLine(point, point + (axis * 5.0f), 1000.0f, col);
-    }
 }
