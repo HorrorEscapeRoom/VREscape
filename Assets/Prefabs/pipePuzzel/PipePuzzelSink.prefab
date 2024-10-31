@@ -59,13 +59,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1725554228961928906}
   serializedVersion: 2
-  m_LocalRotation: {x: -6.123234e-17, y: 1, z: 6.123234e-17, w: -3.7493994e-33}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 1.274, z: 0.058}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 318070640094262280}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!114 &8085349241735634313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,7 +81,6 @@ MonoBehaviour:
   pourThreshold: 45
   origin: {fileID: 5004862222498871455}
   streamPrefab: {fileID: 7029300091906858683, guid: c505314778eb3c242b1084c6f86b1cea, type: 3}
-  yAxisPour: 0
   infiniteFluid: 1
   onlyEmptyWhenFilling: 0
   maxFluidAmount: 200
@@ -306,7 +305,7 @@ GameObject:
   - component: {fileID: 954244542047541674}
   - component: {fileID: 1789999894573002810}
   m_Layer: 0
-  m_Name: SinkWater
+  m_Name: fluid_dep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

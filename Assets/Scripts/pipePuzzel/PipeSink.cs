@@ -46,7 +46,7 @@ public class PipeSink : MonoBehaviour
 		
 		fill_amount = Mathf.Clamp(fill_amount,0, 1);
 
-		Debug.Log($"fill_amount:{fill_amount},tap_waterSource.amount: {tap_waterSource.amount} , drain_waterSource.amount {drain_waterSource.amount} ");
+		//Debug.Log($"fill_amount:{fill_amount},tap_waterSource.amount: {tap_waterSource.amount} , drain_waterSource.amount {drain_waterSource.amount} ");
 
 		
 
