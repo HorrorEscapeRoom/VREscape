@@ -60,7 +60,7 @@ Transform:
   m_GameObject: {fileID: 1725554228961928906}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: 0, y: 1.274, z: 0.058}
+  m_LocalPosition: {x: 0, y: 0, z: 0.058}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -117,7 +117,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7678420650679137376
 Transform:
@@ -256,7 +256,7 @@ MonoBehaviour:
   tap_waterSource: {fileID: 0}
   drain_waterSource: {fileID: 0}
   KeyPrefab: {fileID: 6743979937053116214, guid: c5f29ccba011fbf4cb6c11c656b43892, type: 3}
-  streamObject: {fileID: 0}
+  tap: {fileID: 8085349241735634313}
 --- !u!1 &5211074173093431212
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,7 +271,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4835358523246386454
 Transform:

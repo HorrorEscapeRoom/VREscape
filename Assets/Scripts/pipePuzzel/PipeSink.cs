@@ -13,7 +13,7 @@ public class PipeSink : MonoBehaviour
 
 	//public Transform Tap_hole_loaction;
 
-	public Stream streamObject;
+	public PourDetector tap;
 
 	private bool key_dispensed = false;
 
@@ -34,11 +34,14 @@ public class PipeSink : MonoBehaviour
     {
 
 		display_water.fillAmount = 1 - fill_amount;
-
+		Debug.Log(tap_waterSource.amount);
 		if (tap_waterSource.amount > 0.5) {
 			fill_amount += tap_waterSource.amount * Time.deltaTime * 0.1f;
+			tap.pourThreshold = 0;
+			
 			//if (!tap_stream_on) streamObject.Begin();
 		} else {
+			tap.pourThreshold = 255;
 			//if (tap_stream_on) streamObject.End();
 		}
 
