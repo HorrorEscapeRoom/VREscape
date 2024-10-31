@@ -38,17 +38,21 @@ public class CauldronPlacement : MonoBehaviour
         }
         if(realCauldron != null)
         {
-            BoxCollider box = realCauldron.GetComponent<BoxCollider>();
-            box.enabled = false;
+            /*BoxCollider box = realCauldron.GetComponent<BoxCollider>();
+            box.enabled = false;*/
             //realCauldron.tag = null;
             BoxCollider[] alchBoxes =  realCauldron.GetComponentsInChildren<BoxCollider>();
             foreach(BoxCollider thisBox in alchBoxes)
             {
-                if(thisBox != box)
+                thisBox.enabled = true;
+                /*if (thisBox != realCauldron.Get)
                 {
                     thisBox.enabled = true;
-                }
+                }*/
             }
+            /*realCauldron.GetComponent<Rigidbody>().isKinematic = true;
+            realCauldron.GetComponent<Rigidbody>().*/
+
         }
     }
 

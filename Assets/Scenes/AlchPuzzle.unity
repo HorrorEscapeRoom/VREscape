@@ -6914,9 +6914,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cauldron
       objectReference: {fileID: 0}
+    - target: {fileID: 5068951962363740936, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5068951962363740936, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7490977373206753707, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.296
+      objectReference: {fileID: 0}
+    - target: {fileID: 8442245048579319159, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8442245048579319159, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
+      propertyPath: m_Constraints
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
