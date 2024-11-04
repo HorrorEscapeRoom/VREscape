@@ -2250,6 +2250,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   puzzle: {fileID: 1209068358}
+--- !u!114 &578565603 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5018632602735510064, guid: 7f3a7d27314e27a4db544b3fcd7d2e4c, type: 3}
+  m_PrefabInstance: {fileID: 492979484}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4b512ace6178ea43ad334bb638de114, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &595877700
 GameObject:
   m_ObjectHideFlags: 0
@@ -3776,7 +3787,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6414387836005185187, guid: 7f3a7d27314e27a4db544b3fcd7d2e4c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6489272183604240395, guid: 7f3a7d27314e27a4db544b3fcd7d2e4c, type: 3}
       propertyPath: m_Constraints
@@ -6138,6 +6149,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bottle - Water
       objectReference: {fileID: 0}
+    - target: {fileID: 6414387836005185187, guid: 7f3a7d27314e27a4db544b3fcd7d2e4c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6489272183604240395, guid: 7f3a7d27314e27a4db544b3fcd7d2e4c, type: 3}
       propertyPath: m_Constraints
       value: 126
@@ -7282,6 +7297,22 @@ PrefabInstance:
       propertyPath: useFill
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1202254751348910650, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
+      propertyPath: SolutionItems.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1202254751348910650, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
+      propertyPath: 'SolutionItems.Array.data[0]'
+      value: 
+      objectReference: {fileID: 578565603}
+    - target: {fileID: 1202254751348910650, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
+      propertyPath: 'SolutionItems.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2132212782}
+    - target: {fileID: 1202254751348910650, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
+      propertyPath: 'SolutionItems.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1796383732}
     - target: {fileID: 3340197404017181022, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
       propertyPath: fillAmount
       value: 0.7
