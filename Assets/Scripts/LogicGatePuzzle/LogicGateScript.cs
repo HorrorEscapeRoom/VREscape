@@ -44,8 +44,8 @@ public class LogicGateScript : MonoBehaviour
             case EnumInputOuputType.InputB:
                 inputB.GetComponent<MeshRenderer>().material = value ? ActiveColour : InactiveColour;
                 break;
-            case EnumInputOuputType.Output:
-                output.GetComponent<MeshRenderer>().material = value ? ActiveColour : InactiveColour;
+            case EnumInputOuputType.Output:                
+                output.GetComponent<MeshRenderer>().material = value ? ActiveColour : InactiveColour;               
                 break;
         }
     }

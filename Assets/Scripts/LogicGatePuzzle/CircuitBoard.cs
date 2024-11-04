@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts.LogicGatePuzzle
@@ -10,6 +11,8 @@ namespace Assets.Scripts.LogicGatePuzzle
 		public List<InputSwitch> SwitchList = new();
 		[SerializeField]
 		public List<GameObject> LightList = new();
+        [SerializeField]
+        public List<GameObject> ExemptLightList = new();
 		[SerializeField]
         public List<SocketState> ICList = new();
         [SerializeField]
@@ -126,7 +129,10 @@ namespace Assets.Scripts.LogicGatePuzzle
         {
             if (ICList[socketIndex].ICObject == null)
             {
-                Debug.LogError($"CircuitBoard - Invalid ICObject in UpdateLogicGateState: ({socketIndex})");
+                //Debug.LogError($"CircuitBoard - Invalid ICObject in UpdateLogicGateState: ({socketIndex})");
+                //SocketState myState = new SocketState();
+                //myState.logicType = EnumLogicGateType.UNSET;                
+                //ICList[socketIndex].ICObject == (GameObject)SocketState();
                 return;
             }
             
@@ -196,9 +202,13 @@ namespace Assets.Scripts.LogicGatePuzzle
         
         private void CheckIsComplete()
         {
-            if (LightList.All(x => x.GetComponent<MeshRenderer>().material == lightGreen))
-            {
-	            if (_verboseLog)
+            List<GameObject> result = LightList
+            .Where(item1 => !ExemptLightList.Any(item2 => item2.GetInstanceID() == item1.GetInstanceID())) 
+            .ToList();
+
+            if (result.All(x => x.GetComponent<MeshRenderer>().material == lightGreen))
+            {	            
+                if (_verboseLog)
 	            {
 		            Debug.Log($"CircuitBoard - Puzzle Is Completed.");
 	            }
