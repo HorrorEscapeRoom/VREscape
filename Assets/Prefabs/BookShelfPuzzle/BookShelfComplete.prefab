@@ -11720,6 +11720,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2039326418407878903}
   - component: {fileID: 1345877582973514668}
+  - component: {fileID: 6215127486910148717}
   m_Layer: 0
   m_Name: BookShelfComplete
   m_TagString: Untagged
@@ -11759,6 +11760,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d03d11bd2a13df94c88b76c1a13bba64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <PuzzleId>k__BackingField: 0
+  <PuzzleType>k__BackingField: 0
+  AllowRepeatCompletedActivations: 0
   BookObject1: {fileID: 377892019084041007}
   BookObject2: {fileID: 4830584799252942311}
   BookObject3: {fileID: 8255941779945041550}
@@ -11771,6 +11775,25 @@ MonoBehaviour:
   object2Correct: 0
   object3Correct: 0
   object4Correct: 0
+  animation: {fileID: 6215127486910148717}
+  animationPlayed: 0
+--- !u!111 &6215127486910148717
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7403173674486401748}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 7400000, guid: 4c75f5f16c18d1e4cbb3ae957ca76685, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 4c75f5f16c18d1e4cbb3ae957ca76685, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &7422504912387352428
 GameObject:
   m_ObjectHideFlags: 0
