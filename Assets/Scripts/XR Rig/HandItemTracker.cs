@@ -6,14 +6,10 @@ public class HandItemTracker : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] Hand hand;
-    public List<Collider> touchingObj = new List<Collider>(),
-    touchingContactPoints = new List<Collider>(),
-    touchingControls = new List<Collider>();
     HoldType holdID = HoldType.None;
-    public Transform heldItem;
+    Transform heldItem;
     IInput input;
     Vector3 lastPos;
-    VRHudManager hud;
     VRController controller;
     GameObject ControlHost;
     List<Vector3> velocitySamples = new List<Vector3>();
@@ -24,7 +20,6 @@ public class HandItemTracker : MonoBehaviour
     {
         input = new IInput();
         input.Enable();
-        hud = FindObjectOfType<VRHudManager>();
         controller = GetComponentInParent<VRController>();
     }
 
@@ -35,7 +30,7 @@ public class HandItemTracker : MonoBehaviour
     void Update()
     {
         if(hand == Hand.Left){
-            if(input.LController.Grip.ReadValue<float>() > 0.5f){ PickupLogic(); }
+            if(input.LController.Grip.ReadValue<float>() > 0.5f){ PickupLogic(); } //this has code smell but i cant be damned fixing it rn
             else if(holdID != HoldType.None){ DropLogic(); }
             float trigger = input.LController.Trigger.ReadValue<float>();
             if(trigger > 0.1f && holdID == HoldType.Item){
@@ -48,7 +43,7 @@ public class HandItemTracker : MonoBehaviour
             if(input.LController.SecondayButton.triggered){ controller.LogOffsetFromHead(transform.position); }
         }
         else{
-            if(input.RController.Grip.ReadValue<float>() > 0.5f){ PickupLogic(); }
+            if(input.RController.Grip.ReadValue<float>() > 0.5f){ PickupLogic(); } //this has code smell but i cant be damned fixing it rn
             else if(holdID != HoldType.None){ DropLogic(); }
             float trigger = input.RController.Trigger.ReadValue<float>();
             if(trigger > 0.1f && holdID == HoldType.Item){ 
@@ -86,26 +81,6 @@ public class HandItemTracker : MonoBehaviour
             heldItem.rotation = transform.rotation * rotationOffset;
         }
         
-        try{
-            string touching = $"Touching: {holdID}";
-            if(holdID == HoldType.Item){
-                touching += $" {heldItem.name}";
-            }
-            if(holdID == HoldType.Control){
-                touching += $" {ControlHost.name}";
-            }
-            foreach(Collider col in touchingObj){
-                touching += $"\n{col.name}";
-            }
-            foreach(Collider col in touchingContactPoints){
-                touching += $"\n{col.name}";
-            }
-            hud.SetTouchingText(hand == Hand.Right, touching);
-        }catch (System.Exception e){
-            touchingObj.Clear();
-            touchingControls.Clear();
-            hud.Debug(e.Message);
-        }
     }
     void FixedUpdate(){
         Vector3 vel = (transform.parent.localPosition - lastPos) / Time.deltaTime * 1.1f;
@@ -117,22 +92,40 @@ public class HandItemTracker : MonoBehaviour
         }
     }
     void PickupLogic(){
-        if(holdID == HoldType.None && touchingObj.Count + touchingContactPoints.Count + touchingControls.Count > 0){
+        Vector3 handCheck = transform.position + (transform.forward * -0.03f);
+        Collider[] touchingObj = Physics.OverlapSphere(handCheck, 0.035f);
+        List<Collider> touchingControls = new List<Collider>();
+        List<Collider> touchingContactPoints = new List<Collider>();
+        foreach(Collider col in touchingObj){
+            if(col.gameObject.CompareTag("XRControl")){
+                touchingControls.Add(col);
+            }
+            else if(col.gameObject.CompareTag("StorageVolume")){
+                touchingContactPoints.Add(col);
+            }
+        }
+        if(holdID == HoldType.None && touchingObj.Length > 0){
             foreach(Collider inv in touchingContactPoints){
                 StorageVolume storage = inv.GetComponent<StorageVolume>();
                 if(storage.CanPickup()){
                     holdID = HoldType.Item;
                     heldItem = storage.GetItem();
-                    heldItem.BroadcastMessage("OnPickup", SendMessageOptions.DontRequireReceiver);
+                    heldItem.BroadcastMessage("OnPickup", transform, SendMessageOptions.DontRequireReceiver);
+                    heldItem.GetComponent<Collider>().enabled = false;
+                    //hud.Debug($"{hand} hand picked up item ({heldItem.name}) from storage {inv.name}");
                     return;
                 }
             }
             foreach(Collider col in touchingObj){
-                holdID = HoldType.Item;
-                heldItem = col.transform;
-                heldItem.GetComponent<Rigidbody>().isKinematic = true;
-                heldItem.BroadcastMessage("OnPickup", SendMessageOptions.DontRequireReceiver);
-                return;
+                if(col.gameObject.CompareTag("XRItem")){ 
+                    holdID = HoldType.Item;
+                    heldItem = col.transform;
+                    heldItem.GetComponent<Rigidbody>().isKinematic = true;
+                    heldItem.BroadcastMessage("OnPickup", transform, SendMessageOptions.DontRequireReceiver);
+                    heldItem.GetComponent<Collider>().enabled = false;
+                    //hud.Debug($"{hand} hand picked up item ({heldItem.name})");
+                    return;
+                }
             }
             if(touchingControls.Count > 0){
                 ControlHost = touchingControls[0].transform.gameObject;
@@ -158,24 +151,34 @@ public class HandItemTracker : MonoBehaviour
                     Debug.LogError("Error: expected control but none found");
                 }
             }
+            Vector3 handCheck = transform.position + (transform.forward * -0.03f);
+            Collider[] col = Physics.OverlapSphere(handCheck, 0.035f);
             //if we are touching a storage volume then add the item to it
-            foreach(Collider inv in touchingContactPoints){
-                StorageVolume storage = inv.GetComponent<StorageVolume>();
-                if(storage.CanPlace()){
+            foreach(Collider inv in col){
+                StorageVolume storage;
+                if(inv.TryGetComponent(out storage) && storage.CanPlace()){
+                    heldItem.GetComponent<Collider>().enabled = true;
                     storage.SetItem(heldItem);
-                    touchingObj.Remove(heldItem.GetComponent<Collider>());
                     heldItem.BroadcastMessage("OnDrop", SendMessageOptions.DontRequireReceiver);
                     heldItem = null;
+                    //hud.Debug($"{hand} hand placed item in storage {inv.name}");
                     return;
                 }
             }
+            heldItem.GetComponent<Collider>().enabled = true;
             Rigidbody heldRb = heldItem.GetComponent<Rigidbody>();
             heldRb.isKinematic = false;
             Vector3 vel = GetVelocity(10);
-            if(heldItem.TryGetComponent(out XRItem bonus)){ vel *= bonus.throwVelocity; }
+            //Leaving this here in case we need to add a power throw mechanic later
+            // if(heldItem.TryGetComponent(out ThrowVelocityMod bonus)){ 
+            //     //hud.Debug($"hand vel {vel.magnitude}");
+            //     if(vel.magnitude > bonus.powerThreshhold){ vel *= bonus.throwVelocity; }
+            // }
             heldRb.velocity = vel;
             heldItem.BroadcastMessage("OnDrop", SendMessageOptions.DontRequireReceiver);
+            //hud.Debug($"{hand} hand dropped item ({heldItem.name})");
             heldItem = null;
+            //clear any duplicates from touching items
         }
     }
     public Vector3 GetVelocity(int samples = 2){
@@ -184,28 +187,6 @@ public class HandItemTracker : MonoBehaviour
             avg += velocitySamples[i];
         }
         return avg / samples;
-    }
-    void OnTriggerEnter(Collider other)
-    {
-        //if its a XRItem or ContactPoint then add it to the list
-        if (other.gameObject.CompareTag("XRItem")){
-            touchingObj.Add(other);
-        }else if(other.gameObject.CompareTag("StorageVolume")){
-            touchingContactPoints.Add(other);
-        }else if(other.gameObject.CompareTag("XRControl")){
-            touchingControls.Add(other);
-        }
-    }
-    void OnTriggerExit(Collider other)
-    {
-        //if its a XRItem or ContactPoint then remove it from the list
-        if (other.gameObject.CompareTag("XRItem")){
-            touchingObj.Remove(other);
-        } else if(other.gameObject.CompareTag("StorageVolume")){
-            touchingContactPoints.Remove(other);
-        } else if(other.gameObject.CompareTag("XRControl")){
-            touchingControls.Remove(other);
-        }
     }
 }
 [System.Serializable]

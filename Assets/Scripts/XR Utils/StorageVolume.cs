@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -35,11 +33,11 @@ public class StorageVolume : MonoBehaviour
     /// <summary>
     /// Returns true if the volume is not locked and there is no item in the volume.
     /// </summary>
-    public bool CanPlace(){ return !allowPlace && heldItem == null; }
+    public bool CanPlace(){ return allowPlace && heldItem == null; }
     /// <summary>   
     /// Returns true if the volume is not locked and there is an item in the volume.
     /// </summary>
-    public bool CanPickup(){ return !allowGrab && heldItem != null; }
+    public bool CanPickup(){ return allowGrab && heldItem != null; }
     /// <summary>
     /// Sets the item in the volume to the item passed in.
     /// </summary>
