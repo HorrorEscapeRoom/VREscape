@@ -2492,6 +2492,70 @@ MonoBehaviour:
 
 
 '
+--- !u!1001 &1459207243
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1345877582973514668, guid: a6391da4710399540a592fcaa1d27dd7, type: 3}
+      propertyPath: animation
+      value: 
+      objectReference: {fileID: 1896751694}
+    - target: {fileID: 2039326418407878903, guid: a6391da4710399540a592fcaa1d27dd7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.163
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039326418407878903, guid: a6391da4710399540a592fcaa1d27dd7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.257
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039326418407878903, guid: a6391da4710399540a592fcaa1d27dd7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.909
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039326418407878903, guid: a6391da4710399540a592fcaa1d27dd7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039326418407878903, guid: a6391da4710399540a592fcaa1d27dd7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039326418407878903, guid: a6391da4710399540a592fcaa1d27dd7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039326418407878903, guid: a6391da4710399540a592fcaa1d27dd7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039326418407878903, guid: a6391da4710399540a592fcaa1d27dd7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039326418407878903, guid: a6391da4710399540a592fcaa1d27dd7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039326418407878903, guid: a6391da4710399540a592fcaa1d27dd7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403173674486401748, guid: a6391da4710399540a592fcaa1d27dd7, type: 3}
+      propertyPath: m_Name
+      value: BookShelfComplete
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7403173674486401748, guid: a6391da4710399540a592fcaa1d27dd7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1896751694}
+  m_SourcePrefab: {fileID: 100100000, guid: a6391da4710399540a592fcaa1d27dd7, type: 3}
 --- !u!1 &1491914759
 GameObject:
   m_ObjectHideFlags: 0
@@ -3148,6 +3212,28 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1747397934}
   m_Mesh: {fileID: 2534964839176971238, guid: 0338922bf299edb41a0326fa26ed90fd, type: 3}
+--- !u!1 &1896751693 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7403173674486401748, guid: a6391da4710399540a592fcaa1d27dd7, type: 3}
+  m_PrefabInstance: {fileID: 1459207243}
+  m_PrefabAsset: {fileID: 0}
+--- !u!111 &1896751694
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1896751693}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 7400000, guid: 4c75f5f16c18d1e4cbb3ae957ca76685, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 4c75f5f16c18d1e4cbb3ae957ca76685, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &2058918734
 GameObject:
   m_ObjectHideFlags: 0
@@ -4168,3 +4254,4 @@ SceneRoots:
   - {fileID: 2585482262496569825}
   - {fileID: 8403784766740457978}
   - {fileID: 1242795460}
+  - {fileID: 1459207243}

@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static Unity.Burst.Intrinsics.X86;
 
-public class ObjectNameChecker : MonoBehaviour
+public class ObjectNameChecker : PuzzleBase
 {
     // Define the four objects
     public GameObject BookObject1;
@@ -22,9 +22,12 @@ public class ObjectNameChecker : MonoBehaviour
     public bool object3Correct;
     public bool object4Correct;
 
+    public Animation animation;
+    public bool animationPlayed = false;
 
     void Start()
     {
+        RegisterWithOrchestrator();
     }
 
     private void FixedUpdate()
@@ -35,5 +38,12 @@ public class ObjectNameChecker : MonoBehaviour
         if (ShelfSpot2.GetComponent<StorageVolume>().ReadItem() == BookObject2) { object2Correct = true; };
         if (ShelfSpot3.GetComponent<StorageVolume>().ReadItem() == BookObject3) { object3Correct = true; };
         if (ShelfSpot4.GetComponent<StorageVolume>().ReadItem() == BookObject4) { object4Correct = true; };
+
+        if(object1Correct && object2Correct && object3Correct && object4Correct && !animationPlayed)
+        {
+            animationPlayed = true;
+            animation.Play();
+            OnPuzzleComplete(true);
+        }
     }
 }
