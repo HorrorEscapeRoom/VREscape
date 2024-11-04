@@ -330,10 +330,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0813991d784af499cdd6ccd3aac477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pourThreshold: 15
+  pourThreshold: 45
   origin: {fileID: 8636609374111045028}
   streamPrefab: {fileID: 3157059729272208096, guid: 0c92442af374a6247ba74c5b2fd0fd24, type: 3}
-  yAxisPour: 0
   infiniteFluid: 0
   onlyEmptyWhenFilling: 1
   maxFluidAmount: 200

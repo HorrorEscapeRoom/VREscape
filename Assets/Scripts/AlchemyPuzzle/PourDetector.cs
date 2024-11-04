@@ -76,15 +76,15 @@ public class PourDetector : MonoBehaviour
         pourPuzzle?.Pour(gameObject);*/
         try
         {
-            pourPuzzle = hit.transform.gameObject.GetComponentInChildren<AlchemyPouring>();
+            /*pourPuzzle = hit.transform.gameObject.GetComponentInChildren<AlchemyPouring>();
             pourPuzzle?.FirstPour(gameObject);
-            pourPuzzle?.Pour(gameObject);
+            pourPuzzle?.Pour(gameObject);*/
             pourPuzzle = hit.transform.gameObject.GetComponent<AlchemyPouring>();
             pourPuzzle?.FirstPour(gameObject);
             pourPuzzle?.Pour(gameObject);
-            pourPuzzle = hit.transform.gameObject.GetComponentInParent<AlchemyPouring>();
+            /*pourPuzzle = hit.transform.gameObject.GetComponentInParent<AlchemyPouring>();
             pourPuzzle?.FirstPour(gameObject);
-            pourPuzzle?.Pour(gameObject);
+            pourPuzzle?.Pour(gameObject);*/
         }
         catch (Exception ex)
         {
