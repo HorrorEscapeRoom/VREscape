@@ -2,16 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CauldronPlacement : MonoBehaviour
+public class CauldronPlacement : PuzzleBase
 {
     public GameObject fakeCauldron;
     public StorageVolume storage;
     public bool cauldronPlaced = false;
     public GameObject realCauldron;
+    public bool LogicPuzzlefinished = false;
     // Start is called before the first frame update
     void Start()
     {
-        if(fakeCauldron != null)
+        RegisterWithOrchestrator();
+        /*if(fakeCauldron != null)
+        {
+            fakeCauldron.SetActive(true);
+        }*/
+    }
+
+    public void UpdateFromOrch()
+    {
+        Debug.Log("Logic Puzzle Completed!!");
+        LogicPuzzlefinished = true;
+        if (fakeCauldron != null)
         {
             fakeCauldron.SetActive(true);
         }
@@ -20,7 +32,7 @@ public class CauldronPlacement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
     }
 
     public void OnItemPlaced(Transform transform)

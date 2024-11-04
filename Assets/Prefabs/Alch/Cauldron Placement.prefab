@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 809051098938966439}
   - component: {fileID: 3432058726148263312}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Placement Extras
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 5562635560476690608}
   - component: {fileID: 1010829811212296758}
   - component: {fileID: 5755430354208869098}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cauldron Placement
   m_TagString: StorageVolume
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allowPlace: 1
-  allowGrab: 1
+  allowGrab: 0
   PermitTag: Cauldron
 --- !u!1001 &4152442428958534662
 PrefabInstance:
@@ -233,9 +233,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3998209231611118418, guid: 2ea6e7e4bd8885f4e9e9ecc64461886a, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1409487245053000555, guid: 2ea6e7e4bd8885f4e9e9ecc64461886a, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1082521383904721442, guid: 2ea6e7e4bd8885f4e9e9ecc64461886a, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2ea6e7e4bd8885f4e9e9ecc64461886a, type: 3}
       propertyPath: m_Name
       value: Cauldron
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2ea6e7e4bd8885f4e9e9ecc64461886a, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481427547321683900, guid: 2ea6e7e4bd8885f4e9e9ecc64461886a, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2766212503428324877, guid: 2ea6e7e4bd8885f4e9e9ecc64461886a, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

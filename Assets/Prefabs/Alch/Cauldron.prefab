@@ -117,7 +117,7 @@ MonoBehaviour:
   updateMode: 0
   MaxWobble: 0.03
   WobbleSpeedMove: 1
-  fillAmount: 1.1
+  fillAmount: 0.7
   Recovery: 1
   Thickness: 1
   CompensateShapeAmount: 0
@@ -494,7 +494,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1.4, y: 0.5, z: 1.4}
   m_Center: {x: 0, y: 0, z: 0}
@@ -532,7 +532,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5600739097861005678}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a0813991d784af499cdd6ccd3aac477, type: 3}
   m_Name: 
@@ -566,8 +566,8 @@ MonoBehaviour:
   solutionAmount: 0
   resultIsFluid: 0
   maxInputItemCount: 3
-  maxFill: 600
-  useFill: 0
+  maxFill: 200
+  useFill: 1
   liquid: {fileID: 3340197404017181022}
   InputItems: []
   itemAmounts: []
@@ -874,7 +874,7 @@ Transform:
   m_GameObject: {fileID: 8670894212353719762}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.099999905, z: 0}
+  m_LocalPosition: {x: 0, y: -0.296, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -920,7 +920,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1.2, y: 0.5, z: 1.25}
   m_Center: {x: 0, y: 0, z: 0}

@@ -45,12 +45,14 @@ public class ObjectClick : MonoBehaviour
                             if (whatever.SwitchList[0].active)
                             {
                                 whatever.SwitchList[0].SwitchObject.GetComponentInChildren<MeshRenderer>().materials[0].color = Color.green;
+                                
                             }
                             else
                             {
                                 whatever.SwitchList[0].SwitchObject.GetComponentInChildren<MeshRenderer>().materials[0].color = Color.red;
                             }
                             break;
+
                         case "Switch1":
                             whatever.SwitchList[1].active = !whatever.SwitchList[1].active;
                             Debug.Log($"Switch1 set to {whatever.SwitchList[1].active}");
