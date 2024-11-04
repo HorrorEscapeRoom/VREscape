@@ -6856,7 +6856,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 333177782410359524, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.43
+      value: 0.986
       objectReference: {fileID: 0}
     - target: {fileID: 333177782410359524, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6910,6 +6910,10 @@ PrefabInstance:
       propertyPath: fillAmount
       value: 1.1
       objectReference: {fileID: 0}
+    - target: {fileID: 4524136818875866641, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4836959251148696771, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
       propertyPath: m_Name
       value: Cauldron
@@ -6922,13 +6926,17 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6165829945564199386, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7490977373206753707, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.296
       objectReference: {fileID: 0}
     - target: {fileID: 8442245048579319159, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
       propertyPath: m_UseGravity
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8442245048579319159, guid: 8427fe3b80a0bef42ac5df07924c28b8, type: 3}
       propertyPath: m_Constraints
@@ -6977,7 +6985,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5755430354208869098, guid: 4b204c9a9eba0c143bf6ed1de94fe224, type: 3}
       propertyPath: allowGrab
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5755430354208869098, guid: 4b204c9a9eba0c143bf6ed1de94fe224, type: 3}
       propertyPath: allowPlace
