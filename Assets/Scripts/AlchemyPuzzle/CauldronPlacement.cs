@@ -31,7 +31,7 @@ public class CauldronPlacement : MonoBehaviour
         if (storage != null)
         {
             storage.SetLocks(false, false);
-            storage.GetComponent<Collider>().enabled = false;
+            //storage.GetComponent<Collider>().enabled = false;
         }
         if(fakeCauldron != null)
         {
@@ -39,9 +39,11 @@ public class CauldronPlacement : MonoBehaviour
         }
         if(realCauldron != null)
         {
-            realCauldron.GetComponent<Collider> ().enabled = true;
-            BoxCollider box = realCauldron.GetComponent<BoxCollider>();
+            //realCauldron.GetComponent<Collider> ().enabled = true;
+            /*BoxCollider box = realCauldron.GetComponent<BoxCollider>();
             box.enabled = false;
+            Rigidbody rb =realCauldron.gameObject.GetComponent<Rigidbody>();*/
+            
 
             //realCauldron.tag = null;
             /*BoxCollider[] alchBoxes = realCauldron.GetComponentsInChildren<BoxCollider>();

@@ -71,25 +71,10 @@ public class PourDetector : MonoBehaviour
         hit.transform.gameObject.TryGetComponent<FluidCatcher>(out FluidCatcher fc);
         fc?.Pour(gameObject);
         AlchemyPouring pourPuzzle;
-        /*hit.transform.gameObject.TryGetComponent<AlchemyPouring>(out AlchemyPouring pourPuzzle);
-        pourPuzzle?.FirstPour(gameObject);
-        pourPuzzle?.Pour(gameObject);*/
-        try
-        {
-            /*pourPuzzle = hit.transform.gameObject.GetComponentInChildren<AlchemyPouring>();
-            pourPuzzle?.FirstPour(gameObject);
-            pourPuzzle?.Pour(gameObject);*/
-            pourPuzzle = hit.transform.gameObject.GetComponent<AlchemyPouring>();
-            pourPuzzle?.FirstPour(gameObject);
-            pourPuzzle?.Pour(gameObject);
-            /*pourPuzzle = hit.transform.gameObject.GetComponentInParent<AlchemyPouring>();
-            pourPuzzle?.FirstPour(gameObject);
-            pourPuzzle?.Pour(gameObject);*/
-        }
-        catch (Exception ex)
-        {
 
-        }
+        pourPuzzle = hit.transform.gameObject.GetComponent<AlchemyPouring>();
+        pourPuzzle?.FirstPour(gameObject);
+        pourPuzzle?.Pour(gameObject);
     }
 
     void EndPour()
