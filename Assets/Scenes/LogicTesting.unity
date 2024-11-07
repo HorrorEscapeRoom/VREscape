@@ -835,7 +835,7 @@ Transform:
   m_GameObject: {fileID: 192827340}
   serializedVersion: 2
   m_LocalRotation: {x: -0.70710677, y: -0.00000005338508, z: -0.000000053385072, w: 0.7071068}
-  m_LocalPosition: {x: 5.660576, y: 0.9982674, z: 6.9247055}
+  m_LocalPosition: {x: 7.7, y: 0.9982674, z: 6.93}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1081,7 +1081,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 6778647496435399598}
     m_Modifications:
     - target: {fileID: -8991300171075172167, guid: f0483addd6f68ce45860cd46a4c90d44, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -1105,31 +1105,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0483addd6f68ce45860cd46a4c90d44, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.323
+      value: -0.34814227
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0483addd6f68ce45860cd46a4c90d44, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.012
+      value: 0.5653757
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0483addd6f68ce45860cd46a4c90d44, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.83
+      value: 0.5432266
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0483addd6f68ce45860cd46a4c90d44, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0483addd6f68ce45860cd46a4c90d44, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0483addd6f68ce45860cd46a4c90d44, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0483addd6f68ce45860cd46a4c90d44, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f0483addd6f68ce45860cd46a4c90d44, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3036,7 +3036,7 @@ MonoBehaviour:
   output: {fileID: 1191107841}
   ActiveColour: {fileID: 2100000, guid: f7b324c497f7b0b4dbcd306bb344241c, type: 2}
   InactiveColour: {fileID: 2100000, guid: 34e04f5daca88794b8dc2ac5e779741c, type: 2}
-  gateType: 5
+  gateType: 4
   TextObject: {fileID: 0}
 --- !u!54 &1075290288
 Rigidbody:
@@ -3204,7 +3204,7 @@ Transform:
   m_GameObject: {fileID: 1101904776}
   serializedVersion: 2
   m_LocalRotation: {x: -0.70710677, y: -0.00000005338508, z: -0.000000053385072, w: 0.7071068}
-  m_LocalPosition: {x: 5.660576, y: 0.9982674, z: 12.153204}
+  m_LocalPosition: {x: 7.7, y: 0.9982674, z: 12.16}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3431,7 +3431,7 @@ Transform:
   m_GameObject: {fileID: 1157503706}
   serializedVersion: 2
   m_LocalRotation: {x: -0.70710677, y: -0.00000005338508, z: -0.000000053385072, w: 0.7071068}
-  m_LocalPosition: {x: 5.660576, y: 0.9982674, z: 8.66754}
+  m_LocalPosition: {x: 7.7, y: 0.9982674, z: 8.67}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4191,7 +4191,7 @@ Transform:
   m_GameObject: {fileID: 1323510306}
   serializedVersion: 2
   m_LocalRotation: {x: -0.70710677, y: -0.00000005338508, z: -0.000000053385072, w: 0.7071068}
-  m_LocalPosition: {x: 5.660576, y: 0.9982674, z: 10.410372}
+  m_LocalPosition: {x: 7.7, y: 0.9982674, z: 10.41}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4232,7 +4232,7 @@ MonoBehaviour:
   output: {fileID: 774966705}
   ActiveColour: {fileID: 2100000, guid: f7b324c497f7b0b4dbcd306bb344241c, type: 2}
   InactiveColour: {fileID: 2100000, guid: 34e04f5daca88794b8dc2ac5e779741c, type: 2}
-  gateType: 5
+  gateType: 4
   TextObject: {fileID: 0}
 --- !u!54 &1323510310
 Rigidbody:
@@ -5449,7 +5449,7 @@ Transform:
   m_GameObject: {fileID: 1846321181}
   serializedVersion: 2
   m_LocalRotation: {x: -0.70710677, y: -0.00000005338508, z: -0.000000053385072, w: 0.7071068}
-  m_LocalPosition: {x: 5.660576, y: 0.9982674, z: 13.89604}
+  m_LocalPosition: {x: 7.7, y: 0.9982674, z: 13.9}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6042,13 +6042,13 @@ MonoBehaviour:
   - active: 0
     SwitchObject: {fileID: 2985935629575201737}
     socketMapList:
+    - socketIndex: 0
+      inputIndex: 0
+      outputType: 0
     - socketIndex: 3
       inputIndex: 0
       outputType: 0
     - socketIndex: 5
-      inputIndex: 0
-      outputType: 0
-    - socketIndex: 0
       inputIndex: 0
       outputType: 0
   - active: 0
@@ -6070,11 +6070,11 @@ MonoBehaviour:
       inputIndex: 1
       outputType: 0
     - socketIndex: 2
-      inputIndex: 1
+      inputIndex: 0
       outputType: 0
   LightList:
-  - {fileID: 466055823}
   - {fileID: 774201038}
+  - {fileID: 466055823}
   - {fileID: 406592178}
   ExemptLightList:
   - {fileID: 406592178}
@@ -6089,7 +6089,7 @@ MonoBehaviour:
       inputIndex: 0
       outputType: 0
     - socketIndex: 2
-      inputIndex: 0
+      inputIndex: 1
       outputType: 0
   - inputA: 0
     inputB: 0
@@ -6113,7 +6113,7 @@ MonoBehaviour:
     inputB: 0
     output: 0
     socket: {fileID: 8055849261523398056}
-    ICObject: {fileID: 1076430115}
+    ICObject: {fileID: 0}
     ToUpdateIndexs:
     - socketIndex: 4
       inputIndex: 1
@@ -6122,7 +6122,7 @@ MonoBehaviour:
     inputB: 0
     output: 0
     socket: {fileID: 2979966664074127196}
-    ICObject: {fileID: 853852376}
+    ICObject: {fileID: 0}
     ToUpdateIndexs:
     - socketIndex: 1
       inputIndex: 0
@@ -6131,10 +6131,10 @@ MonoBehaviour:
     inputB: 0
     output: 0
     socket: {fileID: 8057276608409780260}
-    ICObject: {fileID: 1076430115}
+    ICObject: {fileID: 0}
     ToUpdateIndexs:
     - socketIndex: 2
-      inputIndex: 1
+      inputIndex: 0
       outputType: 1
   lightRed: {fileID: 2100000, guid: 34e04f5daca88794b8dc2ac5e779741c, type: 2}
   lightGreen: {fileID: 2100000, guid: f7b324c497f7b0b4dbcd306bb344241c, type: 2}
@@ -7830,6 +7830,7 @@ Transform:
   - {fileID: 64798442}
   - {fileID: 1944747389}
   - {fileID: 90868301}
+  - {fileID: 1605798054}
   m_Father: {fileID: 1654579381}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &6803418372360553461
@@ -8533,4 +8534,3 @@ SceneRoots:
   - {fileID: 1654579381}
   - {fileID: 534775673}
   - {fileID: 191711789}
-  - {fileID: 297354407}
