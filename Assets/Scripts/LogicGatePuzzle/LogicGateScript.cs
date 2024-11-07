@@ -15,7 +15,10 @@ public class LogicGateScript : MonoBehaviour
 
     public void Start()
     {
-        TextObject.text = gateType.ToString();
+        if(TextObject != null)
+        {
+            TextObject.text = gateType.ToString();
+        }
     }
 
     public EnumLogicGateType GetGateType()

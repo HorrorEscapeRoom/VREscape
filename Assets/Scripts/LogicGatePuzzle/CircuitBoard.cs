@@ -30,7 +30,7 @@ namespace Assets.Scripts.LogicGatePuzzle
 
 		public void UpdateAllSocketState()
 		{
-
+            
             foreach (var switchItem in SwitchList)
 			{
 				foreach(var socketItem in switchItem.socketMapList)
@@ -43,7 +43,8 @@ namespace Assets.Scripts.LogicGatePuzzle
                 }
 			}
 
-			foreach(var socket in ICList)
+            //FindFirstObjectByType<VRHudManager>().Debug("! Button has updated sockets !");
+            foreach (var socket in ICList)
 			{
                 foreach(var socketItem in socket.ToUpdateIndexs)
 				{
@@ -91,7 +92,7 @@ namespace Assets.Scripts.LogicGatePuzzle
 		private void UpdateSocketOutput(int socketIndex)
 		{
             // Hide/show ic lights
-            
+            FindFirstObjectByType<VRHudManager>().Debug($"{ICList[socketIndex].logicType}");
             switch (ICList[socketIndex].logicType)
             {
                 case EnumLogicGateType.AND:
@@ -102,6 +103,7 @@ namespace Assets.Scripts.LogicGatePuzzle
                     break;
                 case EnumLogicGateType.XOR:
                     ICList[socketIndex].output = ICList[socketIndex].inputA ^ ICList[socketIndex].inputB;
+                    FindFirstObjectByType<VRHudManager>().Debug($"{ICList[socketIndex].inputA} XOR {ICList[socketIndex].inputB} = {ICList[socketIndex].output}");
                     break;
                 case EnumLogicGateType.NAND:
                     ICList[socketIndex].output = !(ICList[socketIndex].inputA & ICList[socketIndex].inputB);
@@ -187,8 +189,9 @@ namespace Assets.Scripts.LogicGatePuzzle
         }
 
         public void AddICToSocket(int socketIndex, GameObject ICObject)
-        {			
-			if (ICList.Count == 0 || socketIndex > ICList.Count - 1)
+        {
+            FindFirstObjectByType<VRHudManager>().Debug($"! IC has been added  { socketIndex} + {ICObject} !" );
+            if (ICList.Count == 0 || socketIndex > ICList.Count - 1)
             {
 				Debug.LogError($"CircuitBoard - Invalid socketIndex in AddICToSocket: ({socketIndex})");
 				return;

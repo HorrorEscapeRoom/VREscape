@@ -1,4 +1,5 @@
 using Assets.Scripts.LogicGatePuzzle;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LogicGateEchoToParent : MonoBehaviour
@@ -10,11 +11,12 @@ public class LogicGateEchoToParent : MonoBehaviour
 
     private void Start()
     {
-        CircuitBoard = gameObject.transform.parent.gameObject.GetComponent<CircuitBoard>();
+        CircuitBoard = gameObject.transform.parent.gameObject.GetComponent<CircuitBoard>(); //ISSUE MIGHT BE HERE
     }
 
-    void OnItemPlaced(Transform heldItem)
+    public void OnItemPlaced(Transform heldItem)
     {
+        FindFirstObjectByType<VRHudManager>().Debug($"item Placed {heldItem.GetComponent<LogicGateScript>()}");
         if (heldItem == null)
         {
             return;
@@ -27,7 +29,7 @@ public class LogicGateEchoToParent : MonoBehaviour
         }
     }
 
-    void OnItemPickedUp(Transform heldItem)
+    public void OnItemPickedUp(Transform heldItem)
     {
         CircuitBoard.RemoveICFromSocket(Index);
     }
