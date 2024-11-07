@@ -158,7 +158,17 @@ namespace Assets.Scripts.LogicGatePuzzle
 				return;
 			}
 
-	        LightList[index].GetComponent<MeshRenderer>().material = newState ? lightGreen : lightRed;
+            if (index == 2)
+            {
+                // Change the Material of TestLight
+                Material[] testLight = LightList[index].GetComponent<MeshRenderer>().materials;
+                testLight[1] = newState ? lightGreen : lightRed;
+                LightList[index].GetComponent<MeshRenderer>().materials = testLight;
+            }
+            else
+            {
+                LightList[index].GetComponent<MeshRenderer>().material = newState ? lightGreen : lightRed;
+            }
         }
 
 		private void UpdateSwitchState(int index, bool newState)
