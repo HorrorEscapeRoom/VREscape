@@ -92,7 +92,7 @@ namespace Assets.Scripts.LogicGatePuzzle
 		private void UpdateSocketOutput(int socketIndex)
 		{
             // Hide/show ic lights
-            FindFirstObjectByType<VRHudManager>().Debug($"{ICList[socketIndex].logicType}");
+            //FindFirstObjectByType<VRHudManager>().Debug($"{ICList[socketIndex].logicType}");
             switch (ICList[socketIndex].logicType)
             {
                 case EnumLogicGateType.AND:
@@ -190,7 +190,7 @@ namespace Assets.Scripts.LogicGatePuzzle
 
         public void AddICToSocket(int socketIndex, GameObject ICObject)
         {
-            FindFirstObjectByType<VRHudManager>().Debug($"! IC has been added  { socketIndex} + {ICObject} !" );
+            //FindFirstObjectByType<VRHudManager>().Debug($"! IC has been added  { socketIndex} + {ICObject} !" );
             if (ICList.Count == 0 || socketIndex > ICList.Count - 1)
             {
 				Debug.LogError($"CircuitBoard - Invalid socketIndex in AddICToSocket: ({socketIndex})");

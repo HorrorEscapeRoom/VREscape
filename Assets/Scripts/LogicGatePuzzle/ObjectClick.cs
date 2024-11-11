@@ -6,12 +6,11 @@ using UnityEngine.InputSystem.LowLevel;
 
 public class ObjectClick : MonoBehaviour
 {
-    public GameObject CircuitBoard;/*
-    public bool pressed = false;
+    public GameObject CircuitBoard;
     public Animation pressedAnim;
     public AnimationClip pressedClip;
     public AnimationClip unpressedClip;
-*/
+
     // Update is called once per frame
     void Update()
     {        
@@ -93,47 +92,29 @@ public class ObjectClick : MonoBehaviour
     }
 
     public void OnButtonPressed(int index)
-    {
-        //PlayAnim();
-        
+    {        
         var whatever = CircuitBoard.GetComponent<CircuitBoard>() as CircuitBoard;
         whatever.SwitchList[index].active = !whatever.SwitchList[index].active;
         Debug.Log($"Switch0 set to {whatever.SwitchList[0].active}");
         if (whatever.SwitchList[index].active)
         {
             whatever.SwitchList[index].SwitchObject.GetComponentInChildren<MeshRenderer>().materials[0].color = Color.green;
-            /*if(whatever.SwitchList[index].SwitchObject.GetComponent<Animation>() != null )
+            if (whatever.SwitchList[index].SwitchObject.GetComponent<Animation>() != null)
             {
                 whatever.SwitchList[index].SwitchObject.GetComponent<Animation>().clip = pressedClip;
                 whatever.SwitchList[index].SwitchObject.GetComponent<Animation>().Play();
 
-            }*/
+            }
         }
         else
         {
             whatever.SwitchList[index].SwitchObject.GetComponentInChildren<MeshRenderer>().materials[0].color = Color.red;
-            /*if (whatever.SwitchList[index].SwitchObject.GetComponent<Animation>() != null)
+            if (whatever.SwitchList[index].SwitchObject.GetComponent<Animation>() != null)
             {
                 whatever.SwitchList[index].SwitchObject.GetComponent<Animation>().clip = unpressedClip;
                 whatever.SwitchList[index].SwitchObject.GetComponent<Animation>().Play();
-            }*/
+            }
         }
         whatever.UpdateAllSocketState();
     }
-/*
-    public void PlayAnim()
-    {
-        if(pressed && unpressedClip != null && pressedAnim != null)
-        {
-            pressedAnim.clip = unpressedClip;
-            pressedAnim.Play();
-            pressed = false;
-        }
-        else if(!pressed && pressedClip != null && pressedAnim != null)
-        {
-            pressedAnim.clip = pressedClip;
-            pressedAnim.Play();
-            pressed = true;
-        }
-    }*/
 }

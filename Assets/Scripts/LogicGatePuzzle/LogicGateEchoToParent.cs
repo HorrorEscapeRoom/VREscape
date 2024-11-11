@@ -11,12 +11,11 @@ public class LogicGateEchoToParent : MonoBehaviour
 
     private void Start()
     {
-        CircuitBoard = gameObject.transform.parent.gameObject.GetComponent<CircuitBoard>(); //ISSUE MIGHT BE HERE
+        CircuitBoard = gameObject.transform.parent.parent.gameObject.GetComponent<CircuitBoard>();
     }
 
     public void OnItemPlaced(Transform heldItem)
     {
-        FindFirstObjectByType<VRHudManager>().Debug($"item Placed {heldItem.GetComponent<LogicGateScript>()}");
         if (heldItem == null)
         {
             return;
