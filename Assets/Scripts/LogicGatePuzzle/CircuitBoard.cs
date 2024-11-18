@@ -4,13 +4,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.LogicGatePuzzle
 {
-    public class CircuitBoard: PuzzleBase
-    {
-		[SerializeField]
+    public class CircuitBoard: PuzzleBase {
 		public List<InputSwitch> SwitchList = new();
-		[SerializeField]
 		public List<GameObject> LightList = new();
-		[SerializeField]
         public List<SocketState> ICList = new();
 
         private bool _verboseLog;
