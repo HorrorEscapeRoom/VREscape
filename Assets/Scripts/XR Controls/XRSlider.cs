@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class XRSlider : MonoBehaviour
 {
     public UnityEvent<float> OnValueChange;
-    float value = 0;
+    public float value = 0;
     bool active = false;
     float lineLength;
     Vector3 lineDirection;
