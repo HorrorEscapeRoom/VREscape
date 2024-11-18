@@ -57,7 +57,11 @@ public class StorageVolume : MonoBehaviour
     /// [Depricated] Returns the item that is currently being held by the storage volume.   you should cache the item when it is placed instead of reading it from the storage volume.
     /// </summary>
     public GameObject ReadItem(){
-        return heldItem.gameObject;
+        if (heldItem != null)
+        {
+            return heldItem.gameObject;
+        }
+        else { return null; }
     }
     /// <summary>
     /// Returns the item in the volume and sets the item in the volume to null.

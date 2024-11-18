@@ -2,5 +2,6 @@
 {
     LogicGate,
     Alchemy,
-    Safe
+    Safe,
+    Bookshelf,
 }
