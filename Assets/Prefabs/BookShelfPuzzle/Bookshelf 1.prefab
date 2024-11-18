@@ -606,9 +606,9 @@ Animation:
   m_GameObject: {fileID: 1379530692730430650}
   m_Enabled: 1
   serializedVersion: 4
-  m_Animation: {fileID: 7400000, guid: 4c75f5f16c18d1e4cbb3ae957ca76685, type: 2}
+  m_Animation: {fileID: 7400000, guid: 9f38be55ac5130841828ebe93794fc07, type: 2}
   m_Animations:
-  - {fileID: 7400000, guid: 4c75f5f16c18d1e4cbb3ae957ca76685, type: 2}
+  - {fileID: 7400000, guid: 9f38be55ac5130841828ebe93794fc07, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -1392,7 +1392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwVelocity: 2
   holdOffset: {x: 0, y: 0, z: 0}
-  holdRotation: {x: 0, y: -45, z: 90}
+  holdRotation: {x: 180, y: -90, z: 90}
 --- !u!1 &4100762346991026921
 GameObject:
   m_ObjectHideFlags: 0
@@ -1696,7 +1696,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwVelocity: 2
   holdOffset: {x: 0, y: 0, z: 0}
-  holdRotation: {x: 0, y: -45, z: 90}
+  holdRotation: {x: 180, y: -90, z: 90}
 --- !u!1 &4869506704974069514
 GameObject:
   m_ObjectHideFlags: 0
@@ -2151,7 +2151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwVelocity: 2
   holdOffset: {x: 0, y: 0, z: 0}
-  holdRotation: {x: 0, y: -45, z: 90}
+  holdRotation: {x: 180, y: -90, z: 90}
 --- !u!1 &6344037551465957029
 GameObject:
   m_ObjectHideFlags: 0
@@ -2304,7 +2304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwVelocity: 2
   holdOffset: {x: 0, y: 0, z: 0}
-  holdRotation: {x: 0, y: -45, z: 90}
+  holdRotation: {x: 180, y: -90, z: 90}
 --- !u!1 &6782299559287797177
 GameObject:
   m_ObjectHideFlags: 0
@@ -2641,7 +2641,7 @@ Transform:
   m_GameObject: {fileID: 7387334089027530075}
   serializedVersion: 2
   m_LocalRotation: {x: -4.32978e-17, y: 0.70710677, z: -4.3297796e-17, w: 0.7071068}
-  m_LocalPosition: {x: 3.6480002, y: 1.092, z: -1.302}
+  m_LocalPosition: {x: 3.648, y: 1.092, z: -1.302}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2805,7 +2805,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwVelocity: 2
   holdOffset: {x: 0, y: 0, z: 0}
-  holdRotation: {x: 0, y: -45, z: 90}
+  holdRotation: {x: 180, y: -90, z: 90}
 --- !u!1 &7740649514418997492
 GameObject:
   m_ObjectHideFlags: 0
@@ -3285,7 +3285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwVelocity: 2
   holdOffset: {x: 0, y: 0, z: 0}
-  holdRotation: {x: 0, y: -45, z: 90}
+  holdRotation: {x: 180, y: -90, z: 90}
 --- !u!1 &8578694609277432794
 GameObject:
   m_ObjectHideFlags: 0
