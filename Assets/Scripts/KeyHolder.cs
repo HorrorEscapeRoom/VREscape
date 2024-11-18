@@ -18,11 +18,11 @@ public class KeyHolder : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if ( other.tag == "Key" )
+        /*if ( other.tag == "Key" )
         {
             key = other.gameObject;
             KeyFound();
             //print("Rocky unlocked the door");
-        }
+        }*/
     }
 }

@@ -33,11 +33,11 @@ public class StorageVolume : MonoBehaviour
     /// <summary>
     /// Returns true if the volume is not locked and there is no item in the volume.
     /// </summary>
-    public bool CanPlace(){ return !allowPlace && heldItem == null; }
+    public bool CanPlace(){ return allowPlace && heldItem == null; }
     /// <summary>   
     /// Returns true if the volume is not locked and there is an item in the volume.
     /// </summary>
-    public bool CanPickup(){ return !allowGrab && heldItem != null; }
+    public bool CanPickup(){ return allowGrab && heldItem != null; }
     /// <summary>
     /// Sets the item in the volume to the item passed in.
     /// </summary>
@@ -57,7 +57,11 @@ public class StorageVolume : MonoBehaviour
     /// [Depricated] Returns the item that is currently being held by the storage volume.   you should cache the item when it is placed instead of reading it from the storage volume.
     /// </summary>
     public GameObject ReadItem(){
-        return heldItem.gameObject;
+        if (heldItem != null)
+        {
+            return heldItem.gameObject;
+        }
+        else { return null; }
     }
     /// <summary>
     /// Returns the item in the volume and sets the item in the volume to null.

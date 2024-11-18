@@ -49,7 +49,6 @@ public class DoorManager : MonoBehaviour
         
         if ( value >= 0.6f && !isOpen )
         {
-            doorknob.gameObject.SetActive(true);
 
             OnDoorOpened.Invoke();
 
@@ -57,7 +56,6 @@ public class DoorManager : MonoBehaviour
 
             doorTrigger.OpenDoor();
 
-            doorknob.gameObject.SetActive(false);
             
             handle.isOpen = true;
 

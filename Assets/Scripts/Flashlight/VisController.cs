@@ -8,7 +8,7 @@ public class VisController : MonoBehaviour
     [SerializeField] AnimationCurve visCurve;
     Material mat;
     Color baseColor;
-    void Start()
+    void Awake()
     {
         mat = GetComponent<MeshRenderer>().material;
         baseColor = mat.color;
