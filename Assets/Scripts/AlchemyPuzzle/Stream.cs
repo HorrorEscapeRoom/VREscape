@@ -32,12 +32,12 @@ public class Stream : MonoBehaviour
         pourRoutine = StartCoroutine(nameof(BeginPour));
         //StartCoroutine(BeginPour());
         splashRoutine = StartCoroutine(UpdateParticle());
-        if(fillRoutine != null)
+        /*if(fillRoutine != null)
         {
 
         }
             fillLocation.SetActive(true);
-            fillRoutine = StartCoroutine(FluidFilling());
+            fillRoutine = StartCoroutine(FluidFilling());*/
     }
 
     IEnumerator BeginPour()

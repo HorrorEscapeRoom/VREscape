@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts.LogicGatePuzzle
@@ -10,8 +11,14 @@ namespace Assets.Scripts.LogicGatePuzzle
 		public List<InputSwitch> SwitchList = new();
 		[SerializeField]
 		public List<GameObject> LightList = new();
+        [SerializeField]
+        public List<GameObject> ExemptLightList = new();
 		[SerializeField]
         public List<SocketState> ICList = new();
+        [SerializeField]
+        Material lightRed;
+        [SerializeField]
+        Material lightGreen;
 
         private bool _verboseLog;
         public void Start()
@@ -23,7 +30,7 @@ namespace Assets.Scripts.LogicGatePuzzle
 
 		public void UpdateAllSocketState()
 		{
-
+            
             foreach (var switchItem in SwitchList)
 			{
 				foreach(var socketItem in switchItem.socketMapList)
@@ -36,7 +43,8 @@ namespace Assets.Scripts.LogicGatePuzzle
                 }
 			}
 
-			foreach(var socket in ICList)
+            //FindFirstObjectByType<VRHudManager>().Debug("! Button has updated sockets !");
+            foreach (var socket in ICList)
 			{
                 foreach(var socketItem in socket.ToUpdateIndexs)
 				{
@@ -84,7 +92,7 @@ namespace Assets.Scripts.LogicGatePuzzle
 		private void UpdateSocketOutput(int socketIndex)
 		{
             // Hide/show ic lights
-            
+            //FindFirstObjectByType<VRHudManager>().Debug($"{ICList[socketIndex].logicType}");
             switch (ICList[socketIndex].logicType)
             {
                 case EnumLogicGateType.AND:
@@ -95,6 +103,7 @@ namespace Assets.Scripts.LogicGatePuzzle
                     break;
                 case EnumLogicGateType.XOR:
                     ICList[socketIndex].output = ICList[socketIndex].inputA ^ ICList[socketIndex].inputB;
+                    FindFirstObjectByType<VRHudManager>().Debug($"{ICList[socketIndex].inputA} XOR {ICList[socketIndex].inputB} = {ICList[socketIndex].output}");
                     break;
                 case EnumLogicGateType.NAND:
                     ICList[socketIndex].output = !(ICList[socketIndex].inputA & ICList[socketIndex].inputB);
@@ -122,7 +131,10 @@ namespace Assets.Scripts.LogicGatePuzzle
         {
             if (ICList[socketIndex].ICObject == null)
             {
-                Debug.LogError($"CircuitBoard - Invalid ICObject in UpdateLogicGateState: ({socketIndex})");
+                //Debug.LogError($"CircuitBoard - Invalid ICObject in UpdateLogicGateState: ({socketIndex})");
+                //SocketState myState = new SocketState();
+                //myState.logicType = EnumLogicGateType.UNSET;                
+                //ICList[socketIndex].ICObject == (GameObject)SocketState();
                 return;
             }
             
@@ -148,7 +160,17 @@ namespace Assets.Scripts.LogicGatePuzzle
 				return;
 			}
 
-	        LightList[index].GetComponent<MeshRenderer>().materials[0].color = newState ? Color.green : Color.red;
+            if (index == 2)
+            {
+                // Change the Material of TestLight
+                Material[] testLight = LightList[index].GetComponent<MeshRenderer>().materials;
+                testLight[1] = newState ? lightGreen : lightRed;
+                LightList[index].GetComponent<MeshRenderer>().materials = testLight;
+            }
+            else
+            {
+                LightList[index].GetComponent<MeshRenderer>().material = newState ? lightGreen : lightRed;
+            }
         }
 
 		private void UpdateSwitchState(int index, bool newState)
@@ -161,14 +183,15 @@ namespace Assets.Scripts.LogicGatePuzzle
 
 			SwitchList[index].active = newState;
 
-            SwitchList[index].SwitchObject.GetComponent<MeshRenderer>().materials[0].color = newState ? Color.green : Color.red;
+            SwitchList[index].SwitchObject.GetComponent<MeshRenderer>().material = newState ? lightGreen : lightRed;
 
             UpdateAllSocketState();
         }
 
         public void AddICToSocket(int socketIndex, GameObject ICObject)
-        {			
-			if (ICList.Count == 0 || socketIndex > ICList.Count - 1)
+        {
+            //FindFirstObjectByType<VRHudManager>().Debug($"! IC has been added  { socketIndex} + {ICObject} !" );
+            if (ICList.Count == 0 || socketIndex > ICList.Count - 1)
             {
 				Debug.LogError($"CircuitBoard - Invalid socketIndex in AddICToSocket: ({socketIndex})");
 				return;
@@ -192,9 +215,13 @@ namespace Assets.Scripts.LogicGatePuzzle
         
         private void CheckIsComplete()
         {
-            if (LightList.All(x => x.GetComponent<MeshRenderer>().materials[0].color == Color.green))
-            {
-	            if (_verboseLog)
+            List<GameObject> result = LightList
+            .Where(item1 => !ExemptLightList.Any(item2 => item2.GetInstanceID() == item1.GetInstanceID())) 
+            .ToList();
+
+            if (result.All(x => x.GetComponent<MeshRenderer>().material == lightGreen))
+            {	            
+                if (_verboseLog)
 	            {
 		            Debug.Log($"CircuitBoard - Puzzle Is Completed.");
 	            }
