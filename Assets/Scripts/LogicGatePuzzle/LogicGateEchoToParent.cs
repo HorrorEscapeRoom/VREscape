@@ -13,7 +13,7 @@ public class LogicGateEchoToParent : MonoBehaviour
         CircuitBoard = gameObject.transform.parent.gameObject.GetComponent<CircuitBoard>();
     }
 
-    void OnItemPlaced(GameObject heldItem)
+    void OnItemPlaced(Transform heldItem)
     {
         if (heldItem == null)
         {
@@ -23,11 +23,11 @@ public class LogicGateEchoToParent : MonoBehaviour
         var logicItem = heldItem.GetComponent<LogicGateScript>();
         if (logicItem)
         {
-            CircuitBoard.AddICToSocket(Index, heldItem);
+            CircuitBoard.AddICToSocket(Index, heldItem.gameObject);
         }
     }
 
-    void OnItemPickedUp(GameObject heldItem)
+    void OnItemPickedUp(Transform heldItem)
     {
         CircuitBoard.RemoveICFromSocket(Index);
     }
