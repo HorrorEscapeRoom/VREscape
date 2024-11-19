@@ -10,73 +10,48 @@ using static Assets.Scripts.Safe.SoundUtility;
 
 public abstract class Dial : MonoBehaviour
 {
-    
-
     const float EPSILON = 1.0f;
     float prevAngle;
-    XRKnob XRKnob;
-    float absAngle;
+    float totalRotations;
     float pauseTimer;
-    float stepAngle;
-    float totalAmountRotations;
-    bool rotationApplicable;
-    bool locked;
-    int numberDialed;
-    readonly SoundUtility soundUtility = new();
 
-    [SerializeField] int amountDialNumbers;
-    [SerializeField] float pauseDuration;
+    XRKnob xrKnob;
+    DialStateManager stateManager;
+    SoundUtility soundUtility;
 
-    
+    [SerializeField] private int amountDialNumbers;
+    [SerializeField] private float pauseDuration;
+
+    private float StepAngle => 360f / amountDialNumbers;
 
     void Start()
     {
-        XRKnob = new();
-        stepAngle = 360 / amountDialNumbers;
+        xrKnob = gameObject.AddComponent<XRKnob>();
+        stateManager = new DialStateManager();
+        soundUtility = gameObject.AddComponent<SoundUtility>();
     }
 
-    void Update()
-    {
-        //int number = Mathf.FloorToInt(prevAngle / stepAngle);
-        //if (NumberDialed != number) NumberDialed = number;
-    }
+    void Update() => HandleRotationUpdate();
 
-    void CheckAndApplyRotation(float absAngle, float angleDifference)
-    {
-        if (ApplyRotation(ref absAngle, ref pauseTimer, angleDifference, model))
-        {
-            if (AllConditionsMatch(angleDifference))
-            {
-                ProcessDigitDialed(ref pauseTimer, ref pauseDuration, prevAngle, absAngle);
-                IncrementPredecessorCount(ref timesPredecessorPassed, angleDifference);
-            }
-            totalAmountRotations = Mathf.FloorToInt((angleDifference) / 360.0f);
-            Debug.Log($"Checking rotation: AbsAngle={absAngle}, Angle Difference={angleDifference}");
-        }
-    }
+    // Ensure rotation speed matches the controller's movement.
+    // Measure the time taken for `XRKnob.absAngle` to change and calculate the difference 
+    // between the previous and current `XRKnob.absAngle` to determine the dial's rotation speed.
+    // Capture the controller's displacement on the z-axis and use it to adjust the door's rotation timing.
 
-    
-
-    // Doing evrything below so that the speed of rotations match the controller.
-    // Could just time the taken for XRKnob.absAngle to change and the diffrence between previous and current XRKnob.absAngle to work out dial's rotation speed.
-    // Capture the displacement on the controller's z-axis and the time to rotate the door.
-    
 
     public void HandleRotationUpdate()
     {
-        float absAngle = AbsAngle;
-        float angleDifference = absAngle - prevAngle;
-        if (UpdateDoorState())  // # door
+        float currentAngle = xrKnob.absAngle; // Assuming XRKnob provides this
+        float angleDifference = currentAngle - prevAngle;
+
+        if (Mathf.Abs(angleDifference) > EPSILON)
         {
-            handPositionZ = hand.transform.position.z;
-            needReset = true;  // # combination
-            return;
+            stateManager.UpdateNumberDialed(currentAngle, StepAngle);
+            totalRotations += Mathf.FloorToInt(angleDifference / 360f);
+            // Play sound for any rotation
+            Debug.Log($"Dialed Number: {stateManager.NumberDialed}");
         }
-        else CheckAndApplyRotation(absAngle, angleDifference);  // # dial
-        if (needReset) ResetCombination(ref prevAngle, ref absAngle);  // # combination
-        if (canDoorOpen)  // # door
-        {
-            HandleDoorRotation();  // # door
-        }
+
+        prevAngle = currentAngle;
     }
 }

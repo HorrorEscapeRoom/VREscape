@@ -4,23 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.ProBuilder.Shapes;
+using static Assets.Scripts.Safe.SoundUtility;
 
 namespace Assets.Scripts.Safe
 {
     public class CombinationSequenceManager : CombinationBaseManager
     {
-        int predecessor;
-        int timesPredecessorPassed;
+        private int timesPredecessorPassed;
 
         public CombinationSequenceManager(SoundUtility soundUtility, Door door, float stepAngle)
             : base(soundUtility, door, stepAngle) { }
 
+        public override void ResetCombination()
+        {
+            base.ResetCombination();
+            timesPredecessorPassed = 0;
+        }
+
         public void IncrementPredecessorCount(float angleDifference)
         {
-            if (currentDigitIndex > predecessor && IsExpectedDirection(angleDifference)) 
+            if (currentDigitIndex > 0 && IsExpectedDirection(angleDifference))
                 timesPredecessorPassed++;
         }
 
-        public bool IsSequenceProgressionCorrect() => timesPredecessorPassed == currentDigitIndex;
+        public bool IsSequenceValid() => timesPredecessorPassed == currentDigitIndex;
     }
 }

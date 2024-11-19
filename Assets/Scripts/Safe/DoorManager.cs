@@ -18,12 +18,7 @@ namespace Assets.Scripts.Safe
             this.combinationStatusProvider = combinationStatusProvider ?? throw new ArgumentNullException(nameof(combinationStatusProvider), "combinationStatusProvider is null during initialization of DoorManager.");
         }
 
-        public void MakeDoorOpenable()
-        {
-            if (combinationStatusProvider.Completed) doorState.SetOpenable(true);
-        }
-
-        public void LockDoor() => doorState.SetOpenable(false);
+        public void UpdateDoorAccess() => doorState.SetOpenable(combinationStatusProvider.Completed);
 
         public bool IsDoorOpenable() => doorState.IsOpenable;
     }

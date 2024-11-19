@@ -1,69 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-using static Assets.Scripts.Safe.SoundUtility;
+﻿using Assets.Scripts.Safe;
 using UnityEngine.ProBuilder.Shapes;
-using UnityEngine;
 
-namespace Assets.Scripts.Safe
+public class CombinationInteractionManager : CombinationBaseManager
 {
-    public class CombinationInteractionManager
+    public int timesPredecessorPassed;
+
+    public CombinationInteractionManager(SoundUtility soundUtility, Door door, float stepAngle)
+        : base(soundUtility, door, stepAngle) { }
+
+    public override void ResetCombination()
     {
-        // Handles interactions between the dial and the combination system.
-        readonly CombinationBaseManager combinationManager;
+        base.ResetCombination();
+        timesPredecessorPassed = 0;
+    }
 
-        public CombinationInteractionManager(CombinationBaseManager combinationBaseManager)
-        {
-            combinationManager = combinationBaseManager != null ? combinationBaseManager : throw new ArgumentNullException(nameof(combinationBaseManager), "CombinationBaseManager cannot be null.");
-        }
+    public void IncrementPredecessorCount(float angleDifference)
+    {
+        if (currentDigitIndex > 0 && IsExpectedDirection(angleDifference))
+            timesPredecessorPassed++;
+    }
 
-        public void ResetCombination() => combinationManager.ResetCombination();  
-        
-        public bool ProcessDialedNumber(int numberDialed, ref float timer)
-        {
-            bool isCorrect = combinationManager.IsNumberCorrect(numberDialed);
-            return combinationManager.IncrementIndexAndResetTimer(isCorrect, ref timer, numberDialed);
-        }
+    public bool TryAdvanceStep(bool isCorrect, ref float timer, float resetThreshold)
+    {
+        if (timer >= resetThreshold) timer = 0;
 
-        public void UpdatePredecessorCount(float angleDifference)
-        {
-            if (combinationManager is CombinationSequenceManager sequenceManager)
-            {
-                sequenceManager.IncrementPredecessorCount(angleDifference);
-            }
-        }
-
-        public bool IsSequenceProgressionCorrect()
-        {
-            if (combinationManager is CombinationSequenceManager sequenceManager)
-            {
-                return sequenceManager.IsSequenceProgressionCorrect();
-            }
-            return false;
-        }
-
-        // original function
-        //public void ProcessDigitDialed(ref float timer, ref float pauseDuration, float absAngle)
-        //{
-        //    if (locked) return;
-
-        //    if (timer >= pauseDuration)
-        //    {
-        //        NumberDialed = Mathf.FloorToInt(absAngle / stepAngle);
-        //        //correctAmountRotations = CalculateCorrectRotations();
-
-        //        if (IncrementIndexOfCorrectDigit(NumberDialed, ref timer))
-        //        {
-        //            Locked = true;
-        //            soundUtility.PlaySound(SoundType.CorrectNumber);
-        //            door.Openable = true;
-        //            PlaySound(Sound.Unlocking);
-        //        }
-        //        else soundUtility.PlaySound(SoundType.IncorrectNumber);
-        //    }
-        //}
+        return isCorrect && IncrementIndex(combination[currentDigitIndex]);
     }
 }

@@ -11,44 +11,34 @@ namespace Assets.Scripts.Safe
 {
     public class RotationHandler
     {
-        private const float EPSILON = 1.0f;
+        const float EPSILON = 1.0f;
+        readonly RotationApplicator applicator;
+        readonly RotationCalculator calculator;
+        readonly RotationValidator validator;
 
-        void ApplyRotationToModel(Transform model, float rotationAmount) =>
-        model.localRotation = Quaternion.Euler(model.localRotation.eulerAngles.y, rotationAmount, transform.localRotation.eulerAngles.y);
-
-        void ApplyRotationToObject(GameObject targetObject, float rotationAmount)
+        public RotationHandler(RotationApplicator applicator, RotationCalculator calculator, RotationValidator validator)
         {
-            if (rotationApplicable) targetObject.transform.Rotate(0, rotationAmount, 0);
+            this.applicator = applicator ?? throw new ArgumentNullException(nameof(applicator));
+            this.calculator = calculator ?? throw new ArgumentNullException(nameof(calculator));
+            this.validator = validator ?? throw new ArgumentNullException(nameof(validator));
         }
 
-        bool ApplyRotation(ref float absAngle, ref float timer, float deltaAngle, Transform model = null, GameObject targetObject = null)
+        public bool HandleRotation(Transform model, GameObject targetObject, float absAngle, ref float timer, float prevAngle)
         {
+            float deltaAngle = calculator.CalculateAngleDifference(absAngle, prevAngle);
+
             if (deltaAngle > EPSILON)
             {
-                prevAngle = absAngle;
-                float rotationAmount = absAngle / timer * Time.deltaTime;
-                if (targetObject != null)
-                    ApplyRotationToObject(targetObject, rotationAmount);
-                else if (model != null)
-                    ApplyRotationToModel(model, rotationAmount);
-                return true;
+                validator.CurrentAmount++;
+                if (validator.ValidateRotation())
+                {
+                    float rotationAmount = calculator.CalculateRotationAmount(absAngle, timer);
+                    applicator.ApplyRotation(targetObject, model, rotationAmount);
+                    return true;
+                }
             }
             else timer = 0f;
             return false;
-        }
-
-        bool IsRotationApplicable(float rotationAmount, Transform model = null, GameObject targetObject = null)
-        {
-            bool applicable = false;
-            if (model != null)
-            {
-                applicable = Locked;
-            }
-            if (targetObject != null)
-            {
-                applicable = targetObject.transform.rotation - initial position door > 180;
-            }
-            return applicable;
         }
     }
 }

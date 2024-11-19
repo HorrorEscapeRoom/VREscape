@@ -13,18 +13,12 @@ namespace Assets.Scripts.Safe
 {
     public abstract class DoorState : MonoBehaviour
     {
-        //protected const float MaxAngleIncrement = 180f;
-        //protected bool isDoorPreviouslyOpened = false;
-        //protected float initialPosition;
-        //protected float maxAngle;
-        //protected float previousAngle;
-        //bool opened = false;
-        //readonly SoundUtility soundUtility = new();
-        //DoorManager manager;
-
-        //bool IsOpen { get; set; } = false;
-        SoundHandler soundHandler;
         bool isOpenable;
+        float initialPosition;
+        float maxAngle;
+        float previousAngle;
+        bool isOpened;
+        SoundHandler soundHandler;
 
         public bool IsOpenable
         {
@@ -32,35 +26,36 @@ namespace Assets.Scripts.Safe
             private set => isOpenable = value;
         }
 
-        public void SetOpenable(bool openable) => IsOpenable = openable;
-
-        public void InitializeDoor(GameObject door, SoundHandler soundHandler)
+        public void Initialize(GameObject door, SoundHandler soundHandler, float maxAngleIncrement)
         {
-            this.soundHandler = soundHandler;
+            this.soundHandler = soundHandler ?? throw new ArgumentNullException(nameof(soundHandler));
             initialPosition = door.transform.eulerAngles.y;
-            maxAngle = initialPosition + MaxAngleIncrement;
+            maxAngle = initialPosition + maxAngleIncrement;
             previousAngle = initialPosition;
+            isOpened = false;
         }
+
+        public void SetOpenable(bool openable) => IsOpenable = openable;
 
         public void UpdateDoorState(float currentAngle)
         {
-            if (IsOpen)
-            {
-                if (!opened) opened = true;
-            }
-            if (!IsOpen && opened)
-            {
-                IsOpenable = false;
-                opened = false;
-                soundHandler.PlayCorrectSound();
-            }
-            if (currentAngle != previousAngle)
-            {
-                previousAngle = currentAngle;
-                soundHandler.PlayIncorrectSound();
-            }
+            if (currentAngle != previousAngle) previousAngle = currentAngle;
+            if (IsOpenable) HandleOpeningState();
+            else soundHandler.PlayIncorrectSound();
         }
 
-        public void Start() => previousAngle = initialPosition;
+        void HandleOpeningState()
+        {
+            if (!isOpened)
+            {
+                isOpened = true;
+                soundHandler.PlayCorrectSound();
+            }
+            if (isOpened)
+            {
+                isOpened = false;
+                isOpenable = false;
+            }
+        }
     }
 }
