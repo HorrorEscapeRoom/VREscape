@@ -1,108 +1,46 @@
+using Assets.Scripts.Safe;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.Android.Gradle.Manifest;
+using System.Net.Sockets;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
 using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.XR;
+using static Assets.Scripts.Safe.SoundUtility;
 
-public class Dial : MonoBehaviour
+public abstract class Dial : MonoBehaviour
 {
+    
+
     const float EPSILON = 1.0f;
-    float prevAngle;  // # dial
+    float prevAngle;
+    XRKnob XRKnob;
+    float absAngle;
+    float pauseTimer;
+    float stepAngle;
+    float totalAmountRotations;
+    bool rotationApplicable;
     bool locked;
     int numberDialed;
-    Door door = new();
-    Dial dial = new();
-    Combination combination = new();
-    Rotations rotations = new();
+    readonly SoundUtility soundUtility = new();
 
-   
-    bool lockSoundPlayed;  // # door
-    float doorsInitialYRotation;  // # door
-    int totalAmountRotations;  // # dial
-   
-    float timerHandRotation = 0.0f;  // # dial
-    float timerHandDisplacement = 0.0f;  // # dial
-    float pauseTimer = 0.0f;  // # dial
-    float stepAngle;  // # dial
+    [SerializeField] int amountDialNumbers;
+    [SerializeField] float pauseDuration;
 
+    
 
-    [SerializeField] int amountDialNumbers;  // # dial
-
-    [SerializeField] float pauseDuration = new();  // # dial
-    [SerializeField] AudioSource[] audioSources;  // # door
-
-    enum Sound
+    void Start()
     {
-        CorrectNumber,  // # combination
-        IncorrectNumber,  // # combination
+        XRKnob = new();
+        stepAngle = 360 / amountDialNumbers;
     }
 
-    public bool Locked
+    void Update()
     {
-        get => locked;
-        set
-        {
-            if (locked != value)
-            {
-                locked = value;
-            }
-        }
+        //int number = Mathf.FloorToInt(prevAngle / stepAngle);
+        //if (NumberDialed != number) NumberDialed = number;
     }
 
-    // # door
-    void PlaySound(Sound soundType)
-    {
-        if (!audioSources[(int)soundType].isPlaying)
-        {
-            audioSources[(int)soundType].Play();
-            Debug.Log($"Playing sound: {soundType}");
-        }
-    }
-
-    // # dial
-    void UpdateTimerIfCondition(ref float timer, bool condition)
-    {
-        if (condition) timer += Time.deltaTime;
-        else timer = 0f;
-    }
-
-    // # dial
-    bool IsExpectedDirection(float angleDiff)
-    {
-        bool expectedDirection = (angleDiff > 0) == (indexOfCorrectDigit % 2 == 0);
-        Debug.Log($"Expected direction: {expectedDirection}, Index: {indexOfCorrectDigit}");
-        return expectedDirection;
-    }
-
-    // # dial
-    bool ApplyRotation(ref float absAngle, ref float timer, float deltaAngle, Transform model = null, GameObject targetObject = null)
-    {
-        if (deltaAngle > EPSILON)
-        {
-            prevAngle = absAngle;
-            if (targetObject == null)
-            {
-                model.localRotation = Quaternion.Euler(model.localRotation.eulerAngles.x, absAngle, transform.localRotation.eulerAngles.z);
-            }
-            else targetObject.transform.Rotate(0, absAngle / timer * Time.deltaTime, 0);
-
-            angleOffset = initGrabHandAngel - GetHandThing();
-            OnValueChanged?.Invoke(absAngle);
-            hud.DrawLine(transform.position, hand.position + hand.up, 0.02f, Color.red);
-
-            Debug.Log($"Applying rotation: AbsAngle={absAngle}, DeltaAngle={deltaAngle}");
-            return true;
-        }
-        else timer = 0f;
-        return false;
-    }
-
-    // # dial
     void CheckAndApplyRotation(float absAngle, float angleDifference)
     {
         if (ApplyRotation(ref absAngle, ref pauseTimer, angleDifference, model))
@@ -117,52 +55,28 @@ public class Dial : MonoBehaviour
         }
     }
 
-    // # dial
+    
+
+    // Doing evrything below so that the speed of rotations match the controller.
+    // Could just time the taken for XRKnob.absAngle to change and the diffrence between previous and current XRKnob.absAngle to work out dial's rotation speed.
+    // Capture the displacement on the controller's z-axis and the time to rotate the door.
+    
+
     public void HandleRotationUpdate()
     {
         float absAngle = AbsAngle;
         float angleDifference = absAngle - prevAngle;
-        if (active)
+        if (UpdateDoorState())  // # door
         {
-            if (!IsHandNearby())
-            {
-                Released();
-                return;
-            }
-            else Grabbed(hand);
-            if (UpdateDoorState())  // # door
-            {
-                handPositionZ = hand.transform.position.z;
-                needReset = true;  // # combination
-                return;
-            }
-            else CheckAndApplyRotation(absAngle, angleDifference);  // # dial
-            if (needReset) ResetCombination(ref prevAngle, ref absAngle);  // # combination
-            if (canDoorOpen)  // # door
-            {
-                HandleDoorRotation();  // # door
-            }
+            handPositionZ = hand.transform.position.z;
+            needReset = true;  // # combination
+            return;
         }
-    }
-
-    // Start is called before the first frame update
-    // # dial, # door
-    void Start()
-    {
-        try
+        else CheckAndApplyRotation(absAngle, angleDifference);  // # dial
+        if (needReset) ResetCombination(ref prevAngle, ref absAngle);  // # combination
+        if (canDoorOpen)  // # door
         {
-            stepAngle = 360 / amountDialNumbers;  // # dial
+            HandleDoorRotation();  // # door
         }
-        catch (DivideByZeroException)
-        {
-            Debug.Log("Amount of dial numbers is missing.");
-        }
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        numberDialed = ...
     }
 }

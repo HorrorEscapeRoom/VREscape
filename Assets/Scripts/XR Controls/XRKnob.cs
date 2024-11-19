@@ -15,9 +15,11 @@ public class XRKnob : MonoBehaviour
     float BaseAngle = 0.0f;
     float angleOffset = 0.0f;
 
+
+    // made public to use match speed to controllers
     float initGrabHandAngel = 0.0f;
 
-    float absAngle { get { return ReAngle(BaseAngle + angleOffset); } }
+    public float absAngle { get { return ReAngle(BaseAngle + angleOffset); } }
 
     // Start is called before the first frame update
     void Start()
