@@ -20,6 +20,7 @@ public class AlchemyPuzzle : MonoBehaviour
     float timer2 = 0;
 
     bool puzzleSolved = false;
+    public bool finalPuzzle = false;
 
     /// <summary>
     /// When an item is placed in a storage volume store it as a variable
@@ -48,16 +49,16 @@ public class AlchemyPuzzle : MonoBehaviour
         {
             PuzzleSolved(true);
         }
-        else if(currentIngredients.Count == solutionItems.Count)
+        /*else if(currentIngredients.Count == solutionItems.Count)
         {
             PuzzleSolved(false);
-        }
+        }*/
     }
 
 
     public void PuzzleSolved(bool perfectCompletion)
     {
-        if (puzzleSolved != true)
+        if (puzzleSolved != true && !finalPuzzle)
         {
             if (perfectCompletion)
             {
@@ -80,6 +81,11 @@ public class AlchemyPuzzle : MonoBehaviour
             }
 
 
+        }
+        if (finalPuzzle && puzzleSolved != true)
+        {
+            puzzleSolved = true;
+            UnityEngine.SceneManagement.SceneManager.LoadScene("CreditsScene");
         }
     }
 
