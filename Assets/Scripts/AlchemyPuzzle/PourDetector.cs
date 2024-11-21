@@ -75,6 +75,10 @@ public class PourDetector : MonoBehaviour
         pourPuzzle = hit.transform.gameObject.GetComponent<AlchemyPouring>();
         pourPuzzle?.FirstPour(gameObject);
         pourPuzzle?.Pour(gameObject);
+
+        hit.transform.gameObject.TryGetComponent<Fireplace>(out Fireplace fireplace);
+
+        fireplace?.PutOut();
     }
 
     void EndPour()
