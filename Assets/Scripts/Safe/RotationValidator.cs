@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Scripts.Safe
 {
@@ -14,7 +10,11 @@ namespace Assets.Scripts.Safe
         public string CurrentDirection { get; set; }
         public string ExpectedDirection { get; set; }
 
-        public bool ValidateRotation() =>
-            CurrentDirection == ExpectedDirection && CurrentAmount == NecessaryAmount;
+        public bool ValidateRotation()
+        {
+            bool isValid = CurrentDirection == ExpectedDirection && CurrentAmount == NecessaryAmount;
+            Debug.Log($"[RotationValidator] ValidateRotation() = {isValid}");
+            return isValid;
+        }
     }
 }

@@ -17,7 +17,7 @@ public class XRKnob : MonoBehaviour
 
 	float initGrabHandAngel = 0.0f;
 
-	float absAngle { get { return ReAngle(BaseAngle + angleOffset); } }
+	public float absAngle { get { return ReAngle(BaseAngle + angleOffset); } }
 
 
 	// Start is called before the first frame update
