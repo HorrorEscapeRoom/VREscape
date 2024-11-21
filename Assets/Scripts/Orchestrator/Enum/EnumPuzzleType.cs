@@ -4,4 +4,5 @@
     Alchemy,
     Safe,
     Bookshelf,
+    PipePuzzle,
 }
