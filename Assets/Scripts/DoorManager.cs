@@ -34,6 +34,8 @@ public class DoorManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        handle.door = this.gameObject;
+        Debug.Log("PARENT - " + transform.rotation.y);
         if ( requiresKey )
         {
             doorknob.gameObject.SetActive(false);
