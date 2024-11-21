@@ -19,6 +19,7 @@ public class PipeSink : MonoBehaviour
 
 	float fill_amount = 0.0f;
 	bool tap_stream_on = false;
+	public Transform key_spawn;
 
 	//void Start()
     //{
@@ -54,7 +55,7 @@ public class PipeSink : MonoBehaviour
 		
 
 		if (drain_waterSource.amount > 0.6 && !key_dispensed) {
-			Instantiate(KeyPrefab,gameObject.transform);
+			Instantiate(KeyPrefab, key_spawn);
 			key_dispensed = true;
 		}
 	}
