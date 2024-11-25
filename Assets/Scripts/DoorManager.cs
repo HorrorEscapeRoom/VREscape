@@ -35,7 +35,7 @@ public class DoorManager : MonoBehaviour
     void Start()
     {
         handle.door = this.gameObject;
-        Debug.Log("PARENT - " + transform.rotation.y);
+        //Debug.Log("PARENT - " + transform.rotation.y);
         if ( requiresKey )
         {
             doorknob.gameObject.SetActive(false);

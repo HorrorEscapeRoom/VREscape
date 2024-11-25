@@ -32,7 +32,7 @@ public class HandleManager : MonoBehaviour
         {
             transform.LookAt(new Vector3(knobPosition.position.x, knobPosition.position.y, this.transform.position.z), transform.up);
         }
-            Debug.Log("DOOR - " + door.transform.eulerAngles.y);
+            //Debug.Log("DOOR - " + door.transform.eulerAngles.y);
         
 
 

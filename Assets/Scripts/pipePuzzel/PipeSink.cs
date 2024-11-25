@@ -35,7 +35,7 @@ public class PipeSink : MonoBehaviour
     {
 
 		display_water.fillAmount = 1 - fill_amount;
-		Debug.Log(tap_waterSource.amount);
+		//Debug.Log(tap_waterSource.amount);
 		if (tap_waterSource.amount > 0.5) {
 			fill_amount += tap_waterSource.amount * Time.deltaTime * 0.1f;
 			tap.pourThreshold = 0;
