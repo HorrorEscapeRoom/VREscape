@@ -37,7 +37,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayDialMoveSound() => PlaySound(dialMoveClip);
 
-    private void PlaySound(AudioClip clip)
+    void PlaySound(AudioClip clip)
     {
         if (clip != null) audioSource.PlayOneShot(clip);
         else Debug.LogWarning("[SoundManager] AudioClip is missing for this action.");

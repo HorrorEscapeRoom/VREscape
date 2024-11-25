@@ -2,14 +2,13 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    [SerializeField] Transform hinge; // The door's hinge point.
-    [SerializeField] float maxOpenAngle = 90f; // Maximum door open angle.
-    [SerializeField] float rotationSpeed = 5f; // Smooth rotation speed.
-    [SerializeField] SoundManager soundManager;
-    [SerializeField] XRKnobWrapper knobWrapper; // Reference to the XRKnobWrapper.
+    [SerializeField] Transform hinge; // Hinge for door rotation
+    [SerializeField] float maxOpenAngle = 90f; // Maximum opening angle
+    [SerializeField] SoundManager soundManager; // Reference to SoundManager for audio
 
-    private Transform hand; // The hand object controlling the door.
-    private Quaternion closedRotation; // Initial closed position of the door.
+    Quaternion closedRotation; // Initial closed door rotation
+    float currentKnobAngle = 0f; // Tracks current knob angle for interpolation
+    bool canControlDoor = false; // Tracks if the door can be controlled (after combination is complete)
 
     void Start()
     {
@@ -20,54 +19,41 @@ public class Door : MonoBehaviour
         }
 
         closedRotation = hinge.rotation;
+    }
 
-        if (knobWrapper == null)
+    public void OnCombinationComplete()
+    {
+        canControlDoor = true;
+        Debug.Log("[Door] Combination completed. Door is now controllable.");
+    }
+
+    public void SetRotationFromKnob(float knobAngle)
+    {
+        if (!canControlDoor)
         {
-            Debug.LogError("[Door] XRKnobWrapper not assigned! Door functionality will not work.");
+            Debug.LogWarning("[Door] Door cannot be controlled until combination is complete.");
             return;
         }
 
-        // Register the knob wrapper's grabbed and released events.
-        knobWrapper.OnGrabbed += HandleKnobGrabbed;
-        knobWrapper.OnReleased += HandleKnobReleased;
-    }
+        // Clamp the knob angle to ensure it stays within the valid range
+        currentKnobAngle = Mathf.Clamp(knobAngle, 0f, maxOpenAngle);
 
-    void Update()
-    {
-        if (hand != null) UpdateDoorRotation();
-    }
+        // Calculate the target rotation for the door
+        Quaternion targetRotation = closedRotation * Quaternion.Euler(0f, currentKnobAngle, 0f);
 
-    private void HandleKnobGrabbed(Transform grabbedHand)
-    {
-        hand = grabbedHand;
-        Debug.Log($"[Door] Hand assigned: {grabbedHand.name}");
-    }
+        // Set the hinge's rotation to the target rotation
+        hinge.rotation = targetRotation;
 
-    private void HandleKnobReleased()
-    {
-        hand = null;
-        Debug.Log("[Door] Hand released.");
-    }
+        Debug.Log($"[Door] Adjusting door to match knob angle: {currentKnobAngle}°.");
 
-    void UpdateDoorRotation()
-    {
-        // Calculate the rotation based on the hand's rotation relative to the hinge.
-        float handAngle = CalculateHandAngle();
-        float clampedAngle = Mathf.Clamp(handAngle, 0f, maxOpenAngle); // Restrict within bounds.
-
-        // Smoothly rotate the door to match the clamped angle.
-        Quaternion targetRotation = closedRotation * Quaternion.Euler(0f, clampedAngle, 0f);
-        hinge.rotation = Quaternion.Slerp(hinge.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-
-        Debug.Log($"[Door] Hand Angle: {handAngle}, Clamped Angle: {clampedAngle}");
-    }
-
-    float CalculateHandAngle()
-    {
-        // Calculate the angle between the hand and the hinge's forward direction.
-        Vector3 hingeToHand = hand.position - hinge.position;
-        float angle = Vector3.SignedAngle(hinge.forward, hingeToHand, Vector3.up); // Rotate around the Y-axis.
-
-        return angle;
+        // Play sound for door movement
+        if (Mathf.Approximately(currentKnobAngle, maxOpenAngle))
+        {
+            soundManager.PlayDoorOpenSound();
+        }
+        else if (Mathf.Approximately(currentKnobAngle, 0f))
+        {
+            soundManager.PlayDoorCloseSound();
+        }
     }
 }

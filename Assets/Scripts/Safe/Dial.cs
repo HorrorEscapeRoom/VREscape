@@ -3,155 +3,72 @@ using UnityEngine;
 
 public class Dial : MonoBehaviour
 {
-    [SerializeField] List<int> combination; // The correct combination sequence.
-    [SerializeField] public int AmountDialNumbers;  // Total numbers on the dial.
-    [SerializeField] float rotationThreshold = 0.5f; // Time to wait before comparing numbers.
-    [SerializeField] SoundManager soundManager; // Reference to SoundManager for dial sounds.
+    [SerializeField] List<int> combination; // Combination sequence
+    [SerializeField] int AmountDialNumbers = 40; // Number of steps on the dial
+    [SerializeField] SoundManager soundManager; // Sound manager reference
+    [SerializeField] XRKnob xrKnob; // XR Knob controlling the dial
+    [SerializeField] Door door; // Reference to the Door object
 
-    Door door;                              // Reference to the door (parent object).
-    int currentDigitIndex = 0;             // Tracks the current position in the combination.
-    float lastAngle = 0f;                  // Tracks the last angle of the dial.
-    bool isClockwise = true;               // Tracks the direction of rotation.
-    bool hasPassedNumber = false;          // Tracks if the dial has passed a number when switching directions.
-    XRKnob xRKnob;                         // Handles rotation of the dial.
-
-    float StepAngle => 360f / AmountDialNumbers; // The angle step for each number.
-
-    // Timer variables
-    float rotationTimer = 0f;             // Tracks elapsed time since the last rotation.
+    int currentDigitIndex = 0; // Tracks the current combination digit index
+    float StepAngle => 360f / AmountDialNumbers; // Angle per dial step
+    bool combinationComplete = false; // Tracks if combination is complete
 
     void Start()
     {
-        if (!TryGetComponent<XRKnob>(out xRKnob))
-        {
-            Debug.LogError("[Dial] XRKnob component is missing! Please add it to the GameObject.");
-            enabled = false;
-            return;
-        }
+        if (!ValidateConfiguration()) return;
+        xrKnob.OnValueChanged.AddListener(OnKnobRotated);
+    }
 
-        door = GetComponentInParent<Door>();
+    bool ValidateConfiguration()
+    {
+        if (combination == null || combination.Count == 0)
+        {
+            Debug.LogError("[Dial] Combination not set! Please configure the combination numbers.");
+            enabled = false;
+            return false;
+        }
+        if (xrKnob == null)
+        {
+            Debug.LogError("[Dial] XRKnob not assigned! Dial functionality will not work.");
+            enabled = false;
+            return false;
+        }
         if (door == null)
         {
-            Debug.LogWarning("[Dial] Parent object does not have a Door component. The dial will work, but the door won't open automatically.");
+            Debug.LogError("[Dial] Door not assigned! Cannot control the door.");
+            enabled = false;
+            return false;
         }
-
-        if (soundManager == null)
-        {
-            Debug.LogWarning("[Dial] SoundManager is not assigned! Sounds will not play.");
-        }
+        return true;
     }
 
-    void Update()
+    void OnKnobRotated(float currentAngle)
     {
-        HandleRotation();
+        if (combinationComplete) door.SetRotationFromKnob(currentAngle);
+        else HandleCombinationLogic(currentAngle);
     }
 
-    void HandleRotation()
+    void HandleCombinationLogic(float currentAngle)
     {
-        float currentAngle = xRKnob.absAngle;
-        float angleDifference = CalculateAngleDifference(currentAngle, lastAngle);
+        int dialedNumber = Mathf.FloorToInt(currentAngle / StepAngle);
 
-        // If the dial rotates, reset the timer and play move sound.
-        if (Mathf.Abs(angleDifference) > Mathf.Epsilon)
+        if (dialedNumber == combination[currentDigitIndex])
         {
-            rotationTimer = 0f;
-            soundManager?.PlayDialMoveSound();
-        }
-
-        // Increment the timer.
-        rotationTimer += Time.deltaTime;
-
-        // If the timer hasn't reached the threshold, return early.
-        if (rotationTimer < rotationThreshold) return;
-
-        // Timer reached threshold; process the number and reset the timer.
-        ProcessDialedNumber(currentAngle);
-        rotationTimer = 0f; // Reset the timer after processing.
-    }
-
-    void ProcessDialedNumber(float currentAngle)
-    {
-        // Calculate the number corresponding to the current angle.
-        int dialedNumber = Mathf.FloorToInt(currentAngle / StepAngle) % AmountDialNumbers;
-
-        // Log detailed debugging information.
-        Debug.Log($"[Dial] Current Angle: {currentAngle}");
-        Debug.Log($"[Dial] Step Angle: {StepAngle}");
-        Debug.Log($"[Dial] Dialed Number (calculated): {dialedNumber}");
-
-        // Determine rotation direction (clockwise or counterclockwise).
-        bool newDirection = CalculateAngleDifference(currentAngle, lastAngle) > 0;
-        if (newDirection != isClockwise)
-        {
-            if (!hasPassedNumber)
+            soundManager.PlayDialCorrectSound(); // Play sound for correct input
+            currentDigitIndex++;
+            if (currentDigitIndex >= combination.Count)
             {
-                Debug.Log("[Dial] Direction changed without passing the required number. Resetting.");
-                ResetCombination();
-                return;
-            }
-
-            isClockwise = newDirection;
-            hasPassedNumber = false;
-            Debug.Log($"[Dial] Direction changed to {(isClockwise ? "Clockwise" : "Counterclockwise")}");
-        }
-
-        // Check if the dialed number matches the current combination digit.
-        if (IsNumberCorrect(dialedNumber))
-        {
-            hasPassedNumber = true;
-
-            if (TryAdvance())
-            {
-                Debug.Log("[Dial] Combination complete. Safe unlocked!");
-                OpenDoor();
+                combinationComplete = true;
+                Debug.Log("[Dial] Combination complete! Safe unlocked.");
+                soundManager.PlayDoorUnlockSound(); // Play unlock sound
+                door.OnCombinationComplete(); // Notify the door that the combination is complete
             }
         }
         else
         {
-            Debug.Log($"[Dial] Incorrect number {dialedNumber} dialed. Resetting.");
-            ResetCombination();
+            soundManager.PlayDialIncorrectSound(); // Play incorrect input sound
+            currentDigitIndex = 0; // Reset on incorrect input
+            Debug.LogWarning("[Dial] Incorrect input! Combination reset.");
         }
-
-        lastAngle = currentAngle; // Update the last angle for the next frame.
-    }
-
-    float CalculateAngleDifference(float currentAngle, float lastAngle)
-    {
-        float difference = currentAngle - lastAngle;
-        return Mathf.Abs(difference) > 180f ? -Mathf.Sign(difference) * (360f - Mathf.Abs(difference)) : difference;
-    }
-
-    bool IsNumberCorrect(int dialedNumber)
-    {
-        bool isCorrect = currentDigitIndex < combination.Count && dialedNumber == combination[currentDigitIndex];
-        if (soundManager != null)
-        {
-            if (isCorrect)
-                soundManager.PlayDialCorrectSound();
-            else
-                soundManager.PlayDialIncorrectSound();
-        }
-        Debug.Log($"[Dial] IsNumberCorrect({dialedNumber}) = {isCorrect}");
-        return isCorrect;
-    }
-
-    bool TryAdvance()
-    {
-        currentDigitIndex++;
-        Debug.Log($"[Dial] Advanced to combination index {currentDigitIndex}");
-        return currentDigitIndex == combination.Count; // Return true if the combination is complete.
-    }
-
-    void ResetCombination()
-    {
-        currentDigitIndex = 0;
-        hasPassedNumber = false;
-        Debug.Log("[Dial] Combination reset.");
-    }
-
-    void OpenDoor()
-    {
-        if (door != null) door.Open();
-        else Debug.LogWarning("[Dial] Door component is not assigned. Cannot open the door.");
     }
 }
