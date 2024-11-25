@@ -1,94 +1,72 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-
 public class XRKnob : MonoBehaviour
 {
     [SerializeField] float UnGrabDistance = 0.1f;
-    public float value;
     public UnityEvent<float> OnValueChanged;
 
-    VRHudManager hud;
-    bool active = false;
-    Transform hand, model;
+    private Transform hand;
+    private Transform model;
 
-	float BaseAngle = 0.0f;
-	float angleOffset = 0.0f;
+    private float BaseAngle = 0.0f;
+    private float angleOffset = 0.0f;
+    private float initGrabHandAngle = 0.0f;
+    private bool active = false;
 
-	float initGrabHandAngel = 0.0f;
+    public Transform Hand => hand; 
 
-	float absAngle { get { return ReAngle(BaseAngle + angleOffset); } }
+    public float AbsAngle => ReAngle(BaseAngle + angleOffset); 
 
-
-	// Start is called before the first frame update
-	void Start()
+    void Start()
     {
-        hud = FindFirstObjectByType<VRHudManager>();
         model = transform.GetChild(0);
-		UpdateMeshRotation();
-	}
-    void Grabbed(Transform hand)
-    {
-        this.hand = hand;
+        UpdateMeshRotation();
+    }
 
-		initGrabHandAngel = GetHandThing();
-		
+    public void Grabbed(Transform grabbingHand)
+    {
+        hand = grabbingHand;
+        initGrabHandAngle = GetHandAngle();
         active = true;
+        Debug.Log($"[XRKnob] Grabbed. Initial Hand Angle: {initGrabHandAngle}");
     }
-    void Released()
+
+    public void Released()
     {
-		BaseAngle = absAngle;
-		active = false; hand = null;
+        Debug.Log($"[XRKnob] Released. Final Abs Angle: {AbsAngle}");
+        BaseAngle = AbsAngle;
+        active = false;
+        hand = null;
     }
-    void Update(){
 
-        if(active){
+    void Update()
+    {
+        if (!active) return;
 
-			angleOffset = initGrabHandAngel - GetHandThing();
+        angleOffset = initGrabHandAngle - GetHandAngle();
+        Debug.Log($"[XRKnob] Updating. Angle Offset: {angleOffset}, Abs Angle: {AbsAngle}");
+        UpdateMeshRotation();
+        OnValueChanged?.Invoke(AbsAngle); // Notify listeners about the angle update.
 
-			UpdateMeshRotation();
-
-			OnValueChanged?.Invoke(absAngle);
-            hud.DrawLine(transform.position, hand.position + hand.up, 0.02f, Color.red);
-            if(Vector3.Distance(transform.position, hand.position) > UnGrabDistance){
-                Released();
-            }
+        if (Vector3.Distance(transform.position, hand.position) > UnGrabDistance)
+        {
+            Released();
         }
     }
 
-	void UpdateMeshRotation() {
-		model.localRotation = Quaternion.Euler(model.localRotation.eulerAngles.x, absAngle, model.localRotation.eulerAngles.z);
-	}
-
-	float GetHandThing() {
-
-		Vector3 foobar = transform.InverseTransformPoint(hand.position + hand.up);
-		foobar.y = 0;
-		foobar.Normalize();
-
-		return Mathf.Atan2(foobar.z, foobar.x) * Mathf.Rad2Deg;
-	}
-
-    float ReAngle(float angle){
-        if(angle < 0) { angle += 360; }
-        if(angle > 360) { angle -= 360; }
-        return angle;
-    }
-
-	private void DrawCircle(Vector3 axis, Vector3 center, float radius, float duration = 0.02f)
+    private void UpdateMeshRotation()
     {
-        Vector3 up = Vector3.Cross(axis, Vector3.up);
-        if(up.magnitude < 0.1f) up = Vector3.Cross(axis, Vector3.right);
-        up.Normalize();
-        Vector3 right = Vector3.Cross(axis, up);
-        for(int i = 0; i < 360; i+=10){
-            float angle = i * Mathf.Deg2Rad;
-            Vector3 point = center + up * Mathf.Sin(angle) * radius + right * Mathf.Cos(angle) * radius;
-            hud.DrawLine(point, center + up * Mathf.Sin(angle + Mathf.Deg2Rad * 10) * radius + right * Mathf.Cos(angle + Mathf.Deg2Rad * 10) * radius, duration, Color.green);
-        }
+        model.localRotation = Quaternion.Euler(model.localRotation.eulerAngles.x, AbsAngle, model.localRotation.eulerAngles.z);
     }
 
-	private void debug_draw_axis(Vector3 point, Vector3 axis, Color col){
-		hud.DrawLine(point, point + (axis*5.0f),1000.0f , col);
-	}
+    private float GetHandAngle()
+    {
+        Vector3 foobar = transform.InverseTransformPoint(hand.position + hand.up);
+        foobar.y = 0;
+        foobar.Normalize();
+        return Mathf.Atan2(foobar.z, foobar.x) * Mathf.Rad2Deg;
+    }
+
+    private float ReAngle(float angle) => (angle + 360) % 360;
 }
