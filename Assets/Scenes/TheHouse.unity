@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &5 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8250783834301158246, guid: 07d970d066b4d194881a3a174c47f9a6, type: 3}
+  m_PrefabInstance: {fileID: 1945337252}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3125057
 GameObject:
   m_ObjectHideFlags: 0
@@ -1631,7 +1636,7 @@ GameObject:
   - component: {fileID: 368097181}
   - component: {fileID: 368097180}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Burnt Note
   m_TagString: XRItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1846,6 +1851,10 @@ PrefabInstance:
       propertyPath: m_Animation
       value: 
       objectReference: {fileID: 7400000, guid: 249b062a3a54f8641bfd83b7c5c972f2, type: 2}
+    - target: {fileID: 438708440450903555, guid: d194176caafe98548a8fecdb5a82d0bf, type: 3}
+      propertyPath: m_PlayAutomatically
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 438708440450903555, guid: d194176caafe98548a8fecdb5a82d0bf, type: 3}
       propertyPath: m_Animations.Array.size
       value: 1
@@ -4341,7 +4350,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 501613881}
-  - {fileID: 1945337253}
+  - {fileID: 5}
   - {fileID: 1749909630}
   - {fileID: 1836432148}
   - {fileID: 186377032}
@@ -6088,11 +6097,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07d970d066b4d194881a3a174c47f9a6, type: 3}
---- !u!4 &1945337253 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8250783834301158246, guid: 07d970d066b4d194881a3a174c47f9a6, type: 3}
-  m_PrefabInstance: {fileID: 1945337252}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1968536651
 GameObject:
   m_ObjectHideFlags: 0
