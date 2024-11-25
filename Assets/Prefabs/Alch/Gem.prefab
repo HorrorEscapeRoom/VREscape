@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 2935086283560906498}
   - component: {fileID: 8150325160347796979}
   - component: {fileID: 7390954772227865883}
-  - component: {fileID: 8792782980115494182}
   - component: {fileID: 3245758170800138499}
   - component: {fileID: 5115173685377939937}
   - component: {fileID: 7341291589371738432}
+  - component: {fileID: 1158351229436192441}
   m_Layer: 0
   m_Name: Gem
   m_TagString: XRItem
@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3488787871988822814}
   serializedVersion: 2
-  m_LocalRotation: {x: 6.123233e-17, y: 0.00000019470718, z: 6.123235e-17, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.000000016472768, y: 0.41178158, z: 0.05054796}
   m_LocalScale: {x: 0.024999999, y: 0.024999999, z: 0.024999999}
   m_ConstrainProportionsScale: 0
@@ -89,28 +89,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8792782980115494182
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3488787871988822814}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 6664959949897491518, guid: b668b68dec4a4fe4d9d8b32fbbe19042, type: 3}
 --- !u!54 &3245758170800138499
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -167,3 +145,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredient: Gem
   fillAmount: 0
+--- !u!65 &1158351229436192441
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3488787871988822814}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.57849497, y: 0.47320938, z: 0.5177196}
+  m_Center: {x: 0.0000076293945, y: 0.08058739, z: 0.064783}

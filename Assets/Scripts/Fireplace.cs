@@ -6,10 +6,20 @@ public class Fireplace : MonoBehaviour
 {
     public GameObject fire;
     public GameObject ashes;
+    bool ashesCreated = false;
 
     public void PutOut()
     {
-        ashes.SetActive(true);
-        Destroy(fire);
+        if (!ashesCreated)
+        {
+            ashes.SetActive(true);
+            //Instantiate(ashes, ashes.transform);
+            print("Ashes Created");
+            ashesCreated = true;
+        }        
+        if(fire != null)
+        {
+            Destroy(fire);
+        }
     }
 }

@@ -21,6 +21,7 @@ public class AlchemyPuzzle : MonoBehaviour
 
     bool puzzleSolved = false;
     public bool finalPuzzle = false;
+    public SceneManager sceneManager;
 
     /// <summary>
     /// When an item is placed in a storage volume store it as a variable
@@ -84,8 +85,12 @@ public class AlchemyPuzzle : MonoBehaviour
         }
         if (finalPuzzle && puzzleSolved != true)
         {
+            FindFirstObjectByType<VRHudManager>().Debug("! Gem Puzzle Solved !");
             puzzleSolved = true;
-            UnityEngine.SceneManagement.SceneManager.LoadScene("CreditsScene");
+            sceneManager.ChangeScene("CreditsScene");            //UnityEngine.SceneManagement.SceneManager.LoadScene("CreditsScene");
+            //UnityEngine.SceneManagement.SceneManager.LoadScene(3, UnityEngine.SceneManagement.LoadSceneMode.Single);
+
+            
         }
     }
 
