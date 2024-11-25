@@ -3,8 +3,6 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     [Header("Audio Clips")]
-    [SerializeField] AudioClip doorOpenClip;
-    [SerializeField] AudioClip doorCloseClip;
     [SerializeField] AudioClip doorLockClip;
     [SerializeField] AudioClip doorUnlockClip;
     [SerializeField] AudioClip dialCorrectClip;
@@ -23,10 +21,6 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void PlayDoorOpenSound() => PlaySound(doorOpenClip);
-
-    public void PlayDoorCloseSound() => PlaySound(doorCloseClip);
-
     public void PlayDoorLockSound() => PlaySound(doorLockClip);
 
     public void PlayDoorUnlockSound() => PlaySound(doorUnlockClip);
@@ -35,7 +29,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayDialIncorrectSound() => PlaySound(dialIncorrectClip);
 
-    public void PlayDialMoveSound() => PlaySound(dialMoveClip);
+    public void PlayDoorMoveSound() => PlaySound(dialMoveClip);
 
     void PlaySound(AudioClip clip)
     {

@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class Dial : MonoBehaviour
 {
-    [SerializeField] List<int> combination; // Combination sequence
-    [SerializeField] int AmountDialNumbers = 40; // Number of steps on the dial
-    [SerializeField] SoundManager soundManager; // Sound manager reference
-    [SerializeField] XRKnob xrKnob; // XR Knob controlling the dial
-    [SerializeField] Door door; // Reference to the Door object
+    [SerializeField] List<int> combination; 
+    [SerializeField] int AmountDialNumbers = 40; 
+    [SerializeField] SoundManager soundManager; 
+    [SerializeField] XRKnob xrKnob; 
+    [SerializeField] Door door; 
 
-    int currentDigitIndex = 0; // Tracks the current combination digit index
-    float StepAngle => 360f / AmountDialNumbers; // Angle per dial step
-    bool combinationComplete = false; // Tracks if combination is complete
+    int currentDigitIndex = 0; 
+    float StepAngle => 360f / AmountDialNumbers; 
+    bool combinationComplete = false; 
 
     void Start()
     {
@@ -54,20 +54,20 @@ public class Dial : MonoBehaviour
 
         if (dialedNumber == combination[currentDigitIndex])
         {
-            soundManager.PlayDialCorrectSound(); // Play sound for correct input
+            soundManager.PlayDialCorrectSound(); 
             currentDigitIndex++;
             if (currentDigitIndex >= combination.Count)
             {
                 combinationComplete = true;
                 Debug.Log("[Dial] Combination complete! Safe unlocked.");
-                soundManager.PlayDoorUnlockSound(); // Play unlock sound
-                door.OnCombinationComplete(); // Notify the door that the combination is complete
+                soundManager.PlayDoorUnlockSound(); 
+                door.OnCombinationComplete(); 
             }
         }
         else
         {
-            soundManager.PlayDialIncorrectSound(); // Play incorrect input sound
-            currentDigitIndex = 0; // Reset on incorrect input
+            soundManager.PlayDialIncorrectSound(); 
+            currentDigitIndex = 0;
             Debug.LogWarning("[Dial] Incorrect input! Combination reset.");
         }
     }

@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    [SerializeField] Transform hinge; // Hinge for door rotation
-    [SerializeField] float maxOpenAngle = 90f; // Maximum opening angle
-    [SerializeField] SoundManager soundManager; // Reference to SoundManager for audio
+    [SerializeField] Transform hinge; 
+    [SerializeField] float maxOpenAngle = 90f; 
+    [SerializeField] SoundManager soundManager; 
 
-    Quaternion closedRotation; // Initial closed door rotation
-    float currentKnobAngle = 0f; // Tracks current knob angle for interpolation
-    bool canControlDoor = false; // Tracks if the door can be controlled (after combination is complete)
+    Quaternion closedRotation; 
+    float currentKnobAngle = 0f; 
+    bool canControlDoor = false; 
+    bool isLocked = true; 
 
     void Start()
     {
@@ -21,39 +22,41 @@ public class Door : MonoBehaviour
         closedRotation = hinge.rotation;
     }
 
+    public void LockDoor()
+    {
+        isLocked = true;
+        canControlDoor = false;
+        soundManager.PlayDoorLockSound();
+        Debug.Log("[Door] Door is now locked.");
+    }
+
+    public void UnlockDoor()
+    {
+        isLocked = false;
+        canControlDoor = true;
+        soundManager.PlayDoorUnlockSound();
+        Debug.Log("[Door] Door is now unlocked.");
+    }
+
     public void OnCombinationComplete()
     {
-        canControlDoor = true;
-        Debug.Log("[Door] Combination completed. Door is now controllable.");
+        if (isLocked) UnlockDoor();
+        else Debug.LogWarning("[Door] Combination completed, but the door is already unlocked.");
     }
 
     public void SetRotationFromKnob(float knobAngle)
     {
         if (!canControlDoor)
         {
-            Debug.LogWarning("[Door] Door cannot be controlled until combination is complete.");
+            Debug.LogWarning("[Door] Door cannot be controlled until combination is complete or unlocked.");
             return;
         }
 
-        // Clamp the knob angle to ensure it stays within the valid range
         currentKnobAngle = Mathf.Clamp(knobAngle, 0f, maxOpenAngle);
-
-        // Calculate the target rotation for the door
         Quaternion targetRotation = closedRotation * Quaternion.Euler(0f, currentKnobAngle, 0f);
-
-        // Set the hinge's rotation to the target rotation
         hinge.rotation = targetRotation;
-
         Debug.Log($"[Door] Adjusting door to match knob angle: {currentKnobAngle}°.");
-
-        // Play sound for door movement
-        if (Mathf.Approximately(currentKnobAngle, maxOpenAngle))
-        {
-            soundManager.PlayDoorOpenSound();
-        }
-        else if (Mathf.Approximately(currentKnobAngle, 0f))
-        {
-            soundManager.PlayDoorCloseSound();
-        }
+        if (Mathf.Approximately(currentKnobAngle, maxOpenAngle)) soundManager.PlayDoorMoveSound();
+        else if (Mathf.Approximately(currentKnobAngle, 0f)) LockDoor();
     }
 }

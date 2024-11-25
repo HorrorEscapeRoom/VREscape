@@ -29,12 +29,10 @@ public class XRKnob : MonoBehaviour
         hand = grabbingHand;
         initGrabHandAngle = GetHandAngle();
         active = true;
-        Debug.Log($"[XRKnob] Grabbed. Initial Hand Angle: {initGrabHandAngle}");
     }
 
     public void Released()
     {
-        Debug.Log($"[XRKnob] Released. Final Abs Angle: {AbsAngle}");
         BaseAngle = AbsAngle;
         active = false;
         hand = null;
@@ -45,9 +43,8 @@ public class XRKnob : MonoBehaviour
         if (!active) return;
 
         angleOffset = initGrabHandAngle - GetHandAngle();
-        Debug.Log($"[XRKnob] Updating. Angle Offset: {angleOffset}, Abs Angle: {AbsAngle}");
         UpdateMeshRotation();
-        OnValueChanged?.Invoke(AbsAngle); // Notify listeners about the angle update.
+        OnValueChanged?.Invoke(AbsAngle);
 
         if (Vector3.Distance(transform.position, hand.position) > UnGrabDistance)
         {
