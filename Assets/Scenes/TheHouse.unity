@@ -6913,7 +6913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allowPlace: 1
-  allowGrab: 0
+  allowGrab: 1
   PermitTag: 
 --- !u!65 &1870668285
 BoxCollider:
@@ -9453,7 +9453,7 @@ Transform:
   m_GameObject: {fileID: 2180221531075692499}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.007, y: 2.046, z: 6.54}
+  m_LocalPosition: {x: -4.208, y: 2.046, z: 6.232}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

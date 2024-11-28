@@ -21,6 +21,7 @@ public class AlchemyPuzzle : MonoBehaviour
 
     bool puzzleSolved = false;
     public bool finalPuzzle = false;
+    public GameObject gemItem;
     public SceneManager sceneManager;
 
     /// <summary>
@@ -31,6 +32,10 @@ public class AlchemyPuzzle : MonoBehaviour
         if(item.GetComponent <AlchemyIngredient>() != null)
         {
             currentIngredients.Add(item.GetComponent<AlchemyIngredient>());
+        }
+        if(finalPuzzle)
+        {
+            gemItem = item.gameObject;
         }
         CheckSolution();
     }
@@ -49,6 +54,14 @@ public class AlchemyPuzzle : MonoBehaviour
         if (currentIngredients.ContainsAll(solutionItems))
         {
             PuzzleSolved(true);
+        }
+        if (finalPuzzle)
+        {
+            AlchemyIngredient thisIngre = gemItem.GetComponent<AlchemyIngredient>();
+            if(gemItem.name == "Gem" || gemItem.name == "Gem (Clone)" || thisIngre.ingredient == "Gem" )
+            {
+                PuzzleSolved(true);
+            }
         }
         /*else if(currentIngredients.Count == solutionItems.Count)
         {
