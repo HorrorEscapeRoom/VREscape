@@ -63,10 +63,10 @@ Material:
     - _QueueOffset: 0
     - _Rim_Power: 2
     m_Colors:
-    - _BottomColor: {r: 0, g: 0.6276002, b: 0.8962264, a: 1}
+    - _BottomColor: {r: 0.07036011, g: 0.5209957, b: 0.78353804, a: 1}
     - _FillAmount: {r: 0, g: -0.6424762, b: 0.0011882782, a: 0}
-    - _FoamColor: {r: 0, g: 0.627451, b: 0.8980392, a: 1}
-    - _Rim_Color: {r: 0, g: 0.77827597, b: 1, a: 1}
-    - _TopColor: {r: 0, g: 0.6946828, b: 0.764151, a: 1}
+    - _FoamColor: {r: 0.2874409, g: 0.5840786, b: 0.9911022, a: 1}
+    - _Rim_Color: {r: 0.29411766, g: 0.7490196, b: 0.8980393, a: 1}
+    - _TopColor: {r: 0.0701762, g: 0.5203926, b: 0.7830189, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
