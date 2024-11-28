@@ -315,7 +315,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &654462805
 RectTransform:
   m_ObjectHideFlags: 0
@@ -493,8 +493,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Dylan De Souza\tConor Farmer\nSamuel Jones\tAdam Lemmey\nBrett Mitchell\tJoel
-    Resetar\nHiten Shah\t\tRocky Trang\nWill\tJarrah"
+  m_text: "Dylan De Souza\tConor Farmer\nJarrah Forbes\tSamuel Jones\nAdam Lemmey\tBrett
+    Mitchell\nJoel Resetar\tHiten Shah\nRocky Trang\tWilliam Roe"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
